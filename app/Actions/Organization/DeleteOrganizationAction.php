@@ -3,6 +3,7 @@ namespace App\Actions\Organization;
 
 use App\DTOs\OrganizationDTO;
 use Illuminate\Support\Facades\DB;
+use App\Models\Organization;
 
 final class DeleteOrganizationAction
 {
@@ -16,8 +17,6 @@ final class DeleteOrganizationAction
     public function execute(OrganizationDTO $dto)
     {
         $organization = Organization::find($dto->id);
-
-        dd($organization);
 
         if($organization->delete()){
             return "J'ai supprimé";
