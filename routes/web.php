@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OrganizationController;
+use \App\Http\Controllers\MemberController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -24,6 +25,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/organizations/{id}/delete', [OrganizationController::class, 'delete'])->name('organizations.delete');
     Route::get('/organizations', [OrganizationController::class, 'view'])->name('organizations.view');
     Route::get('/organizations/{id}', [OrganizationController::class, 'viewOrganization'])->name('organizations.viewOrganization');
+
+    Route::post('/organizations/member/create', [MemberController::class, 'store'])->name('organizations.member.store');
+    Route::delete('/organizations/member/{user_id}/delete', [MemberController::class, 'delete'])->name('organizations.member.delete');
+
 
 });
 

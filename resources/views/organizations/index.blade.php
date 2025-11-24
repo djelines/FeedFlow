@@ -6,9 +6,11 @@
 
                 {{-- NOUVEAU LIEN DE VISUALISATION --}}
                 <a href="{{ route('organizations.viewOrganization', $organization->id) }}" class="block">
-                    <div>
+                    <div class="flex justify-between">
                         {{-- Le nom de l'organisation devient le lien cliquable principal --}}
                         <h2 class="font-bold">{{$organization->name}}</h2>
+
+                        <button class="px-2 rounded-full bg-indigo-200"> + </button>
                     </div>
                 </a>
                 {{-- FIN DU NOUVEAU LIEN --}}

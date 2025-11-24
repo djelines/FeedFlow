@@ -48,17 +48,28 @@ class User extends Authenticatable
         ];
     }
 
-    
+
     // An user has many organization users
     public function organizationUsers()
     {
         return $this->hasMany(OrganizationUser::class);
     }
-     
+
     // An user belongs to many organizations through organization users
     public function organizations()
     {
-        return $this->hasManyThrough(Organization::class, OrganizationUser::class, 'user_id', 'id', 'id', 'organization_id');
+        return $this->belongsToMany(Organization::class, "organization_user")
+            ->withPivot('role');
+    }
+
+    // Returns whether the user has a specific role in the selected organization.
+    public function hasRoleInOrganization(string $role, Organization $organization): bool{
+        return !is_null(
+            $this->organizations()
+                ->where("organization_id", $organization->id)
+                ->wherePivot('role', $role)
+                ->first()
+        );
     }
 
     // An user has many survey answers
@@ -71,12 +82,17 @@ class User extends Authenticatable
     public function surveys()
     {
         return $this->hasMany(Survey::class);
-    }   
+    }
 
     // Get the user's full name
     public function getFullName(): string
     {
         return $this->first_name . ' ' . $this->last_name;
     }
-    
+
+    public function getByEmail($email): object
+    {
+        return $this->where('email' , $email)->first();
+    }
+
 }

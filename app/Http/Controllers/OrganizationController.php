@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use App\Http\Requests\Organization\StoreOrganization;
 use App\Http\Requests\Organization\UpdateOrganization;
@@ -18,7 +19,7 @@ use Illuminate\Http\RedirectResponse;
 class OrganizationController extends Controller
 {
 
-
+    use AuthorizesRequests;
 
     // Store a newly created organization
     public function store(StoreOrganization $request, StoreOrganizationAction $action): RedirectResponse
@@ -35,7 +36,10 @@ class OrganizationController extends Controller
 
     // Update the current organization
     public function update(UpdateOrganization $request, UpdateOrganizationAction $action){
+
+        $this->authorize('update', Organization::find($request->id));
         $dto = OrganizationDTO::fromRequest($request);
+
 
         $organization = $action->execute($dto);
 
@@ -44,6 +48,8 @@ class OrganizationController extends Controller
 
     // Delete the current organization
     public function delete(DeleteOrganization $request, DeleteOrganizationAction $action){
+        $this->authorize('delete', Organization::find($request->id));
+
         $dto = OrganizationDTO::fromRequest($request);
 
         $organization = $action->execute($dto);
