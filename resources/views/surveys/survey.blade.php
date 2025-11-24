@@ -1,5 +1,5 @@
 <x-app-layout>
-    <form>
+    <form method="POST" action="{{ route('survey.store') }}">
         <div>
             <div>
                 <label class="block mb-2.5 text-sm font-medium text-heading">Nom du sondage</label>
