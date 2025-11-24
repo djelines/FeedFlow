@@ -12,10 +12,8 @@ class SurveyController extends Controller
 {
     public function store(StoreSurveyRequest $request , StoreSurveyAction $action): JsonResponse{
 
-
         //Create DTO
         $dto = SurveyDTO::fromRequest($request);
-
 
         //Execute the Action of StoreSurveyAction (Store in DB)
         $survey = $action -> execute($dto);

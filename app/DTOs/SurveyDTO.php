@@ -4,7 +4,7 @@ namespace App\DTOs;
 
 use App\Http\Requests\Survey\StoreSurveyRequest;
 use Carbon\Carbon;
-
+use Illuminate\Support\Facades\Auth;
 
 final class SurveyDTO
 {
@@ -23,17 +23,16 @@ final class SurveyDTO
 
         //Convert Date in Carbon
         $start = Carbon::parse($request->start_date);
-        $end = Carbon::parse($request->end_date);
-
-
+        $end   = Carbon::parse($request->end_date);
+        
         return new self(
-            title: $request->title,
-            description: $request->description,
-            is_anonymous: $request->is_anonymous,
-            user_id: $request->user_id,
+            title:           $request->title,
+            description:     $request->description,
+            is_anonymous:    $request->is_anonymous,
+            user_id:         Auth::user()->id,
             organization_id: $request->organization_id,
-            start_date: $start,
-            end_date: $end
+            start_date:      $start,
+            end_date:        $end
         );
     }
 }
