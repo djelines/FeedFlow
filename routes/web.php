@@ -29,6 +29,7 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth')->group(function(){
     Route::get('/survey' , [SurveyController::class ,  'view'])->name('survey.view');
+    Route::post('/survey/create' , [SurveyController::class ,'store'])->name('survey.store');
 });
 
 require __DIR__.'/auth.php';
