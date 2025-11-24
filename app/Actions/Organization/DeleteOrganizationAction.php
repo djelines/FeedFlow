@@ -13,9 +13,18 @@ final class DeleteOrganizationAction
      * @param OrganizationDTO $dto
      * @return array
      */
-    public function handle(OrganizationDTO $dto): array
+    public function execute(OrganizationDTO $dto)
     {
-        return DB::transaction(function () use ($dto) {
-        });
+        $organization = Organization::find($dto->id);
+
+        dd($organization);
+
+        if($organization->delete()){
+            return "J'ai supprimé";
+        } else{
+            return "J'ai pas supprimé";
+        }
     }
+
+
 }
