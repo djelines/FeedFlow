@@ -11,7 +11,7 @@ class DeleteOrganization extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,14 @@ class DeleteOrganization extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'id' => ["required", "number"],
+        ];
+    }
+
+    public function message(): array {
+        return [
+            "id.required" => "Il faut un id ",
+            "id.number" => "Il faut un chiffre ",
         ];
     }
 }

@@ -11,7 +11,7 @@ class UpdateOrganization extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,17 @@ class UpdateOrganization extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => ['required', 'string', 'max:255'],
         ];
+    }
+
+    // Add messages method for custom error messages
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'The organization name is required.',
+            'name.string'   => 'The organization name must be a string.',
+            'name.max'      => 'The organization name may not be greater than :max characters.',
+        ]; 
     }
 }

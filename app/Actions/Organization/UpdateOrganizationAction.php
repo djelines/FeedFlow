@@ -2,6 +2,7 @@
 namespace App\Actions\Organization;
 
 use App\DTOs\OrganizationDTO;
+use App\Models\Organization;
 use Illuminate\Support\Facades\DB;
 
 final class UpdateOrganizationAction
@@ -17,5 +18,17 @@ final class UpdateOrganizationAction
     {
         return DB::transaction(function () use ($dto) {
         });
+    }
+
+    public function execute(OrganizationDTO $dto) : Organization {
+        $organization = Organization::find($dto->id); 
+
+        $organization->update([
+            'name'    => $dto->name,
+            'updated_at' => $dto->updated_at,
+        ]);
+
+
+        return $organization;
     }
 }
