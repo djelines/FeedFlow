@@ -39,7 +39,7 @@ class OrganizationController extends Controller
 
         $organization = $action->execute($dto);
 
-        return response()->json($organization, 201);
+        return redirect()->back()->with('success', 'Organisation modifiée avec succès !');
     }
 
     // Delete the current organization
@@ -48,7 +48,7 @@ class OrganizationController extends Controller
 
         $organization = $action->execute($dto);
 
-        return response()->json($organization, 201);
+        return redirect("/dashboard");
     }
 
 
@@ -59,6 +59,14 @@ class OrganizationController extends Controller
 
         return view('organizations.index', compact(
             'organizations'
+        ));
+    }
+
+    public function viewOrganization($id){
+        $organization = Organization::find($id);
+
+        return view('organizations.view', compact(
+            'organization'
         ));
     }
 

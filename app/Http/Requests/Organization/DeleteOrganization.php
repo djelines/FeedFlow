@@ -23,5 +23,5 @@ class DeleteOrganization extends FormRequest
     {
         return [];
     }
-    
+
 }
