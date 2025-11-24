@@ -23,6 +23,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/organizations/{id}/update', [OrganizationController::class, 'update'])->name('organizations.update');
     Route::delete('/organizations/{id}/delete', [OrganizationController::class, 'delete'])->name('organizations.delete');
     Route::get('/organizations', [OrganizationController::class, 'view'])->name('organizations.view');
+    Route::get('/organizations/{id}', [OrganizationController::class, 'viewOrganization'])->name('organizations.viewOrganization');
 
 });
 

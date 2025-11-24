@@ -65,7 +65,7 @@ class OrganizationController extends Controller
     public function viewOrganization($id){
         $organization = Organization::find($id);
 
-        return view('organizations.view', compact(
+        return view('organizations.viewOrganization', compact(
             'organization'
         ));
     }
