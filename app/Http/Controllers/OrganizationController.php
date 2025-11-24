@@ -12,14 +12,17 @@ use App\Actions\Organization\DeleteOrganizationAction;
 use App\DTOs\OrganizationDTO;
 use Illuminate\Http\JsonResponse;
 use App\Models\Organization;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
 
 class OrganizationController extends Controller
 {
 
-    
+
 
     // Store a newly created organization
-    public function store(StoreOrganization $request, StoreOrganizationAction $action): JsonResponse    {
+    public function store(StoreOrganization $request, StoreOrganizationAction $action): RedirectResponse
+    {
 
         // Validate the request and create DTO
         $dto = OrganizationDTO::fromRequest($request);
@@ -27,10 +30,10 @@ class OrganizationController extends Controller
         // Execute the action to store the organization
         $organization = $action->execute($dto);
 
-        return response()->json($organization, 201);
+        return redirect()->back()->with('success', 'Organisation créée avec succès !');
     }
-    
-    // Update the current organization 
+
+    // Update the current organization
     public function update(UpdateOrganization $request, UpdateOrganizationAction $action){
         $dto = OrganizationDTO::fromRequest($request);
 
@@ -39,7 +42,7 @@ class OrganizationController extends Controller
         return response()->json($organization, 201);
     }
 
-    // Delete the current organization 
+    // Delete the current organization
     public function delete(DeleteOrganization $request, DeleteOrganizationAction $action){
         $dto = OrganizationDTO::fromRequest($request);
 
@@ -49,13 +52,13 @@ class OrganizationController extends Controller
     }
 
 
-    
-    // Template view 
-    public function view($id){
-        $organization = Organization::find($id);
+
+    // Template view
+    public function view(){
+        $organizations = Organization::where('user_id', Auth::id())->get();
 
         return view('organizations.index', compact(
-            'organization'
+            'organizations'
         ));
     }
 
