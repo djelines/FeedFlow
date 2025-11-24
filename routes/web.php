@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OrganizationController;
+use App\Http\Controllers\SurveyController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -24,6 +25,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/organizations/{id}/delete', [OrganizationController::class, 'delete'])->name('organizations.delete');
     Route::get('/organizations/{id}', [OrganizationController::class, 'view'])->name('organizations.view');
     
+});
+
+Route::middleware('auth')->group(function(){
+    Route::get('/survey' , [SurveyController::class ,  'view'])->name('survey.view');
 });
 
 require __DIR__.'/auth.php';

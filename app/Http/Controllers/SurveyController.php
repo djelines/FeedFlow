@@ -25,4 +25,8 @@ class SurveyController extends Controller
             'data' => $survey,
         ], 201 );
     }
+
+    public function view(){
+        return view('surveys.survey');
+    }
 }
