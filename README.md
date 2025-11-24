@@ -47,5 +47,3 @@ docker exec -it feedflow-app php artisan db:seed
 | Exécuter une commande Artisan | `docker exec -it feedflow-app php artisan `             |
 
 **Important** : Vous pouvez entrer dans le conteneur pour saisir directement vos commandes artisan.
-
-Test ?
