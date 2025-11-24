@@ -18,4 +18,18 @@ class Survey extends Model
     ];
     protected $casts = [
     ];
+
+    // A survey belongs to an organization
+    public function organization()
+    {
+        return $this->belongsTo(Organization::class);       
+    }
+
+    // A survey belongs to a user
+    public function user()
+    {
+        return $this->belongsTo(User::class);   
+    }
+
+    
 }

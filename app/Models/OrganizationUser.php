@@ -14,4 +14,24 @@ class OrganizationUser extends Model
     protected $fillable = [ 'id', 'user_id', 'organization_id', 'role', 'created_at', 'updated_at' ];
     protected $casts = [
     ];
+
+
+    // An organisation has many users
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
+
+    // An organization user belongs to an organization
+    public function organization()
+    {
+        return $this->hasMany(Organization::class);
+    }
+
+    // Get Role of the user in the organization
+    public function getRole(){
+        return $this->role;
+    }
+
+
 }

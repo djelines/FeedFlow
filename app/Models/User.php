@@ -47,4 +47,36 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    
+    // An user has many organization users
+    public function organizationUsers()
+    {
+        return $this->hasMany(OrganizationUser::class);
+    }
+     
+    // An user belongs to many organizations through organization users
+    public function organizations()
+    {
+        return $this->hasManyThrough(Organization::class, OrganizationUser::class, 'user_id', 'id', 'id', 'organization_id');
+    }
+
+    // An user has many survey answers
+    public function surveyAnswers()
+    {
+        return $this->hasMany(SurveyAnswer::class);
+    }
+
+    // An user has many surveys
+    public function surveys()
+    {
+        return $this->hasMany(Survey::class);
+    }   
+
+    // Get the user's full name
+    public function getFullName(): string
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
+    
 }

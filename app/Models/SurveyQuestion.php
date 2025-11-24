@@ -18,4 +18,17 @@ class SurveyQuestion extends Model
     ];
     protected $casts = [
     ];
+
+    // A survey question belongs to a survey
+    public function survey()
+    {
+        return $this->belongsTo(Survey::class);
+    }
+
+    // Get the organization ID of the survey this question belongs to
+    public function getSurveyOrganizationId()
+    {
+        return $this->survey->organization_id;
+    }
+
 }
