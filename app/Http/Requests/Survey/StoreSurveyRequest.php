@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Http\Requests\Survey;
-
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
+use League\CommonMark\Extension\DescriptionList\Node\Description;
 
 class StoreSurveyRequest extends FormRequest
 {
@@ -11,7 +12,9 @@ class StoreSurveyRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+
+        //authorize everyone
+        return true;
     }
 
     /**
@@ -22,7 +25,22 @@ class StoreSurveyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'title' => ['required','string' , 'min:10'],
+            'description' =>  ['required','string', 'max:255'],
+            'is_anonymous' => ['required','string'],
+            'user_id' => ['required' , 'int'],
+            'organization_id' => ['required' , 'int'],
+            'start_date' => ['requiered' , Rule::date()->format('d-m-Y H:i'),],
+            'end_start' => ['requiered',Rule::date()->format('d-m-Y H:i'),]
+        ];
+    }
+
+    public function messages():array{
+        return [
+            'title.required' => 'Le Titre est obligatoire.',
+            'description' => 'Contenue obligatoire.',
+            'user_id' => 'User ID manquant.',
+            'organization_id' => 'Organization ID manquant.'
         ];
     }
 }
