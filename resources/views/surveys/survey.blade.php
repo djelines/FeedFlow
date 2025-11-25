@@ -70,4 +70,29 @@
         </div>
         <button type="submit" class="text-white bg-blue-600 box-border border border-transparent hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none">Confirmer votre sondage</button>
     </form>
+
+    {{-- Récupérer tout les Survey --}}
+    {{-- Avec data récup FOREACH --}}
+
+    {{-- Item du foreach: Nom, Delete btn --}}
+
+    {{-- Delete btn call survey/delete/{Survey} --}}
+
+    
+        <div class="space-y-4">
+            @foreach($surveys as $survey)
+                <div class="flex justify-between items-center p-4 bg-white shadow-sm rounded-lg border border-gray-200">
+                    <span class="text-heading font-medium">{{ $survey->title }} </span>
+                    
+                    <form action="{{ route('surveys.destroy', $survey) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce sondage ? Cette action est irréversible.');">
+                        @csrf
+                        @method('DELETE')
+                        
+                        <button type="submit" class="ml-4 text-sm text-red-600 hover:text-red-800 font-medium p-2 rounded-full hover:bg-red-50 transition duration-150">
+                            Supprimer
+                        </button>
+                    </form>
+                </div>
+            @endforeach
+        </div>
 </x-app-layout>
