@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Actions\Survey\StoreSurveyAction;
+use App\Actions\Survey\StoreSurveyAnswerAction;
+use App\DTOs\SurveyAnswerDTO;
 use App\DTOs\SurveyDTO;
+use App\Http\Requests\Survey\StoreSurveyAnswerRequest;
 use App\Http\Requests\Survey\StoreSurveyRequest;
+use App\Models\SurveyAnswer;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Models\Survey;
@@ -46,7 +50,7 @@ class SurveyController extends Controller
     {
         //Create DTO
         $this->authorize('createQuestion', arguments:  [Survey::find($request->survey_id)]);
-        
+
         $dto = SurveyQuestionDTO::fromRequest($request);
         $action->execute($dto);
         return redirect()->back()->with('success', 'Question ajoutée avec succès !');
@@ -89,4 +93,25 @@ class SurveyController extends Controller
 
         return view('surveys.survey',compact('surveys'));
     }
-} 
+
+
+    public function viewQuestions($id){
+        $survey = Survey::find($id);
+        $surveyQuestions = $survey->questions;
+
+        return view('surveys.answer.survey', [
+            'surveyQuestions' => $surveyQuestions,
+            'survey_id' => $id
+        ]);
+    }
+
+    public function storeAnswers(StoreSurveyAnswerRequest $request, StoreSurveyAnswerAction $action){
+
+        $dto = SurveyAnswerDTO::fromRequest($request);
+
+        $surveyAnswers = $action->execute($dto);
+
+        return redirect("/dashboard");
+
+    }
+}
