@@ -29,8 +29,14 @@ Route::middleware('auth')->group(function () {
     //Route for add question and Survey
     Route::get('/survey/show/{id}', [SurveyController::class, 'showSurvey'])->name('survey.show');
     Route::get('/survey/add/{id}', [SurveyController::class, 'add'])->name('survey.add');
-    Route::post('/survey/create', [SurveyController::class, 'storeQuestion'])->name('survey.store');
+    Route::post('/survey/question/create', [SurveyController::class, 'storeQuestion'])->name('survey.question.store');
     
+});
+
+Route::middleware('auth')->group(function(){
+    Route::get('/survey' , [SurveyController::class ,  'view'])->name('survey.view');
+    Route::post('/survey/create' , [SurveyController::class ,'store'])->name('survey.store');
+    Route::delete('/surveys/{survey}', [SurveyController::class, 'destroySurvey'])->name('surveys.destroy');
 });
 
 require __DIR__.'/auth.php';

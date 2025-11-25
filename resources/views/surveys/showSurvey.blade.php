@@ -134,7 +134,7 @@
                                 removeOption(index) { this.options.splice(index, 1); }
                             }">
 
-                            <form method="POST" action="{{ route('survey.store') }}" class="space-y-5">
+                            <form method="POST" action="{{ route('survey.question.store') }}" class="space-y-5">
                                 @csrf
                                 <input type="hidden" name="survey_id" value="{{ $survey->id }}">
 

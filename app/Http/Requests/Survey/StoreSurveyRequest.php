@@ -25,21 +25,23 @@ class StoreSurveyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['required','string' , 'min:10'],
-            'description' =>  ['required','string', 'max:255'],
-            'is_anonymous' => ['required','string'],
-            'user_id' => ['required' , 'int'],
-            'organization_id' => ['required' , 'int'],
-            'start_date' => ['requiered' , Rule::date()->format('d-m-Y H:i'),],
-            'end_start' => ['requiered',Rule::date()->format('d-m-Y H:i'),]
+            'title'          => ['required', 'string','min:10'],
+            'description'    => ['required', 'string','max:255'],
+            'is_anonymous'   => ['required', 'boolean'],
+            // 'user_id'        => ['required', 'int'],
+            'organization_id'=> ['required', 'int'],
+            'start_date'     => ['required', Rule::date(),],
+            'end_date'       => ['required', Rule::date(),]
         ];
     }
 
     public function messages():array{
         return [
-            'title.required' => 'Le Titre est obligatoire.',
-            'description' => 'Contenue obligatoire.',
-            'user_id' => 'User ID manquant.',
+            // .require .min .max  = messages custom
+            'title'           => 'Le Titre est obligatoire.',
+            'title.min'       => 'Le Titre dois faire min 10 chars.',
+            'description'     => 'Contenue obligatoire.',
+            // 'user_id'         => 'User ID manquant.',
             'organization_id' => 'Organization ID manquant.'
         ];
     }

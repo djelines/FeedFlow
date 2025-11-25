@@ -16,32 +16,51 @@ use App\Models\Survey;
 class SurveyController extends Controller
 {
     // Display the specified survey
-    public function showSurvey($id){
+    public function showSurvey($id)
+    {
         $survey = Survey::find($id);
-        return view('survey.showSurvey', ['survey' => $survey]);
+        return view('surveys.showSurvey', ['survey' => $survey]);
     }
-    public function store(StoreSurveyRequest $request , StoreSurveyAction $action): JsonResponse{
+    public function store(StoreSurveyRequest $request, StoreSurveyAction $action): JsonResponse
+    {
         //Create DTO
         $dto = SurveyDTO::fromRequest($request);
 
         //Execute the Action of StoreSurveyAction (Store in DB)
-        $survey = $action -> execute($dto);
+        $survey = $action->execute($dto);
 
         //Return succesfull Json
         return response()->json([
-            'messages' => 'Sondage crée avec succès ! <3',
+            'messages' => 'Sondage crée avec succès !',
             'data' => $survey,
-        ], 201 );
+        ], 201);
     }
 
     // Store a new question for a survey
-    public function storeQuestion(StoreSurveyQuestionRequest $request , StoreSurveyQuestionAction $action): RedirectResponse{
+    public function storeQuestion(StoreSurveyQuestionRequest $request, StoreSurveyQuestionAction $action): RedirectResponse
+    {
         //Create DTO
         $dto = SurveyQuestionDTO::fromRequest($request);
-        $action -> execute($dto);
+        $action->execute($dto);
         return redirect()->back()->with('success', 'Question ajoutée avec succès !');
     }
 
+    //function to edit a survey  
+    public function editSurvey()
+    {
 
+    }
 
+    //function to destroy a survey 
+    public function destroySurvey($id)
+    {
+
+    }
+
+    public function view()
+    {
+        $surveys = Survey::all();
+
+        return view('surveys.survey', compact('surveys'));
+    }
 }
