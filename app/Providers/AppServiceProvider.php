@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Organization;
+use App\Policies\OrganizationPolicy;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Auth;
@@ -21,10 +24,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-
+    Gate::policy(Organization::class, OrganizationPolicy::class);
     View::composer('layouts.navigation', function ($view) {
         $organization = Auth::user()->organizationUsers; 
         $view->with('organization', $organization);
     });
+        
     }
 }

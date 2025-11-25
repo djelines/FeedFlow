@@ -21,15 +21,7 @@ class DeleteOrganization extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'id' => ["required", "number"],
-        ];
+        return [];
     }
 
-    public function message(): array {
-        return [
-            "id.required" => "Il faut un id ",
-            "id.number" => "Il faut un chiffre ",
-        ];
-    }
 }

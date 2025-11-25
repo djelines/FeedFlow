@@ -17,6 +17,10 @@ final class OrganizationDTO
         public readonly string $updated_at,
     ) {}
 
+    /**
+     * @param StoreOrganization|UpdateOrganization|DeleteOrganization $request
+     * @return self
+     */
     public static function fromRequest(StoreOrganization|UpdateOrganization|DeleteOrganization $request): self
     {
         // Create a new OrganizationDTO from the request data

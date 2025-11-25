@@ -32,4 +32,11 @@ class OrganizationUser extends Model
     public function getRole(){
         return $this->role;
     }
+
+    public function oneUser(){
+
+        return $this -> belongsTo(User::class, 'user_id', 'id');
+    }
+
+
 }
