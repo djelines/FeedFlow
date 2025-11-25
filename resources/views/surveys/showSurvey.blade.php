@@ -1,5 +1,46 @@
 <x-app-layout>
-    <div>
+    <div x-data="{ 
+        modalOpen: {{ $errors->any() ? 'true' : 'false' }},
+        isEditMode: false,
+        questionId: null,
+        formAction: '{{ route('survey.question.store') }}',
+        formMethod: 'POST',
+        
+        title: '{{ old('title') }}',
+        type: '{{ old('question_type', 'text') }}',
+        options: {{ old('options') ? json_encode(old('options')) : '[\'\', \'\']' }},
+
+        openAddModal() {
+            this.isEditMode = false;
+            this.formAction = '{{ route('survey.question.store') }}';
+            this.formMethod = 'POST';
+            this.resetForm();
+            this.modalOpen = true;
+        },
+
+        openEditModal(question, updateUrl) {
+            this.isEditMode = true;
+            this.formAction = updateUrl;
+            this.formMethod = 'PUT';
+            
+            this.questionId = question.id;
+            this.title = question.title;
+            this.type = question.question_type;
+            this.options = question.options ? question.options : ['', ''];
+            this.modalOpen = true;
+        },
+
+        resetForm() {
+            this.title = '';
+            this.type = 'text';
+            this.options = ['', ''];
+            this.questionId = null;
+        },
+
+        // Gestion des options dynamiques (déplacé ici pour être accessible partout)
+        addOption() { this.options.push(''); },
+        removeOption(index) { this.options.splice(index, 1); }
+    }">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
 
             <div
