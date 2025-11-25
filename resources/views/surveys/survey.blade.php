@@ -2,7 +2,7 @@
 
     <!-- Ca affiche les erreur si jamais il y a une redirection instant et qu'on les vois pas. -->
     @if (isset($errors) && count($errors))
-     
+
         There were {{count($errors->all())}} Error(s)
         <ul>
             @foreach($errors->all() as $error)
@@ -21,7 +21,7 @@
                     class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body"
                     name="title"
                     value="{{ old('title') }}"
-                    placeholder="Titre de votre sondage !" 
+                    placeholder="Titre de votre sondage !"
                     required />
             </div>
             <div>
@@ -37,8 +37,8 @@
             <div>
                 <label class="block mb-2.5 text-sm font-medium text-heading">Voulez-vous être en Anonyme</label>
                 <input type="hidden" name="is_anonymous" value="0">{{--  WTF ? on est obligé ?  --}}
-                <input type="checkbox" 
-                    placeholder="Anonyme ?" 
+                <input type="checkbox"
+                    placeholder="Anonyme ?"
                     name="is_anonymous"
                     value="1"
                     {{old('is_anonymous') ? 'checked' : ''}}
@@ -65,7 +65,7 @@
                     max="{{ Carbon\Carbon::now()->addYears(1) }}" />
             </div>
             {{-- WARNING !! This is temp, remove that when we have the Organization who working well --}}
-            <input type="hidden" name="organization_id" value="1">
+            <input type="hidden" name="organization_id" value="2">
 
         </div>
         <button type="submit" class="text-white bg-blue-600 box-border border border-transparent hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none">Confirmer votre sondage</button>
@@ -78,16 +78,16 @@
 
     {{-- Delete btn call survey/delete/{Survey} --}}
 
-    
+
         <div class="space-y-4">
             @foreach($surveys as $survey)
                 <div class="flex justify-between items-center p-4 bg-white shadow-sm rounded-lg border border-gray-200">
                     <span class="text-heading font-medium">{{ $survey->title }} </span>
-                    
+
                     <form action="{{ route('surveys.destroy', $survey) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce sondage ? Cette action est irréversible.');">
                         @csrf
                         @method('DELETE')
-                        
+
                         <button type="submit" class="ml-4 text-sm text-red-600 hover:text-red-800 font-medium p-2 rounded-full hover:bg-red-50 transition duration-150">
                             Supprimer
                         </button>

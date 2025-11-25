@@ -47,4 +47,10 @@ Route::middleware('auth')->group(function(){
     Route::delete('/surveys/{survey}', [SurveyController::class, 'destroySurvey'])->name('surveys.destroy');
 });
 
+Route::middleware('auth')->group(function(){
+    Route::get('/survey/questions/{id}' , [SurveyController::class ,  'viewQuestions'])->name('survey.view.questions');
+    Route::post('/survey/answers/create' , [SurveyController::class ,'storeAnswers'])->name('survey.store.answers');
+    Route::delete('/surveys/{survey}', [SurveyController::class, 'destroySurvey'])->name('surveys.destroy');
+});
+
 require __DIR__.'/auth.php';
