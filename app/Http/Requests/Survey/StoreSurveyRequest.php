@@ -25,7 +25,7 @@ class StoreSurveyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title'          => ['required', 'string','min:10'],
+            'title'          => ['required', 'string','min:3'],
             'description'    => ['required', 'string','max:255'],
             'is_anonymous'   => ['required', 'boolean'],
             // 'user_id'        => ['required', 'int'],

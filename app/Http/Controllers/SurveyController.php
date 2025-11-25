@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Actions\Survey\StoreSurveyAction;
 use App\DTOs\SurveyDTO;
 use App\Http\Requests\Survey\StoreSurveyRequest;
+use App\Http\Requests\Survey\UpdateSurveyRequest;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Models\Survey;
@@ -68,11 +69,12 @@ class SurveyController extends Controller
     }
 
     //function to edit a survey  
-    public function updateSurvey(Request $request , Survey $survey, UpdateSurveyAction $action ){
-        
+    public function updateSurvey(UpdateSurveyRequest $request , UpdateSurveyAction $action , Survey $survey ){
         $dto = SurveyDTO::fromRequest($request);
-        $updateSurvey = $action->update($dto, $survey);
-        return redirect()->route('survey.view');
+        $action->update($dto, $survey);
+
+
+            return redirect()->back()->with("success","Sondage modifié avec succès !");
     }   
 
     //function to destroy a survey 

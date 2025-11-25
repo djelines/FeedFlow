@@ -21,16 +21,10 @@ final class UpdateSurveyAction
     }
 
     public function update(SurveyDTO $dto , Survey $surveys){
-
        $surveys->update([
             'title' => $dto->title,
-            'description' => $dto->description,
-            'is_anonymous' => $dto->is_anonymous,
-            'start_date' => $dto->start_date,
-            'end_date' => $dto->end_date,
+            'description' => $dto->description
         ]);
-
-        return $surveys;
 
     }
 }
