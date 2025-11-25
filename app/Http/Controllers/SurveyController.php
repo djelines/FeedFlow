@@ -9,6 +9,7 @@ use App\DTOs\SurveyDTO;
 use App\Http\Requests\Survey\StoreSurveyAnswerRequest;
 use App\Http\Requests\Survey\StoreSurveyRequest;
 use App\Models\SurveyAnswer;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Models\Survey;
@@ -36,6 +37,11 @@ class SurveyController extends Controller
     }
     public function store(StoreSurveyRequest $request, StoreSurveyAction $action)
     {
+
+        if($request->user()->cannot('create', Survey::class)){
+            return redirect()->back()->with('error', 'Quota des 3 sondages actifs atteint !');
+        }
+
         //Create DTO
         $dto = SurveyDTO::fromRequest($request);
 
@@ -106,6 +112,12 @@ class SurveyController extends Controller
     }
 
     public function storeAnswers(StoreSurveyAnswerRequest $request, StoreSurveyAnswerAction $action){
+
+        $this->authorize('createAnswer', arguments:  [Survey::find($request->survey_id)]);
+
+        if($request->user()->cannot('limitCreateAnswer', arguments: [Survey::find($request->survey_id)])){
+            return redirect()->back()->with('error', 'Quota des 100 reponses mensuels atteint !');
+        }
 
         $dto = SurveyAnswerDTO::fromRequest($request);
 
