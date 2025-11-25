@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SurveyResultsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\SurveyController;
@@ -44,7 +45,7 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth')->group(function(){
     Route::get('/survey' , [SurveyController::class ,  'view'])->name('survey.view');
-    Route::post('/survey/create' , [SurveyController::class ,'store'])->name('survey.store');   
+    Route::post('/survey/create' , [SurveyController::class ,'store'])->name('survey.store');
     Route::delete('/surveys/delete/{survey}', [SurveyController::class, 'destroySurvey'])->name('surveys.destroy');
     Route::put('/survey/{id}/update' ,[SurveyController::class , 'updateSurvey'])->name('surveys.update');
 });
@@ -53,6 +54,8 @@ Route::middleware('auth')->group(function(){
     Route::get('/survey/questions/{id}' , [SurveyController::class ,  'viewQuestions'])->name('survey.view.questions');
     Route::post('/survey/answers/create' , [SurveyController::class ,'storeAnswers'])->name('survey.store.answers');
     Route::delete('/surveys/{survey}', [SurveyController::class, 'destroySurvey'])->name('surveys.destroy');
+
+    Route::get('/surveys/{survey}/results' , [SurveyResultsController::class , 'viewResults'])->name('survey.view.results');
 });
 
 require __DIR__.'/auth.php';
