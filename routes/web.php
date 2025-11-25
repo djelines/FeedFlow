@@ -28,7 +28,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/organizations/view/{id}', [OrganizationController::class, 'viewOrganization'])->name('organizations.viewOrganization');
 
     Route::post('/organizations/member/create', [MemberController::class, 'store'])->name('organizations.member.store');
-    Route::delete('/organizations/member/{user_id}/delete', [MemberController::class, 'delete'])->name('organizations.member.delete');
+    Route::delete('/organizations/member/{organization_member}/delete', [MemberController::class, 'delete'])->name('organizations.member.delete');
 
 
     Route::get('/organizations/{id}', [OrganizationController::class, 'view'])->name('organizations.view');
@@ -38,7 +38,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/survey/show/{id}', [SurveyController::class, 'showSurvey'])->name('survey.show');
     Route::get('/survey/add/{id}', [SurveyController::class, 'add'])->name('survey.add');
     Route::post('/survey/question/create', [SurveyController::class, 'storeQuestion'])->name('survey.question.store');
-    
+
 });
 
 Route::middleware('auth')->group(function(){

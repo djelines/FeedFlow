@@ -11,7 +11,7 @@
             </h1>
 
 
-
+        @can('createMember', $organization)
         <div class="bg-white shadow-lg border-t-4 border-green-500 rounded-lg p-6 mb-8">
             <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
                 <i class="fas fa-user-plus mr-3 text-green-500"></i>
@@ -55,7 +55,7 @@
                 </button>
             </form>
         </div>
-
+        @endcan
         <div class="bg-white shadow-lg border-t-4 border-blue-500 rounded-lg p-6">
             <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
                 <i class="fas fa-users mr-3 text-blue-500"></i>
@@ -87,17 +87,24 @@
                                     {{ $member->role }}
                                 </span>
                             </td>
-                            <td class="py-3 px-4">
-                                <form action="{{ route('organizations.member.delete', $member->id) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit"
-                                            class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md text-xs font-medium shadow-md transition duration-150 flex items-center space-x-1">
-                                        <i class="fas fa-trash-alt text-xs"></i>
-                                        <span>Supprimer</span>
-                                    </button>
-                                </form>
-                            </td>
+
+
+                            @can('deleteMember', [$organization, \App\Models\User::find($member->user_id)])
+                                <td class="py-3 px-4">
+                                    <form action="{{ route('organizations.member.delete', $member) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"
+                                                class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md text-xs font-medium shadow-md transition duration-150 flex items-center space-x-1">
+                                            <i class="fas fa-trash-alt text-xs"></i>
+                                            <span>Supprimer</span>
+                                        </button>
+                                    </form>
+                                </td>
+                            @endcan
+
+
+
                         </tr>
                     @empty
                         <tr>
