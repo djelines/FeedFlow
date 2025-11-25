@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Models\Survey;
 use App\Actions\Survey\DeleteSurveyAction;
+use App\Actions\Survey\UpdateSurveyAction;
+
 
 
 class SurveyController extends Controller
@@ -29,8 +31,11 @@ class SurveyController extends Controller
 
 
     //function to edit a survey  
-    public function editSurvey(){
+    public function updateSurvey(Request $request , Survey $survey, UpdateSurveyAction $action ){
         
+        $dto = SurveyDTO::fromRequest($request);
+        $updateSurvey = $action->update($dto, $survey);
+        return redirect()->route('survey.view');
     }   
 
     //function to destroy a survey 
