@@ -75,7 +75,6 @@ class OrganizationController extends Controller
         return redirect()->back()->with('success', 'Organisation supprimée avec succès !');
     }
 
-
     /**
      * See all organizations
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View

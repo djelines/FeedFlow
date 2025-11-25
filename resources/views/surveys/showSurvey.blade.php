@@ -52,6 +52,7 @@
                         <h1 class="text-3xl font-bold text-gray-900 dark:text-white">{{ $survey->title }}</h1>
                         <p class="mt-2 text-lg text-gray-500 dark:text-gray-400">{{ $survey->description }}</p>
                     </div>
+                    @if (Auth::id() === $survey->user_id)
                     <div class="flex flex-col space-y-2">
                         <button @click="modalOpen = true"
                             class="inline-flex items-center px-5 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg shadow-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
@@ -71,6 +72,7 @@
                             Ajouter une question
                         </button>
                     </div>
+                    @endif
                 </div>
             </div>
 
