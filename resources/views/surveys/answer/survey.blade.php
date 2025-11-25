@@ -98,7 +98,7 @@
                                        x-on:input="updateResponse('{{ $key }}', $event.target.value)">
 
                                 {{-- TYPE: RADIO --}}
-                            @elseif ($question->question_type === 'radio' && is_array($question->options))
+                            @elseif ($question->question_type === 'single_choice' && is_array($question->options))
                                 @foreach ($question->options as $option)
                                     <div class="flex items-center mb-2">
                                         <input type="radio"
@@ -123,6 +123,13 @@
                                         <span class="ml-2">{{ $option }}</span>
                                     </div>
                                 @endforeach
+                            @elseif ($question->question_type === 'range')
+                                <input type="range"
+                                       class="w-full"
+                                       min="0"
+                                       max="10"
+                                       value="0"
+                                       name="questions[{{ $key }}]">
                             @endif
                         </div>
                     </div>

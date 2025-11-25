@@ -52,27 +52,38 @@
                         <h1 class="text-3xl font-bold text-gray-900 dark:text-white">{{ $survey->title }}</h1>
                         <p class="mt-2 text-lg text-gray-500 dark:text-gray-400">{{ $survey->description }}</p>
                     </div>
-                    @if (Auth::id() === $survey->user_id)
                     <div class="flex flex-col space-y-2">
-                        <button @click="modalOpen = true"
+                        @if (Auth::id() === $survey->user_id)
+                            <button @click="modalOpen = true"
+                                class="inline-flex items-center px-5 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg shadow-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 4v16m8-8H4"></path>
+                                </svg>
+                                Modifier le sondage
+                            </button>
+
+                            <button @click="openAddModal()"
+                                class="inline-flex items-center px-5 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg shadow-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 4v16m8-8H4"></path>
+                                </svg>
+                                Ajouter une question
+                            </button>
+
+                        @endif
+                        <button @click="window.location='{{ route('survey.view.questions', $survey->id) }}'"
                             class="inline-flex items-center px-5 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg shadow-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M12 4v16m8-8H4"></path>
                             </svg>
-                            Modifier le sondage
+                            Faire le sondage
                         </button>
 
-                        <button @click="openAddModal()"
-                            class="inline-flex items-center px-5 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg shadow-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 4v16m8-8H4"></path>
-                            </svg>
-                            Ajouter une question
-                        </button>
                     </div>
-                    @endif
+
                 </div>
             </div>
 
@@ -106,7 +117,9 @@
                                     </p>
                                 @endif
                             </div>
+                            @if(Auth::id() === $survey->user_id)
                             <div class="flex flex-col gap-2">
+                                
                                 <div class="ml-auto">
                                     <button
                                         @click="openEditModal({{ json_encode($question) }}, '{{ route('survey.question.update', $question) }}')"
@@ -135,6 +148,7 @@
                                     </form>
                                 </div>
                             </div>
+                            @endif
                         </div>
                     @empty
                         <div class="text-center py-8 text-gray-500 dark:text-gray-400">

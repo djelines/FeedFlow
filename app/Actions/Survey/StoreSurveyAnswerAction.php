@@ -28,7 +28,7 @@ final class StoreSurveyAnswerAction
                     'survey_id' => $dto->survey_id,
                     'survey_question_id' => $answer['question_id'],
                     'user_id' => $dto->user_id,
-                    'answer' => $encodedAnswer,
+                    'answer' => $encodedAnswer ?? "",
                     'created_at' => date('Y-m-d H:i:s'),
                     'updated_at' => date('Y-m-d H:i:s'),
                 ]);
