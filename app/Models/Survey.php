@@ -30,6 +30,12 @@ class Survey extends Model
     {
         return $this->belongsTo(User::class);   
     }
+    
+    // A survey has many questions
+    public function questions()
+    {
+        return $this->hasMany(SurveyQuestion::class);
+    }
 
     
 }

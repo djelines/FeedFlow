@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Survey;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
+use League\CommonMark\Extension\DescriptionList\Node\Description;
 
 class StoreSurveyQuestionRequest extends FormRequest
 {
@@ -11,7 +13,18 @@ class StoreSurveyQuestionRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
+    }
+    /**
+     * Transform the 'options' input into an array if it's a comma-separated string.
+     */
+    protected function prepareForValidation(): void
+    {
+        if ($this->options && is_string($this->options)) {
+            $this->merge([
+                'options' => array_map('trim', explode(',', $this->options))
+            ]);
+        }
     }
 
     /**
@@ -22,7 +35,10 @@ class StoreSurveyQuestionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'survey_id' => 'required|integer|exists:surveys,id',
+            'title' => 'required|string|max:255',
+            'question_type' => 'required|string|in:text,multiple_choice,checkbox',
+            'options' => 'nullable|array',
         ];
     }
 }

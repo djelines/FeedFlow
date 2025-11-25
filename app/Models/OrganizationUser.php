@@ -25,13 +25,11 @@ class OrganizationUser extends Model
     // An organization user belongs to an organization
     public function organization()
     {
-        return $this->hasMany(Organization::class);
+        return $this->belongsTo(Organization::class);
     }
 
     // Get Role of the user in the organization
     public function getRole(){
         return $this->role;
     }
-
-
 }

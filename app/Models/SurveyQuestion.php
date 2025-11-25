@@ -9,14 +9,17 @@ class SurveyQuestion extends Model
 {
     use HasFactory;
 
-    protected $table    = 'surveys';
+    protected $table    = 'survey_questions';
     public $timestamps  = true;
     protected $fillable = [
         'id', 'survey_id',
         'title', 'question_type', 'options',
         'created_at', 'updated_at'
     ];
+
+    // Cast 'options' to array
     protected $casts = [
+        'options' => 'array',
     ];
 
     // A survey question belongs to a survey

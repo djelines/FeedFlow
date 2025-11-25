@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OrganizationController;
+use App\Http\Controllers\SurveyController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -23,6 +24,12 @@ Route::middleware('auth')->group(function () {
     Route::put('/organizations/{id}/update', [OrganizationController::class, 'update'])->name('organizations.update');
     Route::delete('/organizations/{id}/delete', [OrganizationController::class, 'delete'])->name('organizations.delete');
     Route::get('/organizations/{id}', [OrganizationController::class, 'view'])->name('organizations.view');
+
+
+    //Route for add question and Survey
+    Route::get('/survey/show/{id}', [SurveyController::class, 'showSurvey'])->name('survey.show');
+    Route::get('/survey/add/{id}', [SurveyController::class, 'add'])->name('survey.add');
+    Route::post('/survey/create', [SurveyController::class, 'storeQuestion'])->name('survey.store');
     
 });
 
