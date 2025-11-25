@@ -42,9 +42,9 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware('auth')->group(function(){
-    Route::get('/survey' , [SurveyController::class ,  'view'])->name('survey.view');
+    Route::get('/survey' , [SurveyController::class ,  'index'])->name('survey.view');
     Route::post('/survey/create' , [SurveyController::class ,'store'])->name('survey.store');
-    Route::delete('/surveys/{survey}', [SurveyController::class, 'destroySurvey'])->name('surveys.destroy');
+    Route::delete('/surveys/delete/{survey}', [SurveyController::class, 'destroySurvey'])->name('surveys.destroy');
 });
 
 require __DIR__.'/auth.php';

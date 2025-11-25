@@ -6,61 +6,45 @@ use App\Actions\Survey\StoreSurveyAction;
 use App\DTOs\SurveyDTO;
 use App\Http\Requests\Survey\StoreSurveyRequest;
 use Illuminate\Http\Request;
-use Illuminate\Http\RedirectResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use App\Actions\Survey\StoreSurveyQuestionAction;
-use App\DTOs\SurveyQuestionDTO;
-use App\Http\Requests\Survey\StoreSurveyQuestionRequest;
 use App\Models\Survey;
+use App\Actions\Survey\DeleteSurveyAction;
+
 
 class SurveyController extends Controller
 {
-    // Display the specified survey
-    public function showSurvey($id)
-    {
-        $survey = Survey::find($id);
-        return view('surveys.showSurvey', ['survey' => $survey]);
-    }
-    public function store(StoreSurveyRequest $request, StoreSurveyAction $action): JsonResponse
-    {
+
+    //function to create a survey
+    public function store(StoreSurveyRequest $request , StoreSurveyAction $action) {
+
         //Create DTO
         $dto = SurveyDTO::fromRequest($request);
 
         //Execute the Action of StoreSurveyAction (Store in DB)
-        $survey = $action->execute($dto);
+        $survey = $action -> execute($dto);
 
         //Return succesfull Json
-        return response()->json([
-            'messages' => 'Sondage crée avec succès !',
-            'data' => $survey,
-        ], 201);
+        return redirect()->route('survey.view');
     }
 
-    // Store a new question for a survey
-    public function storeQuestion(StoreSurveyQuestionRequest $request, StoreSurveyQuestionAction $action): RedirectResponse
-    {
-        //Create DTO
-        $dto = SurveyQuestionDTO::fromRequest($request);
-        $action->execute($dto);
-        return redirect()->back()->with('success', 'Question ajoutée avec succès !');
-    }
 
     //function to edit a survey  
-    public function editSurvey()
-    {
+    public function editSurvey(){
 
-    }
+    }   
 
     //function to destroy a survey 
-    public function destroySurvey($id)
-    {
-
+    public function destroySurvey(Request $request, Survey $survey, DeleteSurveyAction $action){
+        //delete survey in database
+        $deleteSurvey = $action -> delete($survey);
+        return redirect()->route('survey.view');
     }
 
-    public function view()
-    {
+    //function to fetch a survey
+    public function index(){
+        //fetch all survey in database
         $surveys = Survey::all();
 
-        return view('surveys.survey', compact('surveys'));
+        return view('surveys.survey',compact('surveys'));
     }
-}
+} 
