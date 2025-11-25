@@ -8,9 +8,9 @@ use App\Http\Requests\Survey\StoreSurveyQuestionRequest;
 final class SurveyQuestionDTO
 {
 public function __construct(
-        public readonly int $survey_id,
-        public readonly string $title,
-        public readonly string $question_type,
+        public readonly ?int $survey_id,
+        public readonly ?string $title,
+        public readonly ?string $question_type,
         public readonly ?array $options,
         public readonly \DateTime $created_at,
         public readonly \DateTime $updated_at,

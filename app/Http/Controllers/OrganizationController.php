@@ -13,6 +13,7 @@ use App\Actions\Organization\DeleteOrganizationAction;
 use App\DTOs\OrganizationDTO;
 use Illuminate\Http\JsonResponse;
 use App\Models\Organization;
+use App\Models\Survey;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 
@@ -48,7 +49,7 @@ class OrganizationController extends Controller
      */
     public function update(UpdateOrganization $request, UpdateOrganizationAction $action){
 
-        $this->authorize('update', Organization::find($request->id));
+        $this->authorize('update', arguments: Organization::find($request->id));
         $dto = OrganizationDTO::fromRequest($request);
 
 
@@ -71,7 +72,7 @@ class OrganizationController extends Controller
 
         $organization = $action->execute($dto);
 
-        return redirect("/dashboard");
+        return redirect()->back()->with('success', 'Organisation supprimée avec succès !');
     }
 
 
@@ -80,7 +81,7 @@ class OrganizationController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function view(){
-        $organizations = Organization::where('user_id', Auth::id())->get();
+        $organizations = Auth::user()->organizations;
 
         return view('organizations.index', compact(
             'organizations'
@@ -94,9 +95,10 @@ class OrganizationController extends Controller
      */
     public function viewOrganization($id){
         $organization = Organization::find($id);
+        $surveys = $organization->surveys;
 
         return view('organizations.viewOrganization', compact(
-            'organization'
+            'organization' , 'surveys'
         ));
     }
 

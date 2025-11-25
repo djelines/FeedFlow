@@ -37,5 +37,12 @@ class Survey extends Model
         return $this->hasMany(SurveyQuestion::class);
     }
 
-    
+    // Check if the user is the owner of the organization that created the survey
+    public function ifUserisOrganizationOwner(User $user, Survey $survey)
+    {
+        if ($survey->user_id === $user->id) {
+            return true;
+        }
+        return false;
+    }
 }

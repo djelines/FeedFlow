@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Survey;
+use App\Policies\SurveyPolicy;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,10 +27,11 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
     Gate::policy(Organization::class, OrganizationPolicy::class);
+    Gate::policy(Survey::class, SurveyPolicy::class);
     View::composer('layouts.navigation', function ($view) {
-        $organization = Auth::user()->organizationUsers; 
+        $organization = Auth::user()->organizations;
         $view->with('organization', $organization);
     });
-        
+
     }
 }

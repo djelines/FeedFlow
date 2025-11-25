@@ -33,5 +33,4 @@ class SurveyQuestion extends Model
     {
         return $this->survey->organization_id;
     }
-
 }
