@@ -42,6 +42,8 @@
                         </div>
                     </a>
 
+                    @can('update', $organization)
+
                     <div class="pt-2 border-b border-gray-100 pb-4 mb-4">
                         <form method="POST" action="{{ route('organizations.update', $organization->id) }}">
                             @method('PUT')
@@ -65,6 +67,9 @@
                         </form>
                     </div>
 
+                    @endcan
+
+                    @can('delete', $organization)
                     <div class="pt-2">
                         <form method="POST" action="{{ route('organizations.delete', $organization->id) }}">
                             @method('DELETE')
@@ -76,6 +81,7 @@
                             </button>
                         </form>
                     </div>
+                    @endcan
 
                 </div>
             @empty

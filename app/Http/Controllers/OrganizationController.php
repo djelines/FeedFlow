@@ -49,7 +49,7 @@ class OrganizationController extends Controller
      */
     public function update(UpdateOrganization $request, UpdateOrganizationAction $action){
 
-        $this->authorize('update', Organization::find($request->id));
+        $this->authorize('update', arguments: Organization::find($request->id));
         $dto = OrganizationDTO::fromRequest($request);
 
 
@@ -72,7 +72,7 @@ class OrganizationController extends Controller
 
         $organization = $action->execute($dto);
 
-        return redirect("/dashboard");
+        return redirect()->back()->with('success', 'Organisation supprimée avec succès !');
     }
 
 
@@ -81,7 +81,7 @@ class OrganizationController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function view(){
-        $organizations = Organization::where('user_id', Auth::id())->get();
+        $organizations = Auth::user()->organizations;
 
         return view('organizations.index', compact(
             'organizations'

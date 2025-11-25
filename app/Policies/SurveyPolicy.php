@@ -4,7 +4,9 @@ namespace App\Policies;
 
 use App\Models\Survey;
 use App\Models\User;
+use GuzzleHttp\Psr7\Message;
 use Illuminate\Auth\Access\Response;
+use App\Models\SurveyQuestion;
 
 class SurveyPolicy
 {
@@ -62,5 +64,18 @@ class SurveyPolicy
     public function forceDelete(User $user, Survey $survey): bool
     {
         return false;
+    }
+
+    public function createQuestion(User $user, Survey $survey): bool
+    {
+        return $survey->ifUserisOrganizationOwner($user, $survey);
+    }
+    public function deleteQuestion(User $user, Survey $survey): bool
+    {
+        return $survey->ifUserisOrganizationOwner($user, $survey);
+    }
+    public function editQuestion(User $user, Survey $survey): bool
+    {
+        return $survey->ifUserisOrganizationOwner($user, $survey);
     }
 }

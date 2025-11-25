@@ -35,9 +35,9 @@ class StoreSurveyQuestionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'survey_id' => 'required|integer|exists:surveys,id',
-            'title' => 'required|string|max:255',
-            'question_type' => 'required|string|in:text,multiple_choice,checkbox',
+            'survey_id' => 'nullable|integer|exists:surveys,id',
+            'title' => 'nullable|string|max:255',
+            'question_type' => 'nullable|string|in:text,multiple_choice,single_choice,range',
             'options' => 'nullable|array',
         ];
     }

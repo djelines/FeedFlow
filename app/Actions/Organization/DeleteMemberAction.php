@@ -14,10 +14,9 @@ class DeleteMemberAction
      * @param MemberDTO $dto
      * @return mixed
      */
-    public function execute(MemberDTO $dto){
+    public function execute(MemberDTO $dto, OrganizationUser $organization_member){
 
-        $member = OrganizationUser::find($dto->user_id);
-        $member->delete();
-        return $member;
+        $organization_member->delete();
+        return $organization_member;
     }
 }

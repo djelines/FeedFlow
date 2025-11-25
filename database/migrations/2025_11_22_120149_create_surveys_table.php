@@ -24,7 +24,7 @@ return new class extends Migration
             $table->boolean('is_anonymous')->default(false);
             $table->timestamps();
 
-            $table->foreign('organization_id')->references('id')->on('organizations');
+            $table->foreign('organization_id')->references('id')->on('organizations')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users');
         });
     }
