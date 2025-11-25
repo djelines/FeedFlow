@@ -31,7 +31,11 @@ class StoreSurveyRequest extends FormRequest
             // 'user_id'        => ['required', 'int'],
             'organization_id'=> ['required', 'int'],
             'start_date'     => ['required', Rule::date(),],
-            'end_date'       => ['required', Rule::date(),]
+            'end_date'       => ['required', Rule::date(),],
+            'isAi'           => ['required', 'boolean'],
+            'ai_prompt'      => ['required_if:isAi,true', 'string', 'max:500'],
+            'ai_question_count' => ['required_if:isAi,true', 'integer', 'min:1', 'max:40']
+            
         ];
     }
 
@@ -42,7 +46,11 @@ class StoreSurveyRequest extends FormRequest
             'title.min'       => 'Le Titre dois faire min 10 chars.',
             'description'     => 'Contenue obligatoire.',
             // 'user_id'         => 'User ID manquant.',
-            'organization_id' => 'Organization ID manquant.'
+            'organization_id' => 'Organization ID manquant.',
+            'ai_prompt.required_if' => 'Le prompt IA est obligatoire lorsque isAi est vrai.',
+            'ai_question_count.required_if' => 'Le nombre de questions IA est obligatoire lorsque isAi est vrai.',
+            'ai_question_count.min' => 'Le nombre de questions IA doit être au moins 1.',
+            'ai_question_count.max' => 'Le nombre de questions IA ne peut pas dépasser 40.'
         ];
     }
 }

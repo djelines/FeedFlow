@@ -103,8 +103,6 @@
                                 </td>
                             @endcan
 
-
-
                         </tr>
                     @empty
                         <tr>
