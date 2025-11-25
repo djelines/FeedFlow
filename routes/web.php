@@ -38,7 +38,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/survey/show/{id}', [SurveyController::class, 'showSurvey'])->name('survey.show');
     Route::get('/survey/add/{id}', [SurveyController::class, 'add'])->name('survey.add');
     Route::post('/survey/question/create', [SurveyController::class, 'storeQuestion'])->name('survey.question.store');
-    
+    Route::delete('/survey/question/delete/{question}', [SurveyController::class, 'destroyQuestion'])->name('survey.question.destroy');
 });
 
 Route::middleware('auth')->group(function(){

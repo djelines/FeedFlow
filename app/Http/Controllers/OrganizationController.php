@@ -48,7 +48,7 @@ class OrganizationController extends Controller
      */
     public function update(UpdateOrganization $request, UpdateOrganizationAction $action){
 
-        $this->authorize('update', Organization::find($request->id));
+        $this->authorize('update', arguments: Organization::find($request->id));
         $dto = OrganizationDTO::fromRequest($request);
 
 

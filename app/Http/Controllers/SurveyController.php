@@ -12,9 +12,14 @@ use App\Actions\Survey\StoreSurveyQuestionAction;
 use App\DTOs\SurveyQuestionDTO;
 use App\Http\Requests\Survey\StoreSurveyQuestionRequest;
 use App\Models\Survey;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Auth;
+use App\Models\SurveyQuestion;
+use App\Actions\Survey\DeleteSurveyQuestionAction;
 
 class SurveyController extends Controller
 {
+    use AuthorizesRequests;
     // Display the specified survey
     public function showSurvey($id)
     {
@@ -40,9 +45,19 @@ class SurveyController extends Controller
     public function storeQuestion(StoreSurveyQuestionRequest $request, StoreSurveyQuestionAction $action): RedirectResponse
     {
         //Create DTO
+        $this->authorize('createQuestion', arguments:  [Survey::find($request->survey_id)]);
+        
         $dto = SurveyQuestionDTO::fromRequest($request);
         $action->execute($dto);
         return redirect()->back()->with('success', 'Question ajoutée avec succès !');
+    }
+    // Delete a question from a survey
+    public function destroyQuestion(StoreSurveyQuestionRequest $request , DeleteSurveyQuestionAction $action , SurveyQuestion $question): RedirectResponse
+    {
+        $this->authorize('deleteQuestion', arguments:  [Survey::find($question->survey_id)]);
+        $dto = SurveyQuestionDTO::fromRequest($request);
+        $action->execute($dto, $question);
+        return redirect()->back()->with('success', 'Question supprimée avec succès !');
     }
 
     //function to edit a survey  
