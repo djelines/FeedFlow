@@ -22,8 +22,8 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::post('/organizations/create', [OrganizationController::class, 'store'])->name('organizations.store');
-    Route::put('/organizations/{id}/update', [OrganizationController::class, 'update'])->name('organizations.update');
-    Route::delete('/organizations/{id}/delete', [OrganizationController::class, 'delete'])->name('organizations.delete');
+    Route::put('/organizations/{organization}/update', [OrganizationController::class, 'update'])->name('organizations.update');
+    Route::delete('/organizations/{organization}/delete', [OrganizationController::class, 'delete'])->name('organizations.delete');
     Route::get('/organizations', [OrganizationController::class, 'view'])->name('organizations.view');
     Route::get('/organizations/view/{id}', [OrganizationController::class, 'viewOrganization'])->name('organizations.viewOrganization');
 
@@ -44,13 +44,14 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth')->group(function(){
     Route::get('/survey' , [SurveyController::class ,  'view'])->name('survey.view');
-    Route::post('/survey/create' , [SurveyController::class ,'store'])->name('survey.store');   
+    Route::post('/survey/create' , [SurveyController::class ,'store'])->name('survey.store');
     Route::delete('/surveys/delete/{survey}', [SurveyController::class, 'destroySurvey'])->name('surveys.destroy');
     Route::put('/survey/{id}/update' ,[SurveyController::class , 'updateSurvey'])->name('surveys.update');
 });
 
 Route::middleware('auth')->group(function(){
-    Route::get('/survey/questions/{id}' , [SurveyController::class ,  'viewQuestions'])->name('survey.view.questions');
+    Route::get('/survey/questions/{id}' , [SurveyController::class ,  'viewQuestions'])->name('survey.view.questions')
+    ->middleware('cache.headers:private,no_cache,no_store,must_revalidate,max_age=0');
     Route::post('/survey/answers/create' , [SurveyController::class ,'storeAnswers'])->name('survey.store.answers');
     Route::delete('/surveys/{survey}', [SurveyController::class, 'destroySurvey'])->name('surveys.destroy');
 });

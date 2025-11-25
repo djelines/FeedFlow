@@ -64,22 +64,22 @@ class SurveyController extends Controller
         return redirect()->back()->with('success', 'Question supprimée avec succès !');
     }
     public function updateQuestion(StoreSurveyQuestionRequest $request , UpdateSurveyQuestionAction $action , SurveyQuestion $question): RedirectResponse
-    {   
+    {
         $this->authorize('editQuestion', arguments:  [Survey::find($question->survey_id)]);
         $dto = SurveyQuestionDTO::fromRequest($request);
         $action->execute($dto, $question);
         return redirect()->back()->with('success', 'Question modifiée avec succès !');
     }
 
-    //function to edit a survey  
+    //function to edit a survey
     public function updateSurvey(Request $request , Survey $survey, UpdateSurveyAction $action ){
-        
+
         $dto = SurveyDTO::fromRequest($request);
         $updateSurvey = $action->update($dto, $survey);
         return redirect()->route('survey.view');
-    }   
+    }
 
-    //function to destroy a survey 
+    //function to destroy a survey
     public function destroySurvey(Request $request, Survey $survey, DeleteSurveyAction $action): RedirectResponse{
         //delete survey in database
         $deleteSurvey = $action -> delete($survey);
@@ -111,7 +111,9 @@ class SurveyController extends Controller
 
         $surveyAnswers = $action->execute($dto);
 
-        return redirect("/dashboard");
+        $organization_id = Survey::find($dto->survey_id)->organization_id;
+
+        return redirect()->route("organizations.view", $organization_id)->with("success", "Vous avez completé le sondage !");
 
     }
 }

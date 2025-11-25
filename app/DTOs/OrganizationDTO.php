@@ -10,7 +10,6 @@ use App\Http\Requests\Organization\DeleteOrganization;
 final class OrganizationDTO
 {
     private function __construct(
-        public readonly ?int $id,
         public readonly string $name,
         public readonly int $user_id,
         public readonly string $created_at,
@@ -25,7 +24,6 @@ final class OrganizationDTO
     {
         // Create a new OrganizationDTO from the request data
         return new self(
-            id: $request->id,
             name: $request->name ?? "",
             user_id: $request->user()->id,
             created_at: date('Y-m-d H:i:s'),

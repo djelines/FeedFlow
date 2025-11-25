@@ -20,13 +20,14 @@ final class UpdateOrganizationAction
         });
     }
 
-    public function execute(OrganizationDTO $dto) : Organization {
-        $organization = Organization::find($dto->id); 
+    public function execute(OrganizationDTO $dto, Organization $organization) : Organization {
 
-        $organization->update([
-            'name'    => $dto->name,
-            'updated_at' => $dto->updated_at,
-        ]);
+        if($organization){
+            $organization->update([
+                'name'    => $dto->name,
+                'updated_at' => $dto->updated_at,
+            ]);
+        }
 
 
         return $organization;
