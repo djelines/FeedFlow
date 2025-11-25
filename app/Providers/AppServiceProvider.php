@@ -29,9 +29,9 @@ class AppServiceProvider extends ServiceProvider
     Gate::policy(Organization::class, OrganizationPolicy::class);
     Gate::policy(Survey::class, SurveyPolicy::class);
     View::composer('layouts.navigation', function ($view) {
-        $organization = Auth::user()->organizationUsers; 
+        $organization = Auth::user()->organizations;
         $view->with('organization', $organization);
     });
-        
+
     }
 }

@@ -27,9 +27,9 @@ class OrganizationPolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function createMember(User $user , Organization $organization): bool
     {
-        return false;
+        return $user->hasRoleInOrganization('admin', $organization);
     }
 
     /**
@@ -47,6 +47,32 @@ class OrganizationPolicy
     {
         return $user->hasRoleInOrganization('admin', $organization) || $user->id===$organization->user_id;
     }
+
+    /**
+     * Determine whether the user can delete the model member.
+     */
+    public function deleteMember(User $user, Organization $organization, User $target): bool
+    {
+        // Only a admin can delete
+        if (!$user->hasRoleInOrganization('admin', $organization)) {
+            return false;
+        }
+
+        // Can't delete the proprietary
+        if ($target->id === $organization->user_id) {
+            return false;
+        }
+
+        // Can't delete yourself
+        if ($user->id === $target->id) {
+            return false;
+        }
+
+        return true;
+    }
+
+
+
 
     /**
      * Determine whether the user can restore the model.
