@@ -74,4 +74,8 @@ class SurveyPolicy
     {
         return $survey->ifUserisOrganizationOwner($user, $survey);
     }
+    public function editQuestion(User $user, Survey $survey): bool
+    {
+        return $survey->ifUserisOrganizationOwner($user, $survey);
+    }
 }

@@ -16,6 +16,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Auth;
 use App\Models\SurveyQuestion;
 use App\Actions\Survey\DeleteSurveyQuestionAction;
+use App\Actions\Survey\UpdateSurveyQuestionAction;
 
 class SurveyController extends Controller
 {
@@ -58,6 +59,13 @@ class SurveyController extends Controller
         $dto = SurveyQuestionDTO::fromRequest($request);
         $action->execute($dto, $question);
         return redirect()->back()->with('success', 'Question supprimée avec succès !');
+    }
+    public function updateQuestion(StoreSurveyQuestionRequest $request , UpdateSurveyQuestionAction $action , SurveyQuestion $question): RedirectResponse
+    {   
+        $this->authorize('editQuestion', arguments:  [Survey::find($question->survey_id)]);
+        $dto = SurveyQuestionDTO::fromRequest($request);
+        $action->execute($dto, $question);
+        return redirect()->back()->with('success', 'Question modifiée avec succès !');
     }
 
     //function to edit a survey  

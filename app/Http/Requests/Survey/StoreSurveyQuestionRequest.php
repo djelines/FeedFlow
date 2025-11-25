@@ -37,7 +37,7 @@ class StoreSurveyQuestionRequest extends FormRequest
         return [
             'survey_id' => 'nullable|integer|exists:surveys,id',
             'title' => 'nullable|string|max:255',
-            'question_type' => 'nullable|string|in:text,multiple_choice,checkbox,range',
+            'question_type' => 'nullable|string|in:text,multiple_choice,single_choice,range',
             'options' => 'nullable|array',
         ];
     }
