@@ -18,6 +18,7 @@ use App\Actions\Survey\UpdateSurveyAction;
 use App\DTOs\SurveyQuestionDTO;
 use App\Http\Requests\Survey\StoreSurveyQuestionRequest;
 use Illuminate\Http\RedirectResponse;
+use App\Actions\Survey\StoreSurveyQuestionAction;
 
 
 class SurveyController extends Controller
@@ -38,6 +39,17 @@ class SurveyController extends Controller
         $survey = $action -> execute($dto);
 
         return redirect()->route('survey.view');
+    }
+
+    // Store a new question for a survey
+    public function storeQuestion(StoreSurveyQuestionRequest $request, StoreSurveyQuestionAction $action): RedirectResponse
+    {
+        //Create DTO
+        $this->authorize('createQuestion', arguments:  [Survey::find($request->survey_id)]);
+        
+        $dto = SurveyQuestionDTO::fromRequest($request);
+        $action->execute($dto);
+        return redirect()->back()->with('success', 'Question ajoutée avec succès !');
     }
     // Delete a question from a survey
     public function destroyQuestion(StoreSurveyQuestionRequest $request , DeleteSurveyQuestionAction $action , SurveyQuestion $question): RedirectResponse
