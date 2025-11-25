@@ -1,4 +1,4 @@
-<div class="bg-surface dark:bg-surface-dark border border-bordercolor dark:border-bordercolor-dark border-t-4 border-accent dark:border-accent-dark rounded-2xl shadow-lg p-6 mb-8">
+<div class="bg-surface dark:bg-surface-soft-dark border border-t-4 border-accent dark:border-accent-dark rounded-2xl shadow-2xl p-6 mb-8">
 
     <form method="POST" action="{{ route('survey.store') }}">
         @csrf
@@ -23,7 +23,9 @@
                        transition-all duration-150
                        hover:border-accent dark:hover:border-accent-dark
                        focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary
-                       focus:-translate-y-[1px] focus:shadow-md"
+                       focus:-translate-y-[1px] focus:shadow-md
+                       placeholder:text-black/50
+                       dark:placeholder:text-white/50"
             />
             @error('title')
             <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
@@ -45,7 +47,9 @@
                        transition-all duration-150
                        hover:border-accent dark:hover:border-accent-dark
                        focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary
-                       focus:-translate-y-[1px] focus:shadow-md"
+                       focus:-translate-y-[1px] focus:shadow-md
+                       placeholder:text-black/50
+                       dark:placeholder:text-white/50"
             >{{ old('description') }}</textarea>
             @error('description')
             <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
@@ -85,11 +89,12 @@
                     required
                     class="bg-background dark:bg-background-dark border border-bordercolor dark:border-bordercolor-dark
                            text-text-primary dark:text-text-primary-dark text-sm rounded-lg block w-full px-3 py-2.5
-                           transition-all duration-150
+                           transition-all duration-150 cursor-pointer dark:datetime-icon-dark
                            hover:border-accent dark:hover:border-accent-dark
                            focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary
                            focus:-translate-y-[1px] focus:shadow-md"
                 />
+
                 @error('start_date')
                 <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                 @enderror
@@ -109,7 +114,7 @@
                     required
                     class="bg-background dark:bg-background-dark border border-bordercolor dark:border-bordercolor-dark
                            text-text-primary dark:text-text-primary-dark text-sm rounded-lg block w-full px-3 py-2.5
-                           transition-all duration-150
+                           transition-all duration-150 dark:datetime-icon-dark
                            hover:border-accent dark:hover:border-accent-dark
                            focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary
                            focus:-translate-y-[1px] focus:shadow-md"

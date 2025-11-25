@@ -19,6 +19,7 @@ module.exports = {
                 //card header
                 surface: '#FFFFFF',
                 'surface-dark': '#111827',
+                'surface-soft-dark': '#14162e',
 
                 // dark sidebar
                 sidebar: '#E8E8ED',

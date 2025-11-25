@@ -4,3 +4,11 @@
 
 
 /* TODO: HERE Toggle dark mode animation !*/
+
+/* TODO: custom le logo du calendar natif ? j'ai rien trouver a part ce truc mais tout les navigateur ne le supporte pas */
+@layer utilities {
+    /* Make the native calendar icon brighter in dark mode */
+    .datetime-icon-dark::-webkit-calendar-picker-indicator {
+        filter: invert(1) hue-rotate(180deg) brightness(1.1);
+    }
+}
