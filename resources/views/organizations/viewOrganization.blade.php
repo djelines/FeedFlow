@@ -79,11 +79,11 @@
                                 <td class="py-3 px-4 text-sm text-gray-800">{{ $member->oneUser->email }}</td>
                                 <td class="py-3 px-4 text-sm capitalize">
                                     <span class="px-2 py-0.5 rounded-full text-xs font-semibold
-                                                            @if($member->role === 'admin')
-                                                                bg-indigo-100 text-indigo-700
-                                                            @else
-                                                                bg-gray-200 text-gray-700
-                                                            @endif">
+                                                                    @if($member->role === 'admin')
+                                                                        bg-indigo-100 text-indigo-700
+                                                                    @else
+                                                                        bg-gray-200 text-gray-700
+                                                                    @endif">
                                         {{ $member->role }}
                                     </span>
                                 </td>
@@ -114,7 +114,7 @@
     </div>
 
     <div class="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8">
-        @include('components.modal-form-survey', ['organization'=> $organization])
+        @include('components.modal-form-survey', ['organization' => $organization])
     </div>
 
     <div class="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8 space-y-6">
@@ -124,15 +124,17 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
             @forelse($surveys as $survey)
-                <div 
-                    class="bg-white shadow-xl rounded-xl overflow-hidden border border-gray-100 transition duration-300 hover:shadow-2xl flex flex-col justify-between"
-                    onclick="">
+                <div class="bg-white shadow-xl rounded-xl overflow-hidden border border-gray-100 transition duration-300 hover:shadow-2xl flex flex-col justify-between cursor-pointer"
+                    onclick="window.location='{{ route('survey.show', $survey->id) }}'">
+
                     <div class="p-6 space-y-4">
                         <div class="flex justify-between items-start border-b pb-3">
                             <h3 class="text-xl font-semibold text-blue-700">
                                 {{ $survey->title }}
                             </h3>
+
                             <form action="{{ route('surveys.destroy', $survey) }}" method="POST"
+                                onclick="event.stopPropagation()"
                                 onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce sondage ? Cette action est irréversible.');">
                                 @csrf
                                 @method('DELETE')
@@ -149,14 +151,16 @@
                                 </button>
                             </form>
                         </div>
+
                         <div>
                             <p class="text-gray-500 italic mb-2 text-sm">Description du Sondage:</p>
                             <p class="text-gray-700 leading-relaxed line-clamp-3">
-                                {{ Str::limit($survey->description, 150) }}</p>
+                                {{ Str::limit($survey->description, 150) }}
+                            </p>
                         </div>
-
                     </div>
                 </div>
+
             @empty
                 <div class="p-6 text-center bg-white rounded-xl shadow-md border border-gray-200 md:col-span-2">
                     <p class="text-gray-500 italic">Aucun sondage n'a été trouvé pour cette organisation.</p>

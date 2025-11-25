@@ -38,7 +38,7 @@ class SurveyController extends Controller
         //Execute the Action of StoreSurveyAction (Store in DB)
         $survey = $action -> execute($dto);
 
-        return redirect()->route('survey.view');
+        return redirect()->back()->with('success', 'Sondage créé avec succès !');
     }
 
     // Store a new question for a survey
@@ -76,10 +76,10 @@ class SurveyController extends Controller
     }   
 
     //function to destroy a survey 
-    public function destroySurvey(Request $request, Survey $survey, DeleteSurveyAction $action){
+    public function destroySurvey(Request $request, Survey $survey, DeleteSurveyAction $action): RedirectResponse{
         //delete survey in database
         $deleteSurvey = $action -> delete($survey);
-        return redirect()->route('survey.view');
+        return redirect()->back()->with('success', 'Sondage supprimé avec succès !');
     }
 
     //function to fetch a survey
