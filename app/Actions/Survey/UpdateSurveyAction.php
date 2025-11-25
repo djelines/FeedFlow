@@ -2,6 +2,7 @@
 namespace App\Actions\Survey;
 
 use App\DTOs\SurveyDTO;
+use App\Models\Survey;
 use Illuminate\Support\Facades\DB;
 
 final class UpdateSurveyAction
@@ -17,5 +18,19 @@ final class UpdateSurveyAction
     {
         return DB::transaction(function () use ($dto) {
         });
+    }
+
+    public function update(SurveyDTO $dto , Survey $surveys){
+
+       $surveys->update([
+            'title' => $dto->title,
+            'description' => $dto->description,
+            'is_anonymous' => $dto->is_anonymous,
+            'start_date' => $dto->start_date,
+            'end_date' => $dto->end_date,
+        ]);
+
+        return $surveys;
+
     }
 }

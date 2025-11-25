@@ -39,13 +39,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/survey/add/{id}', [SurveyController::class, 'add'])->name('survey.add');
     Route::post('/survey/question/create', [SurveyController::class, 'storeQuestion'])->name('survey.question.store');
     Route::delete('/survey/question/delete/{question}', [SurveyController::class, 'destroyQuestion'])->name('survey.question.destroy');
+    Route::put('/survey/question/update/{question}', [SurveyController::class, 'updateQuestion'])->name('survey.question.update');
 });
 
 Route::middleware('auth')->group(function(){
     Route::get('/survey' , [SurveyController::class ,  'view'])->name('survey.view');
-    Route::post('/survey/create' , [SurveyController::class ,'store'])->name('survey.store');
-    Route::delete('/surveys/{survey}', [SurveyController::class, 'destroySurvey'])->name('surveys.destroy');
-    Route::put('/survey/question/update/{question}' , [SurveyController::class , 'updateQuestion'])->name('survey.question.update');
+    Route::post('/survey/create' , [SurveyController::class ,'store'])->name('survey.store');   
+    Route::delete('/surveys/delete/{survey}', [SurveyController::class, 'destroySurvey'])->name('surveys.destroy');
+    Route::put('/survey/{id}/update' ,[SurveyController::class , 'updateSurvey'])->name('surveys.update');
 });
 
 require __DIR__.'/auth.php';
