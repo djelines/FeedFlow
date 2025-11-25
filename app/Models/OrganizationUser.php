@@ -38,5 +38,9 @@ class OrganizationUser extends Model
         return $this -> belongsTo(User::class, 'user_id', 'id');
     }
 
+    public function isUserPresent($organization_id, $user_id){
+        return $this->where('organization_id', $organization_id)->where('user_id', $user_id)->exists();
+}
+
 
 }
