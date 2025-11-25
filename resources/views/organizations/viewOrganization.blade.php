@@ -1,86 +1,115 @@
 <x-app-layout>
-    <div class="max-w-4xl mx-auto p-4">
-        <h1 class="text-2xl font-bold mb-4">{{ $organization->name }}</h1>
 
-        {{-- Ajouter un membre --}}
-        <div class="bg-white shadow-md rounded p-4 mb-6">
-            <h2 class="text-xl font-semibold mb-2">Ajouter un membre</h2>
-            <form action="{{ route('organizations.member.store') }}" method="POST" class="space-y-3">
+    <div class="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8">
+
+
+            <h1 class="text-3xl font-extrabold text-gray-800 mb-8 tracking-tight border-b-2 border-indigo-400 pb-2">
+                <i class="fas fa-sitemap mr-3 text-indigo-600"></i>
+                {{ $organization->name }}
+                <p class="text-sm text-gray-500 mt-2 pt-2 border-t border-gray-100">Détails de l'Organisation</p>
+
+            </h1>
+
+
+
+        <div class="bg-white shadow-lg border-t-4 border-green-500 rounded-lg p-6 mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
+                <i class="fas fa-user-plus mr-3 text-green-500"></i>
+                Ajouter un membre
+            </h2>
+            <form action="{{ route('organizations.member.store') }}" method="POST" class="space-y-4">
                 @csrf
 
                 <div>
-                    <label for="email" class="block font-medium text-sm">Email du membre</label>
-                    <input type="email" name="email" id="email"
-                           class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+                    <label for="email" class="block font-medium text-sm text-gray-700 mb-1">Email du membre</label>
+                    <input type="email" name="email" id="email" required
+                           class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:border-green-500 focus:ring-green-500 p-2 transition duration-150"
                            placeholder="exemple@domain.com">
                     @error('email')
-                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    <p class="text-red-600 text-xs mt-1 font-semibold">{{ $message }}</p>
                     @enderror
                 </div>
 
                 <div>
-                    <label for="role" class="block font-medium text-sm">Rôle</label>
-                    <select name="role" id="role"
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                    <label for="role" class="block font-medium text-sm text-gray-700 mb-1">Rôle</label>
+                    <select name="role" id="role" required
+                            class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:border-green-500 focus:ring-green-500 p-2 transition duration-150 capitalize">
                         <option value="member">Membre</option>
                         <option value="admin">Admin</option>
                     </select>
                     @error('role')
-                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    <p class="text-red-600 text-xs mt-1 font-semibold">{{ $message }}</p>
                     @enderror
                 </div>
 
                 <input type="hidden" name="organization_id" value="{{ $organization->id }}">
 
                 @error('user_id')
-                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                <p class="text-red-600 text-xs mt-1 font-semibold">{{ $message }}</p>
                 @enderror
 
                 <button type="submit"
-                        class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md">
-                    Ajouter
+                        class="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition duration-300 flex items-center justify-center space-x-2">
+                    <i class="fas fa-paper-plane text-sm"></i>
+                    <span>Ajouter ce membre</span>
                 </button>
             </form>
         </div>
 
-        {{-- Liste des membres --}}
-        <div class="bg-white shadow-md rounded p-4">
-            <h2 class="text-xl font-semibold mb-2">Liste des membres</h2>
-            <table class="w-full text-left border-collapse">
-                <thead>
-                <tr class="border-b">
-                    <th class="py-2 px-4">Nom</th>
-                    <th class="py-2 px-4">Email</th>
-                    <th class="py-2 px-4">Rôle</th>
-                    <th class="py-2 px-4">Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                @forelse($organization->members as $member)
-                    <tr class="border-b hover:bg-gray-50">
-                        <td class="py-2 px-4">{{ $member->oneUser->getFullName() }}</td>
-                        <td class="py-2 px-4">{{ $member->oneUser->email }}</td>
-                        <td class="py-2 px-4 capitalize">{{ $member->role }}</td>
-                        <td class="py-2 px-4">
-                            <form action="{{ route('organizations.member.delete', $member->id) }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit"
-                                        class="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded text-xs">
-                                    Supprimer
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
-                @empty
+        <div class="bg-white shadow-lg border-t-4 border-blue-500 rounded-lg p-6">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
+                <i class="fas fa-users mr-3 text-blue-500"></i>
+                Liste des membres
+            </h2>
+
+            <div class="overflow-x-auto rounded-lg border border-gray-200">
+                <table class="min-w-full text-left border-collapse">
+                    <thead class="bg-gray-50 border-b border-gray-200">
                     <tr>
-                        <td colspan="4" class="py-2 px-4 text-center text-gray-500">
-                            Aucun membre pour cette organisation.
-                        </td>
+                        <th class="py-3 px-4 text-sm font-bold text-gray-700">Nom</th>
+                        <th class="py-3 px-4 text-sm font-bold text-gray-700">Email</th>
+                        <th class="py-3 px-4 text-sm font-bold text-gray-700">Rôle</th>
+                        <th class="py-3 px-4 text-sm font-bold text-gray-700">Actions</th>
                     </tr>
-                @endforelse
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                    @forelse($organization->members as $member)
+                        <tr class="border-b last:border-b-0 hover:bg-blue-50/50 transition duration-150">
+                            <td class="py-3 px-4 text-sm text-gray-800">{{ $member->oneUser->getFullName() }}</td>
+                            <td class="py-3 px-4 text-sm text-gray-800">{{ $member->oneUser->email }}</td>
+                            <td class="py-3 px-4 text-sm capitalize">
+                                <span class="px-2 py-0.5 rounded-full text-xs font-semibold
+                                    @if($member->role === 'admin')
+                                        bg-indigo-100 text-indigo-700
+                                    @else
+                                        bg-gray-200 text-gray-700
+                                    @endif">
+                                    {{ $member->role }}
+                                </span>
+                            </td>
+                            <td class="py-3 px-4">
+                                <form action="{{ route('organizations.member.delete', $member->id) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit"
+                                            class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md text-xs font-medium shadow-md transition duration-150 flex items-center space-x-1">
+                                        <i class="fas fa-trash-alt text-xs"></i>
+                                        <span>Supprimer</span>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="4" class="py-4 px-4 text-center text-gray-500 bg-white">
+                                <i class="fas fa-exclamation-circle mr-1"></i>
+                                Aucun membre pour cette organisation.
+                            </td>
+                        </tr>
+                    @endforelse
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </x-app-layout>

@@ -26,13 +26,16 @@ class UpdateOrganization extends FormRequest
         ];
     }
 
-    // Add messages method for custom error messages
+    /**
+     * Add messages method for custom error messages
+     * @return string[]
+     */
     public function messages(): array
     {
         return [
             'name.required' => 'The organization name is required.',
             'name.string'   => 'The organization name must be a string.',
             'name.max'      => 'The organization name may not be greater than :max characters.',
-        ]; 
+        ];
     }
 }

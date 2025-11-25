@@ -20,6 +20,11 @@ class MemberDTO
     ){}
 
 
+    /**
+     * Create a new MemberDTO from the request data
+     * @param StoreMemberRequest|DeleteMemberRequest $request
+     * @return self
+     */
     public static function fromRequest(StoreMemberRequest|DeleteMemberRequest $request): self
     {
         return new self(

@@ -23,6 +23,11 @@ class StoreMemberAction
         });
     }
 
+    /**
+     * store a member
+     * @param MemberDTO $dto
+     * @return OrganizationUser
+     */
     public function execute(MemberDTO $dto): OrganizationUser
     {
 

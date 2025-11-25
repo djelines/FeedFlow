@@ -32,6 +32,10 @@ class StoreMemberRequest extends FormRequest
         ];
     }
 
+    /**
+     * Retreive id by email
+     * @return int|null
+     */
     public function getUserIdByEmail(): ?int
     {
         return User::where('email', $this->input('email'))->value('id');

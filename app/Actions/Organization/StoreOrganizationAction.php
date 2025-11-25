@@ -20,6 +20,10 @@ final class StoreOrganizationAction
         });
     }
 
+    /**
+     * @param OrganizationDTO $dto
+     * @return Organization
+     */
     public function execute(OrganizationDTO $dto) : Organization {
         $organization = Organization::create([
             'name'    => $dto->name,

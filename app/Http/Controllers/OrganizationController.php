@@ -21,7 +21,12 @@ class OrganizationController extends Controller
 
     use AuthorizesRequests;
 
-    // Store a newly created organization
+    /**
+     * Store a newly created organization
+     * @param StoreOrganization $request
+     * @param StoreOrganizationAction $action
+     * @return RedirectResponse
+     */
     public function store(StoreOrganization $request, StoreOrganizationAction $action): RedirectResponse
     {
 
@@ -34,7 +39,13 @@ class OrganizationController extends Controller
         return redirect()->back()->with('success', 'Organisation créée avec succès !');
     }
 
-    // Update the current organization
+    /**
+     * Update the current organization
+     * @param UpdateOrganization $request
+     * @param UpdateOrganizationAction $action
+     * @return RedirectResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function update(UpdateOrganization $request, UpdateOrganizationAction $action){
 
         $this->authorize('update', Organization::find($request->id));
@@ -46,7 +57,13 @@ class OrganizationController extends Controller
         return redirect()->back()->with('success', 'Organisation modifiée avec succès !');
     }
 
-    // Delete the current organization
+    /**
+     * Delete the current organization
+     * @param DeleteOrganization $request
+     * @param DeleteOrganizationAction $action
+     * @return RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function delete(DeleteOrganization $request, DeleteOrganizationAction $action){
         $this->authorize('delete', Organization::find($request->id));
 
@@ -58,8 +75,10 @@ class OrganizationController extends Controller
     }
 
 
-
-    // Template view
+    /**
+     * See all organizations
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function view(){
         $organizations = Organization::where('user_id', Auth::id())->get();
 
@@ -68,6 +87,11 @@ class OrganizationController extends Controller
         ));
     }
 
+    /**
+     * View an unique organization
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function viewOrganization($id){
         $organization = Organization::find($id);
 

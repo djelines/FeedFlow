@@ -9,6 +9,11 @@ class DeleteMemberAction
 {
     public function __construct(){}
 
+    /**
+     * Delete a member
+     * @param MemberDTO $dto
+     * @return mixed
+     */
     public function execute(MemberDTO $dto){
 
         $member = OrganizationUser::find($dto->user_id);
