@@ -13,6 +13,7 @@ use App\Actions\Organization\DeleteOrganizationAction;
 use App\DTOs\OrganizationDTO;
 use Illuminate\Http\JsonResponse;
 use App\Models\Organization;
+use App\Models\Survey;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 
@@ -94,9 +95,10 @@ class OrganizationController extends Controller
      */
     public function viewOrganization($id){
         $organization = Organization::find($id);
+        $surveys = $organization->surveys;
 
         return view('organizations.viewOrganization', compact(
-            'organization'
+            'organization' , 'surveys'
         ));
     }
 

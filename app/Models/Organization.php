@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Organization extends Model
 {
@@ -26,6 +27,9 @@ class Organization extends Model
         return $this->hasMany(OrganizationUser::class);
     }
 
-
+    public function surveys(): HasMany 
+    {
+        return $this->hasMany(Survey::class); 
+    }
 
 }
