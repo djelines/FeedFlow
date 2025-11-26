@@ -241,49 +241,36 @@
     </aside>
 
 
-    {{-- Header --}}
-    <header class="sticky top-0 z-30 sm:ml-64 border-b-2 h-16 border-bordercolor dark:border-bordercolor-dark bg-sidebar/90 dark:bg-sidebar-dark/90 backdrop-blur">
-        <div class="flex items-center justify-between px-4 py-3 lg:px-8">
-            <div class="flex items-center gap-3">
-                <button
-                    type="button"
-                    data-drawer-target="logo-sidebar"
-                    data-drawer-toggle="logo-sidebar"
-                    aria-controls="logo-sidebar"
-                    class="inline-flex items-center p-2 text-sm rounded-lg sm:hidden
+        {{-- Header (showed for mobile only) --}}
+        <header class="sticky top-0 z-30 border-b-2 h-16 border-bordercolor dark:border-bordercolor-dark bg-sidebar/90 dark:bg-sidebar-dark/90 backdrop-blur sm:hidden">
+            <div class="flex items-center justify-between px-4 py-3">
+                <div class="flex items-center gap-3">
+                    <button
+                        type="button"
+                        data-drawer-target="logo-sidebar"
+                        data-drawer-toggle="logo-sidebar"
+                        aria-controls="logo-sidebar"
+                        class="inline-flex items-center p-2 text-sm rounded-lg
                            text-text-secondary focus:outline-none focus:ring-2 focus:ring-bordercolor"
-                >
-                    <span class="sr-only">Open sidebar</span> {{-- why? --}}
-                    <i class="fa-solid fa-bars text-lg"></i>
-                </button>
+                    >
+                        <span class="sr-only">Open sidebar</span>
+                        <i class="fa-solid fa-bars text-lg"></i>
+                    </button>
 
-                <div>
-
-                    <h1 class="text-xl font-semibold">
-                        Ceci est un test ça ne va pas rester
-                    </h1>
+                    {{-- Mobile brand --}}
+                    <div class="flex items-center gap-2">
+                    <span class="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-primary-soft dark:bg-primary-soft-dark text-primary dark:text-primary-dark font-semibold">
+                        S
+                    </span>
+                        <span class="text-base font-semibold tracking-tight">
+                        Sonde Urinaire
+                    </span>
+                    </div>
                 </div>
             </div>
+        </header>
 
-            <div class="flex items-center gap-3">
-                <button
-                    class="relative overflow-hidden hidden sm:inline-flex items-center px-4 py-2 text-sm font-medium rounded-lg
-                           text-white shadow-sm transform transition-all duration-150
-                           bg-gradient-to-r from-primary to-accent dark:from-primary-dark dark:to-accent-dark
-                           hover:scale-[1.02] active:scale-[0.97]
-                           before:absolute before:inset-0 before:-z-10
-                           before:bg-primary-noise dark:before:bg-primary-noise-dark
-                           before:bg-[length:260%_260%] before:bg-center
-                           before:opacity-0 before:transition-opacity before:duration-200
-                           hover:before:opacity-100 hover:before:animate-gradient-noise"
-                >
-                    <i class="fa-solid fa-plus mr-2 text-xs"></i>
-                    New survey
-                </button>
-            </div>
-        </div>
-    </header>
-@endif
+    @endif
 
     {{-- Main content --}}
     <main class="sm:ml-64 ">
