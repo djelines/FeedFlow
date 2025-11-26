@@ -72,6 +72,15 @@ class User extends Authenticatable
         );
     }
 
+    public function hasRoleInOrganizationById(string $role, $organizationId): bool{
+        return !is_null(
+            $this->organizations()
+                ->where("organization_id", $organizationId)
+                ->wherePivot('role', $role)
+                ->first()
+        );
+    }
+
     // An user has many survey answers
     public function surveyAnswers()
     {

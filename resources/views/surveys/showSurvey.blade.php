@@ -41,7 +41,6 @@
         addOption() { this.options.push(''); },
         removeOption(index) { this.options.splice(index, 1); }
     }">
-
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
 
             <div
@@ -53,15 +52,15 @@
                         <p class="mt-2 text-lg text-gray-500 dark:text-gray-400">{{ $survey->description }}</p>
                     </div>
                     <div class="flex flex-col space-y-2">
-                        @if (Auth::id() === $survey->user_id)
-                            <button @click="modalOpen = true"
-                                class="inline-flex items-center px-5 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg shadow-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 4v16m8-8H4"></path>
-                                </svg>
-                                Modifier le sondage
-                            </button>
+                    @if (Auth::id() === $survey->user_id)
+                        <button data-modal-target="modalUpdate" data-modal-toggle="modalUpdate"
+                            class="inline-flex items-center px-5 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg shadow-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 4v16m8-8H4"></path>
+                            </svg>
+                            Modifier le sondage
+                        </button>
 
                             <button @click="openAddModal()"
                                 class="inline-flex items-center px-5 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg shadow-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
@@ -159,5 +158,7 @@
             </div>
         </div>
         @include('surveys.questionSurveyModal')
+        @include('surveys.updateSurveyModal')
+
     </div>
 </x-app-layout>

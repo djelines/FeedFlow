@@ -8,6 +8,7 @@ use App\DTOs\SurveyAnswerDTO;
 use App\DTOs\SurveyDTO;
 use App\Http\Requests\Survey\StoreSurveyAnswerRequest;
 use App\Http\Requests\Survey\StoreSurveyRequest;
+use App\Http\Requests\Survey\UpdateSurveyRequest;
 use App\Models\SurveyAnswer;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -101,19 +102,19 @@ class SurveyController extends Controller
     }
 
     //function to edit a survey  
-    public function updateSurvey(Request $request, Survey $survey, UpdateSurveyAction $action)
-    {
-
+    public function updateSurvey(UpdateSurveyRequest $request , UpdateSurveyAction $action , Survey $survey ){
+        $this->authorize('update',arguments:[Survey::find($survey->user_id)]);
         $dto = SurveyDTO::fromRequest($request);
-        $updateSurvey = $action->update($dto, $survey);
-        return redirect()->route('survey.view');
-    }
+        $action->update($dto, $survey);
+        return redirect()->back()->with("success","Sondage modifié avec succès !");
+    }   
 
     //function to destroy a survey 
     public function destroySurvey(Request $request, Survey $survey, DeleteSurveyAction $action): RedirectResponse
     {
         //delete survey in database
-        $deleteSurvey = $action->delete($survey);
+        $this->authorize('delete',arguments:[Survey::find($survey->user_id)]);
+        $deleteSurvey = $action -> delete($survey);
         return redirect()->back()->with('success', 'Sondage supprimé avec succès !');
     }
 

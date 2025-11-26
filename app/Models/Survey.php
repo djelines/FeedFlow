@@ -45,4 +45,14 @@ class Survey extends Model
         }
         return false;
     }
+
+    // Check if the user is the owner or admin for modified/delete
+    public function canBeModifiedOrDeletedBy(User $user , Survey $survey)
+    {
+        //POUR DEMAIN Faut que je regarde comment je fais ?? je dois recuperer organization_user pour le role??
+        if ($user->hasRoleInOrganizationById("admin",$survey->organization_id) || $survey->user_id === $user -> id) {
+            return true;
+        }
+        return false;
+    }
 }
