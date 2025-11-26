@@ -20,6 +20,12 @@ final class UpdateSurveyAction
         });
     }
 
+    /**
+     * Update survey
+     * @param SurveyDTO $dto
+     * @param Survey $surveys
+     * @return void
+     */
     public function update(SurveyDTO $dto , Survey $surveys){
        $surveys->update([
             'title' => $dto->title,

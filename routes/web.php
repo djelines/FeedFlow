@@ -54,7 +54,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/surveys/{survey}/results/pdf' , [SurveyResultsController::class , 'downloadPdf'])->name('survey.answer.resultPdf');
 });
 
-
+// Route for anonymous user
 Route::get('/survey/{id}', [SurveyController::class, 'viewQuestions'])
     ->name('survey.public')
     ->middleware('signed');

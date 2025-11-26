@@ -11,7 +11,7 @@ final class DeleteSurveyQuestionAction
     public function __construct() {}
 
     /**
-     * Store a Survey
+     * Actions when a Survey question is delete from db
      * @param SurveyQuestionDTO $dto
      * @return array
      */
@@ -21,6 +21,12 @@ final class DeleteSurveyQuestionAction
         });
     }
 
+    /**
+     * Delete a survey question
+     * @param SurveyQuestionDTO $dto
+     * @param SurveyQuestion $question
+     * @return void
+     */
     public function execute(SurveyQuestionDTO $dto , SurveyQuestion $question): void
     {
         $question->delete();

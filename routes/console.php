@@ -8,4 +8,5 @@ Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
 
+// Runs the survey report command 
 Schedule::command('app:send-survey-daily-reports')->everyMinute();

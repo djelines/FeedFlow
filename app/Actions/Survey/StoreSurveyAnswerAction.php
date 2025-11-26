@@ -14,7 +14,7 @@ final class StoreSurveyAnswerAction
     public function __construct() {}
 
     /**
-     * Store a Survey
+     * Store a Survey Answer
      * @param SurveyAnswerDTO $dto
      * @return array
      */
@@ -43,7 +43,7 @@ final class StoreSurveyAnswerAction
 
              $survey = Survey::find($dto->survey_id);
 
-             
+
              $OwnerEmail = User::find($survey->user_id)->email;
 
              try {

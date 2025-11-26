@@ -18,6 +18,7 @@ class SurveyAnswerSubmitted
     public string $ownerEmail;
     /**
      * Create a new event instance.
+     * Get the current email
      */
     public function __construct(Survey $survey, string $ownerEmail)
     {
