@@ -25,9 +25,7 @@
                     @click="modalOpen = false"
                     class="inline-flex items-center justify-center w-8 h-8 rounded-full text-text-secondary dark:text-text-secondary-dark hover:text-primary dark:hover:text-primary-dark hover:bg-primary-soft/60 dark:hover:bg-primary-soft-dark/60 transition"
                 >
-                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
+                    <i class="fa-solid fa-xmark text-xl"></i>
                 </button>
             </div>
 
@@ -127,10 +125,7 @@
                                 @click="addOption()"
                                 class="mt-1 inline-flex items-center text-xs font-medium text-primary dark:text-primary-dark hover:text-accent dark:hover:text-accent-dark transition"
                             >
-                                <svg class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                          d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                                </svg>
+                                <i class="fa-solid fa-plus pr-2"></i>
                                 Ajouter une option
                             </button>
                         </div>
