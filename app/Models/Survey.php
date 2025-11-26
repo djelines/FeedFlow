@@ -56,7 +56,6 @@ class Survey extends Model
         }
         return false;
     }
-
     public function isActiveNow(){
         $now = Carbon::now();
 

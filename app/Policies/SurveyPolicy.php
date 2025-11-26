@@ -30,16 +30,23 @@ class SurveyPolicy
     /**
      * Determine whether the user can create a survey.
      */
-    public function create(User $user, Survey $survey): bool
+    public function create(User $user , String $organization_id): bool
     {
-        $organization = Organization::find($survey->organization_id);
+        $organization = Organization::find($organization_id);
         $isFreePlan = $organization->isFreePlan();
         if($isFreePlan){
             return $organization->canCreateSurveyLimit();
         }
-
-        return true;
+        
+        return $user->canBeCreateSurvey($user, $organization_id);
     }
+
+       public function createSurvey(User $user, string $organization_id): bool
+        {   
+            $organization = Organization::find($organization_id);
+            //CALL function canBeCreateSurvey for organization.php
+            return $organization->canBeCreateSurvey($user);
+        }
 
     /**
      * Determine whether the user can update the model.
