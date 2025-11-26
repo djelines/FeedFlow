@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Models\SurveyAnswer;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -13,14 +14,14 @@ use Illuminate\Queue\SerializesModels;
 class DailyAnswersThresholdReached
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-
     /**
      * Create a new event instance.
      */
-    public function __construct()
+    public function __construct( public string $ownerEmail)
     {
-        //
+        $this->ownerEmail = $ownerEmail;
     }
+
 
     /**
      * Get the channels the event should broadcast on.

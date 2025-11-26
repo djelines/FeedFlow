@@ -2,24 +2,28 @@
 
 namespace App\Listeners;
 
+use App\Events\SurveyAnswerSubmitted;
+use App\Models\Survey;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\NewAnswerNotification;
 
-class SendNewAnswerNotification
+class SendNewAnswerNotification implements ShouldQueue
 {
+    use InteractsWithQueue;
     /**
      * Create the event listener.
      */
     public function __construct()
     {
-        //
     }
 
     /**
      * Handle the event.
      */
-    public function handle(object $event): void
+    public function handle(SurveyAnswerSubmitted $event): void
     {
-        //
+         Mail::to($event->ownerEmail)->send(new NewAnswerNotification($event->survey));
     }
 }

@@ -6,6 +6,7 @@ use App\DTOs\SurveyDTO;
 use App\Models\Survey;
 use App\Models\SurveyAnswer;
 use App\Models\User;
+use App\Events\SurveyAnswerSubmitted;
 use Illuminate\Support\Facades\DB;
 
 final class StoreSurveyAnswerAction
@@ -39,6 +40,17 @@ final class StoreSurveyAnswerAction
                 ]);
                 $allSurveyAnswers[] = $surveyAnswer;
             }
+
+             $survey = Survey::find($dto->survey_id);
+
+             
+             $OwnerEmail = User::find($survey->user_id)->email;
+
+             try {
+                 event(new SurveyAnswerSubmitted($survey , $OwnerEmail));
+             } catch (\Exception $e) {
+                 \Log::error('Failed to dispatch SurveyAnswerSubmitted event: ' . $e->getMessage());
+             }
 
             return $allSurveyAnswers;
         }

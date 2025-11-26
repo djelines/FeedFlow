@@ -2,8 +2,11 @@
 
 namespace App\Console\Commands;
 
+use App\Events\DailyAnswersThresholdReached;
 use Illuminate\Console\Command;
-
+use App\Models\Survey;
+use Illuminate\Support\Facades\Log;
+use App\Models\User;
 class SendSurveyDailyReports extends Command
 {
     /**
@@ -20,11 +23,20 @@ class SendSurveyDailyReports extends Command
      */
     protected $description = 'Command description';
 
-    /**
-     * Execute the console command.
-     */
+  
     public function handle()
     {
-        //
+        $allSurveys = Survey::all();
+
+        foreach ($allSurveys as $survey) {
+
+            $surveyAnswersCount = $survey->answers()->where('created_at', '>=', now()->subDay())->count();
+            
+            if ($surveyAnswersCount > 0) {
+                $ownerEmail = User::find($survey->user_id)->email;
+                event(new DailyAnswersThresholdReached( $ownerEmail));
+            }
+
+        }
     }
 }

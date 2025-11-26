@@ -13,6 +13,12 @@ use App\Policies\SurveyPolicy;
 
 class AppServiceProvider extends ServiceProvider
 {
+
+    protected $listen = [
+        \App\Events\SurveyAnswerSubmitted::class => [
+            \App\Listeners\SendNewAnswerNotification::class,
+        ],
+    ];
     /**
      * Register any application services.
      */
@@ -26,17 +32,17 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-    Gate::policy(Organization::class, OrganizationPolicy::class);
-    Gate::policy(Survey::class, SurveyPolicy::class);
-    
-    View::composer('layouts.navigation', function ($view) {
-       
-       if(!Auth::check()){
-           return;
-       }
-        $organization = Auth::user()->organizations;
-        $view->with('organization', $organization);
-    });
+        Gate::policy(Organization::class, OrganizationPolicy::class);
+        Gate::policy(Survey::class, SurveyPolicy::class);
+
+        View::composer('layouts.navigation', function ($view) {
+
+            if (!Auth::check()) {
+                return;
+            }
+            $organization = Auth::user()->organizations;
+            $view->with('organization', $organization);
+        });
 
     }
 }

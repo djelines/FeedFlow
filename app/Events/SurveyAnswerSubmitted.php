@@ -9,17 +9,20 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use App\Models\Survey;
 
 class SurveyAnswerSubmitted
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-
+    public Survey $survey;
+    public string $ownerEmail;
     /**
      * Create a new event instance.
      */
-    public function __construct()
+    public function __construct(Survey $survey, string $ownerEmail)
     {
-        //
+        $this->survey = $survey;
+        $this->ownerEmail = $ownerEmail;
     }
 
     /**

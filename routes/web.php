@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\SurveyController;
 use \App\Http\Controllers\MemberController;
+use PhpParser\Node\Name;
 
 Route::get('/', function () {
     return view('welcome');
@@ -60,5 +61,6 @@ Route::get('/survey/{id}', [SurveyController::class, 'viewQuestions'])
 Route::post('/survey/create/{id}', [SurveyController::class, 'storeAnswers'])
     ->name('survey.answers.public') 
     ->middleware('signed');
+
 
 require __DIR__.'/auth.php';
