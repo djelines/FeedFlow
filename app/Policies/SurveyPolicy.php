@@ -29,7 +29,7 @@ class SurveyPolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(User $user , Survey $survey): bool
     {
         return false;
     }
@@ -39,7 +39,7 @@ class SurveyPolicy
      */
     public function update(User $user, Survey $survey): bool
     {
-        return false;
+        return $survey->canBeModifiedOrDeletedBy($user , $survey);
     }
 
     /**
@@ -47,7 +47,7 @@ class SurveyPolicy
      */
     public function delete(User $user, Survey $survey): bool
     {
-        return false;
+        return $user->canBeModifiedOrDeletedBy($user , $survey);
     }
 
     /**

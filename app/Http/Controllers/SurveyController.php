@@ -70,11 +70,10 @@ class SurveyController extends Controller
 
     //function to edit a survey  
     public function updateSurvey(UpdateSurveyRequest $request , UpdateSurveyAction $action , Survey $survey ){
+        $this->authorize('update',arguments:[Survey::find($survey->user_id)]);
         $dto = SurveyDTO::fromRequest($request);
         $action->update($dto, $survey);
-
-
-            return redirect()->back()->with("success","Sondage modifié avec succès !");
+        return redirect()->back()->with("success","Sondage modifié avec succès !");
     }   
 
     //function to destroy a survey 
