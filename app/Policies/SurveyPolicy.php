@@ -52,7 +52,7 @@ class SurveyPolicy
      */
     public function delete(User $user, Survey $survey): bool
     {
-        return $user->canBeModifiedOrDeletedBy($user , $survey);
+        return $survey->canBeModifiedOrDeletedBy($user , $survey);
     }
 
     /**

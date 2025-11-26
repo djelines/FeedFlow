@@ -43,7 +43,6 @@ class SurveyController extends Controller
         StoreSurveyQuestionAction $questionAction,
         GeminiSurveyService $aiService 
     ) {
-
         if($request->user()->cannot('create', Survey::class)){
             return redirect()->back()->with('error', 'Quota des 3 sondages actifs atteint !');
         }
