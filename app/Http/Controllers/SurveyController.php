@@ -31,6 +31,15 @@ use App\Services\GeminiSurveyService;
 class SurveyController extends Controller
 {
     use AuthorizesRequests;
+
+    public function view()
+    {
+        $surveys = auth()->user()->allSurveysFromOrganizations();
+
+        return view('surveys.index', compact('surveys'));
+    }
+
+
     // Display the specified survey
     public function showSurvey($id)
     {
@@ -41,7 +50,7 @@ class SurveyController extends Controller
         StoreSurveyRequest $request,
         StoreSurveyAction $action,
         StoreSurveyQuestionAction $questionAction,
-        GeminiSurveyService $aiService 
+        GeminiSurveyService $aiService
     ) {
         if($request->user()->cannot('create', Survey::class)){
             return redirect()->back()->with('error', 'Quota des 3 sondages actifs atteint !');
@@ -98,22 +107,22 @@ class SurveyController extends Controller
         return redirect()->back()->with('success', 'Question supprimée avec succès !');
     }
     public function updateQuestion(StoreSurveyQuestionRequest $request , UpdateSurveyQuestionAction $action , SurveyQuestion $question): RedirectResponse
-    {   
+    {
         $this->authorize('editQuestion', arguments:  [Survey::find($question->survey_id)]);
         $dto = SurveyQuestionDTO::fromRequest($request);
         $action->execute($dto, $question);
         return redirect()->back()->with('success', 'Question modifiée avec succès !');
     }
 
-    //function to edit a survey  
+    //function to edit a survey
     public function updateSurvey(UpdateSurveyRequest $request , UpdateSurveyAction $action , Survey $survey ){
         $this->authorize('update',arguments:[Survey::find($survey->user_id)]);
         $dto = SurveyDTO::fromRequest($request);
         $action->update($dto, $survey);
         return redirect()->back()->with("success","Sondage modifié avec succès !");
-    }   
+    }
 
-    //function to destroy a survey 
+    //function to destroy a survey
     public function destroySurvey(Request $request, Survey $survey, DeleteSurveyAction $action): RedirectResponse
     {
         //delete survey in database
