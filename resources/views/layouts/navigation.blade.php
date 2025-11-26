@@ -45,71 +45,10 @@
                         </a>
                     </li>
 
-                    {{-- Organisations --}}
-                    <li>
-                        <button
-                            type="button"
-                            data-collapse-toggle="dropdown-organizations"
-                            aria-controls="dropdown-organizations"
-                            class="relative overflow-hidden group flex w-full items-center justify-between px-3 py-2 rounded-lg
-                                   text-text-primary dark:text-text-primary-dark
-                                   transform transition-all duration-150
-                                   hover:scale-[1.02] active:scale-[0.97]
-                                   before:absolute before:inset-0 before:-z-10
-                                   before:bg-primary-noise dark:before:bg-primary-noise-dark
-                                   before:bg-[length:260%_260%] before:bg-center
-                                   before:opacity-0 before:transition-opacity before:duration-200
-                                   hover:before:opacity-100 hover:before:animate-gradient-noise
-                                   hover:text-white dark:hover:text-white"
-                        >
-                            <div class="flex items-center gap-3">
-                                <i class="fa-solid fa-briefcase text-base text-text-secondary dark:text-text-secondary-dark group-hover:text-white"></i>
-                                <span>Organisation</span>
-                            </div>
-
-                            <i class="fa-solid fa-chevron-down text-xs text-text-secondary dark:text-text-secondary-dark group-hover:text-white transition-transform group-data-[collapsed=false]:rotate-180"></i>
-                        </button>
-
-                        {{-- Nested organizations --}}
-                        <ul
-                            id="dropdown-organizations"
-                            class="hidden pt-2 space-y-1 ml-4 pl-2 border-l-[3px] border-bordercolor/70 dark:border-bordercolor-dark/70"
-                        >
-                            <li>
-                                <a
-                                    href="/organizations"
-                                    class="flex items-center px-3 py-1.5 rounded-lg text-xs
-                                           text-text-secondary dark:text-text-secondary-dark
-                                           hover:bg-primary-soft dark:hover:bg-primary-soft-dark
-                                           hover:text-text-primary dark:hover:text-text-primary-dark
-                                           transition"
-                                >
-                                    <span>Voir toutes les organisations</span>
-                                </a>
-                            </li>
-
-                            @foreach($organization as $org)
-                                <li>
-                                    <a
-                                        href="/organizations/view/{{ $org->id }}"
-                                        class="flex items-center px-3 py-1.5 rounded-lg text-xs
-                                               text-text-secondary dark:text-text-secondary-dark
-                                               hover:bg-primary-soft dark:hover:bg-primary-soft-dark
-                                               hover:text-text-primary dark:hover:text-text-primary-dark
-                                               transition"
-                                    >
-                                        <span class="mr-2 h-1.5 w-1.5 rounded-full bg-text-secondary/60 dark:bg-text-secondary-dark/70"></span>
-                                        <span class="truncate">{{ $org->name }}</span>
-                                    </a>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </li>
-
-                    {{-- Notifications --}}
+                    {{-- My organizations (overview link) --}}
                     <li>
                         <a
-                            href="#"
+                            href="/organizations"
                             class="relative overflow-hidden group flex items-center px-3 py-2 rounded-lg
                                    text-text-primary dark:text-text-primary-dark
                                    transform transition-all duration-150
@@ -121,36 +60,78 @@
                                    hover:before:opacity-100 hover:before:animate-gradient-noise
                                    hover:text-white dark:hover:text-white"
                         >
-                            <i class="fa-solid fa-bell text-base text-text-secondary dark:text-text-secondary-dark group-hover:text-white"></i>
-                            <span class="flex-1 ml-3 whitespace-nowrap">Notifications</span>
-                            <span class="inline-flex items-center justify-center px-2 py-0.5 text-xs font-medium rounded-full bg-primary-soft text-primary group-hover:bg-white group-hover:text-primary">
-                                3
-                            </span>
+                            <i class="fa-solid fa-briefcase text-base text-text-secondary dark:text-text-secondary-dark group-hover:text-white"></i>
+                            <span class="ml-3">Mes organisations</span>
                         </a>
                     </li>
 
-                    {{-- Surveys --}}
+                    {{-- Separator --}}
                     <li>
-                        <a
-                            href="{{ url('/survey') }}"
-                            class="relative overflow-hidden group flex items-center px-3 py-2 rounded-lg
-                                   text-text-primary dark:text-text-primary-dark
-                                   transform transition-all duration-150
-                                   hover:scale-[1.02] active:scale-[0.97]
-                                   before:absolute before:inset-0 before:-z-10
-                                   before:bg-primary-noise dark:before:bg-primary-noise-dark
-                                   before:bg-[length:260%_260%] before:bg-center
-                                   before:opacity-0 before:transition-opacity before:duration-200
-                                   hover:before:opacity-100 hover:before:animate-gradient-noise
-                                   hover:text-white dark:hover:text-white"
-                        >
-                            <i class="fa-solid fa-chart-gantt text-base text-text-secondary dark:text-text-secondary-dark group-hover:text-white"></i>
-                            <span class="flex-1 ml-3 whitespace-nowrap">Sondages</span>
-                        </a>
+                        <div class="pt-3 pb-1 px-3 text-[11px] font-semibold uppercase tracking-wide text-text-secondary/70 dark:text-text-secondary-dark/70">
+                            Organisations & sondages
+                        </div>
                     </li>
+
+                    {{-- Each organization with its surveys --}}
+                    @foreach($organization as $org)
+                        <li>
+                            {{-- Organization item (collapsible) --}}
+                            <button
+                                type="button"
+                                data-collapse-toggle="dropdown-org-{{ $org->id }}"
+                                aria-controls="dropdown-org-{{ $org->id }}"
+                                class="relative overflow-hidden group flex w-full items-center justify-between px-3 py-2 rounded-lg
+                                       text-text-primary dark:text-text-primary-dark
+                                       transform transition-all duration-150
+                                       hover:scale-[1.02] active:scale-[0.97]
+                                       before:absolute before:inset-0 before:-z-10
+                                       before:bg-primary-noise dark:before:bg-primary-noise-dark
+                                       before:bg-[length:260%_260%] before:bg-center
+                                       before:opacity-0 before:transition-opacity before:duration-200
+                                       hover:before:opacity-100 hover:before:animate-gradient-noise
+                                       hover:text-white dark:hover:text-white"
+                            >
+                                <div class="flex items-center gap-3">
+                                    <i class="fa-solid fa-building text-base text-text-secondary dark:text-text-secondary-dark group-hover:text-white"></i>
+                                    <span class="truncate">{{ $org->name }}</span>
+                                </div>
+
+                                <i class="fa-solid fa-chevron-down text-xs text-text-secondary dark:text-text-secondary-dark group-hover:text-white transition-transform group-data-[collapsed=false]:rotate-180"></i>
+                            </button>
+
+                            {{-- Nested surveys --}}
+                            <ul
+                                id="dropdown-org-{{ $org->id }}"
+                                class="hidden pt-2 space-y-1 ml-4 pl-2 border-l-[3px] border-bordercolor/70 dark:border-bordercolor-dark/70"
+                            >
+                                @forelse($org->surveys as $survey)
+                                    <li>
+                                        <a
+                                            href="{{ route('survey.show', $survey->id) }}"
+                                            class="flex items-center px-3 py-1.5 rounded-lg text-xs
+                                                   text-text-secondary dark:text-text-secondary-dark
+                                                   hover:bg-primary-soft dark:hover:bg-primary-soft-dark
+                                                   hover:text-text-primary dark:hover:text-text-primary-dark
+                                                   transition"
+                                        >
+                                            <span class="mr-2 h-1.5 w-1.5 rounded-full bg-text-secondary/60 dark:bg-text-secondary-dark/70"></span>
+                                            <span class="truncate">{{ $survey->title }}</span>
+                                        </a>
+                                    </li>
+                                @empty
+                                    <li>
+                                        <div class="px-3 py-1.5 rounded-lg text-[11px] italic text-text-secondary/70 dark:text-text-secondary-dark/70">
+                                            Aucun sondage pour cette organisation.
+                                        </div>
+                                    </li>
+                                @endforelse
+                            </ul>
+                        </li>
+                    @endforeach
 
                 </ul>
             </nav>
+
 
             {{-- User block --}}
             {{-- User block --}}

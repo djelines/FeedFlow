@@ -30,7 +30,7 @@
             </div>
 
             {{-- Body --}}
-            <div class="px-4 py-5 sm:p-6">
+            <div class="px-4 sm:p-6">
                 @if ($errors->any())
                     <div class="mb-4 bg-red-50 dark:bg-red-900/20 border-l-4 border-red-500 p-4 rounded-md">
                         <ul class="text-sm text-red-700 dark:text-red-300 list-disc list-inside">
@@ -39,13 +39,13 @@
                     </div>
                 @endif
 
-                <form method="POST" :action="formAction" class="space-y-5">
+                <form method="POST" :action="formAction" class="">
                     @csrf
                     <input type="hidden" name="_method" :value="formMethod">
                     <input type="hidden" name="survey_id" value="{{ $survey->id }}">
 
                     {{-- Title --}}
-                    <div>
+                    <div class="mb-4">
                         <label class="block text-sm font-medium text-text-primary dark:text-text-primary-dark mb-1">
                             Intitulé de la question
                         </label>
