@@ -20,11 +20,11 @@ class SurveyPolicy
     }
 
     /**
-     * Determine whether the user can view the model.
+     * Determine whether the user can view the surveys.
      */
     public function view(User $user, Survey $survey): bool
     {
-        return false;
+        return $user->isUserInOrganization($survey->organization_id);
     }
 
     /**
@@ -80,8 +80,9 @@ class SurveyPolicy
         if($isFreePlan){
             return $organization->canCreateSurveyLimit();
         }
-
-        return false;
+        else {
+            return true;
+        }
     }
 
     public function createQuestion(User $user, Survey $survey): bool
@@ -100,16 +101,24 @@ class SurveyPolicy
 
     public function createAnswer(User $user, Survey $survey): bool{
         // If the survey is anonymous then return true
-        if($survey->is_anonymous){
-           return true;
+        $organization = Organization::find($survey->organization_id);
+        if($organization->exists()){
+            if($survey->is_anonymous){
+                return true;
+            }
+
+            return $user->isUserInOrganization($organization->id);
         }
-        return true;
+
+        return false;
     }
 
     public function limitCreateAnswer(User $user, Survey $survey): bool{
-        $isFreePlan = $user->isFreePlan();
+
+        $organization = Organization::find($survey->organization_id);
+        $isFreePlan = $organization->isFreePlan();
         if($isFreePlan){
-            return $user->canAnswerSurveyLimit();
+            return $organization->canAnswerSurveyLimit();
         }
 
         return true;

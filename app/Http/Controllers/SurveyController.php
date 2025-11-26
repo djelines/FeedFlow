@@ -46,6 +46,7 @@ class SurveyController extends Controller
     // Display the specified survey
     public function showSurvey($id)
     {
+
         $survey = Survey::find($id);
 
         if (is_null($id) === false) {
@@ -127,7 +128,7 @@ class SurveyController extends Controller
         return redirect()->back()->with('success', 'Question supprimée avec succès !');
     }
     public function updateQuestion(StoreSurveyQuestionRequest $request , UpdateSurveyQuestionAction $action , SurveyQuestion $question): RedirectResponse
-    {   
+    {
         $this->authorize('editQuestion', arguments:  [Survey::find($question->survey_id)]);
         $dto = SurveyQuestionDTO::fromRequest($request);
         $action->execute($dto, $question);
@@ -152,18 +153,11 @@ class SurveyController extends Controller
         return redirect()->back()->with('success', 'Sondage supprimé avec succès !');
     }
 
-    //function to fetch a survey
-    public function index()
-    {
-        //fetch all survey in database
-        $surveys = Survey::all();
-
-        return view('surveys.survey', compact('surveys'));
-    }
-
     // Function to play survey
     public function viewQuestions($id)
     {
+
+        $this->authorize('view');
 
         $survey = Survey::find($id);
         $surveyQuestions = $survey->questions;

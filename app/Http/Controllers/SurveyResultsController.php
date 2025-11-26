@@ -4,11 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Survey;
 use App\Actions\Survey\GetSurveyResultsAction;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class SurveyResultsController extends Controller
 {
+    use AuthorizesRequests;
     public function viewResults(Survey $survey)
     {
+
+        $this->authorize('view');
 
         // All survey questions and answers are loaded at the same time.
         $survey->load('questions.answers');

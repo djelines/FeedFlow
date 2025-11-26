@@ -14,21 +14,19 @@ final class UpdateOrganizationAction
      * @param OrganizationDTO $dto
      * @return array
      */
-    public function handle(OrganizationDTO $dto): array
-    {
-        return DB::transaction(function () use ($dto) {
-        });
-    }
-
     public function execute(OrganizationDTO $dto, Organization $organization) : Organization {
 
-        if($organization){
-            $organization->update([
-                'name'    => $dto->name,
-                'updated_at' => $dto->updated_at,
-            ]);
-        }
+        $attributes = [
+            'name'       => $dto->name,
+            'plan'       => $dto->plan,
+            'updated_at' => $dto->updated_at,
+        ];
 
+        $dataToUpdate = array_filter($attributes, fn($value) => !is_null($value));
+
+        if ($organization->exists && !empty($dataToUpdate)) {
+            $organization->update($dataToUpdate);
+        }
 
         return $organization;
     }
