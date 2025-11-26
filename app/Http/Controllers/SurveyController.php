@@ -62,7 +62,9 @@ class SurveyController extends Controller
         StoreSurveyQuestionAction $questionAction,
         GeminiSurveyService $aiService
     ) {
-
+        if ($request->user()->cannot('create', Survey::class)) {
+            return redirect()->back()->with('error', 'Quota des 3 sondages actifs atteint !');
+        }
         $dto = SurveyDTO::fromRequest($request);
 
         $surveyCheck = new Survey((array) $dto);
@@ -127,7 +129,7 @@ class SurveyController extends Controller
         return redirect()->back()->with('success', 'Question supprimée avec succès !');
     }
     public function updateQuestion(StoreSurveyQuestionRequest $request , UpdateSurveyQuestionAction $action , SurveyQuestion $question): RedirectResponse
-    {   
+    {
         $this->authorize('editQuestion', arguments:  [Survey::find($question->survey_id)]);
         $dto = SurveyQuestionDTO::fromRequest($request);
         $action->execute($dto, $question);
