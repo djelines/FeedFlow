@@ -23,6 +23,7 @@ class User extends Authenticatable
         'first_name',
         'email',
         'password',
+        'plan',
     ];
 
     /**
@@ -70,6 +71,18 @@ class User extends Authenticatable
                 ->wherePivot('role', $role)
                 ->first()
         );
+    }
+
+    public function isFreePlan(){
+        return $this->plan === "free";
+    }
+
+    public function canCreateSurveyLimit(){
+        return $this->hasMany(Survey::class, "user_id")->activeNow()->count() < config('freenium.active_limit');
+    }
+
+    public function canAnswerSurveyLimit(){
+        return $this->hasMany(SurveyAnswer::class , "user_id")->countMonthlyAnswers() < config('freenium.response_limit');
     }
 
     public function hasRoleInOrganizationById(string $role, $organizationId): bool{

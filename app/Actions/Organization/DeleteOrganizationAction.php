@@ -14,9 +14,8 @@ final class DeleteOrganizationAction
      * @param OrganizationDTO $dto
      * @return array
      */
-    public function execute(OrganizationDTO $dto)
+    public function execute(OrganizationDTO $dto, Organization $organization)
     {
-        $organization = Organization::find($dto->id);
 
         if($organization->delete()){
             return "J'ai supprimé";

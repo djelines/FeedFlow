@@ -28,6 +28,10 @@ class StoreSurveyAnswerRequest extends FormRequest
                 $this->merge([
                     'answers' => $decodedAnswers
                 ]);
+
+                if(count($decodedAnswers) > 100 && $this->user()->isFreePlan()){
+
+                }
             }
         }
     }

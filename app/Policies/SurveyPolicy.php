@@ -27,11 +27,16 @@ class SurveyPolicy
     }
 
     /**
-     * Determine whether the user can create models.
+     * Determine whether the user can create a survey.
      */
-    public function create(User $user , Survey $survey): bool
+    public function create(User $user)
     {
-        return false;
+        $isFreePlan = $user->isFreePlan();
+        if($isFreePlan){
+            return $user->canCreateSurveyLimit();
+        }
+
+        return true;
     }
 
     /**
@@ -77,5 +82,25 @@ class SurveyPolicy
     public function editQuestion(User $user, Survey $survey): bool
     {
         return $survey->ifUserisOrganizationOwner($user, $survey);
+    }
+
+
+    public function createAnswer(User $user, Survey $survey): bool{
+
+        // If the survey is anonymous then return true
+        if($survey->is_anonymous){
+           return true;
+        }
+
+        return true;
+    }
+
+    public function limitCreateAnswer(User $user, Survey $survey): bool{
+        $isFreePlan = $user->isFreePlan();
+        if($isFreePlan){
+            return $user->canAnswerSurveyLimit();
+        }
+
+        return true;
     }
 }

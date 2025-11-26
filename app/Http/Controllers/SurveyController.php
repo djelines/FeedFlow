@@ -10,6 +10,7 @@ use App\Http\Requests\Survey\StoreSurveyAnswerRequest;
 use App\Http\Requests\Survey\StoreSurveyRequest;
 use App\Http\Requests\Survey\UpdateSurveyRequest;
 use App\Models\SurveyAnswer;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Models\Survey;
@@ -42,6 +43,10 @@ class SurveyController extends Controller
         StoreSurveyQuestionAction $questionAction,
         GeminiSurveyService $aiService 
     ) {
+
+        if($request->user()->cannot('create', Survey::class)){
+            return redirect()->back()->with('error', 'Quota des 3 sondages actifs atteint !');
+        }
         $dto = SurveyDTO::fromRequest($request);
         $survey = $action->execute($dto);
 
@@ -93,9 +98,9 @@ class SurveyController extends Controller
         $action->execute($dto, $question);
         return redirect()->back()->with('success', 'Question supprimée avec succès !');
     }
-    public function updateQuestion(StoreSurveyQuestionRequest $request, UpdateSurveyQuestionAction $action, SurveyQuestion $question): RedirectResponse
-    {
-        $this->authorize('editQuestion', arguments: [Survey::find($question->survey_id)]);
+    public function updateQuestion(StoreSurveyQuestionRequest $request , UpdateSurveyQuestionAction $action , SurveyQuestion $question): RedirectResponse
+    {   
+        $this->authorize('editQuestion', arguments:  [Survey::find($question->survey_id)]);
         $dto = SurveyQuestionDTO::fromRequest($request);
         $action->execute($dto, $question);
         return redirect()->back()->with('success', 'Question modifiée avec succès !');
@@ -139,14 +144,21 @@ class SurveyController extends Controller
         ]);
     }
 
-    public function storeAnswers(StoreSurveyAnswerRequest $request, StoreSurveyAnswerAction $action)
-    {
+    public function storeAnswers(StoreSurveyAnswerRequest $request, StoreSurveyAnswerAction $action){
+
+        $this->authorize('createAnswer', arguments:  [Survey::find($request->survey_id)]);
+
+        if($request->user()->cannot('limitCreateAnswer', arguments: [Survey::find($request->survey_id)])){
+            return redirect()->back()->with('error', 'Quota des 100 reponses mensuels atteint !');
+        }
 
         $dto = SurveyAnswerDTO::fromRequest($request);
 
         $surveyAnswers = $action->execute($dto);
 
-        return redirect("/dashboard");
+        $organization_id = Survey::find($dto->survey_id)->organization_id;
+
+        return redirect()->route("organizations.view", $organization_id)->with("success", "Vous avez completé le sondage !");
 
     }
 }

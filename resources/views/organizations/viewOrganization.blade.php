@@ -2,11 +2,17 @@
 
     <div class="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8">
 
+        @if (session('error'))
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                <strong class="font-bold">Oups !</strong>
+                <span class="block sm:inline">{{ session('error') }}</span>
+            </div>
+        @endif
 
         <h1 class="text-3xl font-extrabold text-gray-800 mb-8 tracking-tight border-b-2 border-indigo-400 pb-2">
             <i class="fas fa-sitemap mr-3 text-indigo-600"></i>
             {{ $organization->name }}
-            <p class="text-sm text-gray-500 mt-2 pt-2 border-t border-gray-100">Détails de l'Organisation</p>
+            <p class="text-sm font-bold text-gray-500 mt-2 pt-2 border-t border-gray-100">Détails de l'Organisation</p>
 
         </h1>
 

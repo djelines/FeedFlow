@@ -47,13 +47,14 @@ class OrganizationController extends Controller
      * @return RedirectResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function update(UpdateOrganization $request, UpdateOrganizationAction $action){
+    public function update(UpdateOrganization $request, UpdateOrganizationAction $action, Organization $organization): RedirectResponse{
 
-        $this->authorize('update', arguments: Organization::find($request->id));
+        $this->authorize('update', arguments: Organization::find($organization->id));
+
         $dto = OrganizationDTO::fromRequest($request);
 
 
-        $organization = $action->execute($dto);
+        $organization = $action->execute($dto, $organization);
 
         return redirect()->back()->with('success', 'Organisation modifiée avec succès !');
     }
@@ -65,12 +66,12 @@ class OrganizationController extends Controller
      * @return RedirectResponse|\Illuminate\Routing\Redirector
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function delete(DeleteOrganization $request, DeleteOrganizationAction $action){
-        $this->authorize('delete', Organization::find($request->id));
+    public function delete(DeleteOrganization $request, DeleteOrganizationAction $action, Organization $organization){
+        $this->authorize('delete', Organization::find($organization->id));
 
         $dto = OrganizationDTO::fromRequest($request);
 
-        $organization = $action->execute($dto);
+        $organization = $action->execute($dto, $organization);
 
         return redirect()->back()->with('success', 'Organisation supprimée avec succès !');
     }

@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class Survey extends Model
 {
@@ -22,15 +24,15 @@ class Survey extends Model
     // A survey belongs to an organization
     public function organization()
     {
-        return $this->belongsTo(Organization::class);       
+        return $this->belongsTo(Organization::class);
     }
 
     // A survey belongs to a user
     public function user()
     {
-        return $this->belongsTo(User::class);   
+        return $this->belongsTo(User::class);
     }
-    
+
     // A survey has many questions
     public function questions()
     {
@@ -54,5 +56,26 @@ class Survey extends Model
             return true;
         }
         return false;
+    }
+
+    public function isActiveNow(){
+        $now = Carbon::now();
+
+        if(is_null($this->start_date)){
+            return false;
+        }
+
+        return $now->greaterThanOrEqualTo($this->start_date) && (is_null($this->end_date) || $now->lessThanOrEqualTo($this->end_date));
+    }
+
+    public function scopeActiveNow(Builder $query) : Builder{
+        $now = Carbon::now();
+
+        return $query->whereNotNull('start_date')
+            ->where('start_date', '<=', $now)
+            ->where(function (Builder $query) use ($now) {
+                $query->whereNull('end_date')
+                    ->orWhere('end_date', '>=', $now);
+            });
     }
 }

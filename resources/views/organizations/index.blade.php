@@ -45,7 +45,7 @@
                     @can('update', $organization)
 
                     <div class="pt-2 border-b border-gray-100 pb-4 mb-4">
-                        <form method="POST" action="{{ route('organizations.update', $organization->id) }}">
+                        <form method="POST" action="{{ route('organizations.update', $organization) }}">
                             @method('PUT')
                             @csrf
                             <h3 class="text-sm font-semibold mb-2 text-gray-600 flex items-center space-x-1">
