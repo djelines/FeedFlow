@@ -13,13 +13,13 @@ use Illuminate\Queue\SerializesModels;
 class SurveyClosed
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-
+    public string $ownerEmail;
     /**
      * Create a new event instance.
      */
-    public function __construct()
+    public function __construct(String $ownerEmail)
     {
-        //
+        $this->ownerEmail = $ownerEmail;
     }
 
     /**
