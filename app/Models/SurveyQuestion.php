@@ -28,6 +28,11 @@ class SurveyQuestion extends Model
         return $this->belongsTo(Survey::class);
     }
 
+    public function answers()
+    {
+        return $this->hasMany(SurveyAnswer::class, 'survey_question_id');
+    }
+
     // Get the organization ID of the survey this question belongs to
     public function getSurveyOrganizationId()
     {

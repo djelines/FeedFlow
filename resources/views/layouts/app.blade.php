@@ -12,7 +12,7 @@
         <!-- Font Awesome pour les icônes -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" xintegrity="sha512-SnH5WK+bZxgPHs44uWIX+LLMDJ8yS47Xb3f5z/SgW4tV3o3p5K5s00t2J+y4r3w/q/z6/I6/gW0G4tH4Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
 

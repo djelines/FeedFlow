@@ -24,7 +24,7 @@ class Survey extends Model
     // A survey belongs to an organization
     public function organization()
     {
-        return $this->belongsTo(Organization::class);
+        return $this->belongsTo(Organization::class);       
     }
 
     // A survey belongs to a user
@@ -78,4 +78,11 @@ class Survey extends Model
                     ->orWhere('end_date', '>=', $now);
             });
     }
+
+    // A survey has many answer
+    public function answers()
+    {
+        return $this->hasMany(SurveyAnswer::class);
+    }
+
 }
