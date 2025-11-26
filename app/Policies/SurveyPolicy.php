@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Models\Organization;
 use App\Models\Survey;
 use App\Models\User;
 use GuzzleHttp\Psr7\Message;
@@ -29,11 +30,12 @@ class SurveyPolicy
     /**
      * Determine whether the user can create a survey.
      */
-    public function create(User $user)
+    public function create(User $user, Survey $survey): bool
     {
-        $isFreePlan = $user->isFreePlan();
+        $organization = Organization::find($survey->organization_id);
+        $isFreePlan = $organization->isFreePlan();
         if($isFreePlan){
-            return $user->canCreateSurveyLimit();
+            return $organization->canCreateSurveyLimit();
         }
 
         return true;
@@ -68,6 +70,17 @@ class SurveyPolicy
      */
     public function forceDelete(User $user, Survey $survey): bool
     {
+        return false;
+    }
+
+    public function limitCreateSurvey(User $user, Survey $survey): bool
+    {
+        $organization = Organization::find($survey->organization_id);
+        $isFreePlan = $organization->isFreePlan();
+        if($isFreePlan){
+            return $organization->canCreateSurveyLimit();
+        }
+
         return false;
     }
 

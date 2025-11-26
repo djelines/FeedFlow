@@ -1,6 +1,6 @@
 <x-app-layout>
 
-    <div class="p-4 sm:p-6 lg:p-8">
+    <div class="p-8 space-y-10 animate-in fade-in duration-500">
 
         <h1 class="text-3xl font-extrabold text-gray-800 mb-8 tracking-tight border-b-2 border-indigo-400 pb-2">
             Mes Organisations

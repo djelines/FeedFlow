@@ -12,7 +12,7 @@ class Organization extends Model
 
     protected $table    = 'organizations';
     public $timestamps  = true;
-    protected $fillable = [ 'id', 'name', 'user_id', 'created_at', 'updated_at' ];
+    protected $fillable = [ 'id', 'name', 'user_id', 'created_at', 'updated_at', 'plan' ];
     protected $casts = [
     ];
 
@@ -27,9 +27,17 @@ class Organization extends Model
         return $this->hasMany(OrganizationUser::class);
     }
 
-    public function surveys(): HasMany 
+    public function surveys(): HasMany
     {
-        return $this->hasMany(Survey::class); 
+        return $this->hasMany(Survey::class);
+    }
+
+    public function isFreePlan(){
+        return $this->plan === "free";
+    }
+
+    public function canCreateSurveyLimit(){
+        return $this->hasMany(Survey::class, "user_id")->activeNow()->count() < config('freenium.active_limit');
     }
 
 }

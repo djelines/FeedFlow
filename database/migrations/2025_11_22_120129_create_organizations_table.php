@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->unsignedBigInteger('user_id');
+            $table->enum('plan', ['free', 'premium'])->default('free');
             $table->timestamps();
         });
     }

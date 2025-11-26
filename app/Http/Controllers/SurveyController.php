@@ -9,6 +9,7 @@ use App\DTOs\SurveyDTO;
 use App\Http\Requests\Survey\StoreSurveyAnswerRequest;
 use App\Http\Requests\Survey\StoreSurveyRequest;
 use App\Http\Requests\Survey\UpdateSurveyRequest;
+use App\Models\Organization;
 use App\Models\SurveyAnswer;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -52,10 +53,14 @@ class SurveyController extends Controller
         StoreSurveyQuestionAction $questionAction,
         GeminiSurveyService $aiService
     ) {
-        if ($request->user()->cannot('create', Survey::class)) {
+
+        $dto = SurveyDTO::fromRequest($request);
+
+        $surveyCheck = new Survey((array) $dto);
+
+        if ($request->user()->cannot('limitCreateSurvey', $surveyCheck)) {
             return redirect()->back()->with('error', 'Quota des 3 sondages actifs atteint !');
         }
-        $dto = SurveyDTO::fromRequest($request);
         $survey = $action->execute($dto);
 
         if ($request->isAi) {
@@ -120,7 +125,7 @@ class SurveyController extends Controller
         return redirect()->back()->with('success', 'Question modifiée avec succès !');
     }
 
-    //function to edit a survey  
+    //function to edit a survey
     public function updateSurvey(UpdateSurveyRequest $request, UpdateSurveyAction $action, Survey $survey)
     {
         $this->authorize('update', arguments: $survey);
@@ -129,7 +134,7 @@ class SurveyController extends Controller
         return redirect()->back()->with("success", "Sondage modifié avec succès !");
     }
 
-    //function to destroy a survey 
+    //function to destroy a survey
     public function destroySurvey(Request $request, Survey $survey, DeleteSurveyAction $action): RedirectResponse
     {
         //delete survey in database

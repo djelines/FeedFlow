@@ -27,6 +27,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/organizations/{organization}/delete', [OrganizationController::class, 'delete'])->name('organizations.delete');
     Route::get('/organizations/view/{id}', [OrganizationController::class, 'viewOrganization'])->name('organizations.viewOrganization');
     Route::get('/organizations', [OrganizationController::class, 'view'])->name('organizations.view');
+    Route::get('/organizations/plan/{id}', [OrganizationController::class, 'viewOrganizationPlan'])->name('organizations.viewOrganizationPlan');
 
     // Routes for organization members management
     Route::post('/organizations/member/create', [MemberController::class, 'store'])->name('organizations.member.store');
@@ -41,7 +42,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/survey/show/{id}', [SurveyController::class, 'showSurvey'])->name('survey.show');
     Route::get('/survey/add/{id}', [SurveyController::class, 'add'])->name('survey.add');
     Route::get('/survey' , [SurveyController::class ,  'view'])->name('survey.view');
-    Route::post('/survey/create' , [SurveyController::class ,'store'])->name('survey.store');   
+    Route::post('/survey/create' , [SurveyController::class ,'store'])->name('survey.store');
     Route::put('/survey/update/{survey}', [SurveyController::class , 'updateSurvey'])->name('surveys.update');
     Route::delete('/surveys/delete/{survey}', [SurveyController::class, 'destroySurvey'])->name('surveys.destroy');
 
@@ -53,12 +54,12 @@ Route::middleware('auth')->group(function () {
 
 
 Route::get('/survey/{id}', [SurveyController::class, 'viewQuestions'])
-    ->name('survey.public') 
+    ->name('survey.public')
     ->middleware('signed');
 
-    
+
 Route::post('/survey/create/{id}', [SurveyController::class, 'storeAnswers'])
-    ->name('survey.answers.public') 
+    ->name('survey.answers.public')
     ->middleware('signed');
 
 require __DIR__.'/auth.php';
