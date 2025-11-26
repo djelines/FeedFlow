@@ -1,5 +1,6 @@
 <div class="min-h-screen bg-background dark:bg-background-dark text-text-primary dark:text-text-primary-dark">
 
+@if (Auth::check())
     {{-- Sidebar --}}
     <aside
         id="logo-sidebar"
@@ -238,6 +239,7 @@
 
         </div>
     </aside>
+    
 
     {{-- Header --}}
     <header class="sticky top-0 z-30 sm:ml-64 border-b-2 h-16 border-bordercolor dark:border-bordercolor-dark bg-sidebar/90 dark:bg-sidebar-dark/90 backdrop-blur">
@@ -281,6 +283,7 @@
             </div>
         </div>
     </header>
+@endif
 
     {{-- Main content --}}
     <main class="sm:ml-64 px-4 py-6 lg:px-8">

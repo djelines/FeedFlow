@@ -58,7 +58,7 @@
                 </div>
             @endif
 
-        <form method="POST" action="{{ route('survey.store.answers') }}">
+        <form method="POST" action="{{ Auth::check() ? route('survey.store.answers') : $url }}" >
             @csrf
 
             <input type="hidden" name="answers" :value="JSON.stringify(questions)">
@@ -118,8 +118,10 @@
                                        max="10"
                                        step="1"
                                        name="questions[{{ $key }}][]"
+                                       value="5"
+                                       x-init="updateResponse('{{ $key }}', 5)"
+                                       x-on:input="updateResponse('{{ $key }}', $event.target.value)"
                                        x-on:change="updateResponse('{{ $key }}', $event.target.value)">
-
                             @endif
                         </div>
                     </div>

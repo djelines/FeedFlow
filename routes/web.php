@@ -36,7 +36,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/survey/question/create', [SurveyController::class, 'storeQuestion'])->name('survey.question.store');
     Route::delete('/survey/question/delete/{question}', [SurveyController::class, 'destroyQuestion'])->name('survey.question.destroy');
     Route::put('/survey/question/update/{question}', [SurveyController::class, 'updateQuestion'])->name('survey.question.update');
-    Route::get('/survey/questions/{id}' , [SurveyController::class ,  'viewQuestions'])->name('survey.view.questions');
 
     // Routes for survey management
     Route::get('/survey/show/{id}', [SurveyController::class, 'showSurvey'])->name('survey.show');
@@ -47,9 +46,19 @@ Route::middleware('auth')->group(function () {
     Route::delete('/surveys/delete/{survey}', [SurveyController::class, 'destroySurvey'])->name('surveys.destroy');
 
     //Routes for survey answers and results
+    Route::get('/survey/questions/{id}' , action: [SurveyController::class ,  'viewQuestions'])->name('survey.view.questions');
     Route::post('/survey/answers/create' , [SurveyController::class ,'storeAnswers'])->name('survey.store.answers');
     Route::get('/surveys/{survey}/results' , [SurveyResultsController::class , 'viewResults'])->name('survey.view.results');
 });
 
+
+Route::get('/survey/{id}', [SurveyController::class, 'viewQuestions'])
+    ->name('survey.public') 
+    ->middleware('signed');
+
+    
+Route::post('/survey/create/{id}', [SurveyController::class, 'storeAnswers'])
+    ->name('survey.answers.public') 
+    ->middleware('signed');
 
 require __DIR__.'/auth.php';

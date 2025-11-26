@@ -19,6 +19,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->enum('plan', ['free', 'premium'])->default('free');
+            $table->boolean('mail_notifications')->default(true);
             $table->rememberToken();
             $table->timestamps();
         });

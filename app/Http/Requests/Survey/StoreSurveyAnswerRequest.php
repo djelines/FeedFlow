@@ -29,9 +29,9 @@ class StoreSurveyAnswerRequest extends FormRequest
                     'answers' => $decodedAnswers
                 ]);
 
-                if(count($decodedAnswers) > 100 && $this->user()->isFreePlan()){
+                // if(count($decodedAnswers) > 100 && $this->user()->isFreePlan()){
 
-                }
+                // }
             }
         }
     }

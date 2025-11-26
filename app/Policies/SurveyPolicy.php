@@ -73,25 +73,23 @@ class SurveyPolicy
 
     public function createQuestion(User $user, Survey $survey): bool
     {
-        return $survey->ifUserisOrganizationOwner($user, $survey);
+        return $survey->canBeModifiedOrDeletedBy($user, $survey);
     }
     public function deleteQuestion(User $user, Survey $survey): bool
     {
-        return $survey->ifUserisOrganizationOwner($user, $survey);
+        return $survey->canBeModifiedOrDeletedBy($user, $survey);
     }
     public function editQuestion(User $user, Survey $survey): bool
     {
-        return $survey->ifUserisOrganizationOwner($user, $survey);
+        return $survey->canBeModifiedOrDeletedBy($user, $survey);
     }
 
 
     public function createAnswer(User $user, Survey $survey): bool{
-
         // If the survey is anonymous then return true
         if($survey->is_anonymous){
            return true;
         }
-
         return true;
     }
 
