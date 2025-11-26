@@ -33,6 +33,15 @@ use Illuminate\Support\Facades\URL;
 class SurveyController extends Controller
 {
     use AuthorizesRequests;
+
+    public function view()
+    {
+        $surveys = auth()->user()->allSurveysFromOrganizations();
+
+        return view('surveys.index', compact('surveys'));
+    }
+
+
     // Display the specified survey
     public function showSurvey($id)
     {
@@ -112,9 +121,9 @@ class SurveyController extends Controller
         $action->execute($dto, $question);
         return redirect()->back()->with('success', 'Question supprimée avec succès !');
     }
-    public function updateQuestion(StoreSurveyQuestionRequest $request, UpdateSurveyQuestionAction $action, SurveyQuestion $question): RedirectResponse
-    {
-        $this->authorize('editQuestion', arguments: [Survey::find($question->survey_id)]);
+    public function updateQuestion(StoreSurveyQuestionRequest $request , UpdateSurveyQuestionAction $action , SurveyQuestion $question): RedirectResponse
+    {   
+        $this->authorize('editQuestion', arguments:  [Survey::find($question->survey_id)]);
         $dto = SurveyQuestionDTO::fromRequest($request);
         $action->execute($dto, $question);
         return redirect()->back()->with('success', 'Question modifiée avec succès !');
@@ -129,7 +138,7 @@ class SurveyController extends Controller
         return redirect()->back()->with("success", "Sondage modifié avec succès !");
     }
 
-    //function to destroy a survey 
+    //function to destroy a survey
     public function destroySurvey(Request $request, Survey $survey, DeleteSurveyAction $action): RedirectResponse
     {
         //delete survey in database

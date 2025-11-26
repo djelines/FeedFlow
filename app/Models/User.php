@@ -107,6 +107,15 @@ class User extends Authenticatable
         return $this->hasMany(Survey::class);
     }
 
+    public function allSurveysFromOrganizations()
+    {
+        return Survey::whereIn(
+            'organization_id',
+            $this->organizations()->pluck('organizations.id')
+        )->get();
+    }
+
+
     // Get the user's full name
     public function getFullName(): string
     {
