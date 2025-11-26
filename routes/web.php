@@ -47,10 +47,11 @@ Route::middleware('auth')->group(function () {
     Route::put('/survey/update/{survey}', [SurveyController::class , 'updateSurvey'])->name('surveys.update');
     Route::delete('/surveys/delete/{survey}', [SurveyController::class, 'destroySurvey'])->name('surveys.destroy');
 
-    //Routes for survey answers and results
+    //Routes for survey answers and results / pdf
     Route::get('/survey/questions/{id}' , action: [SurveyController::class ,  'viewQuestions'])->name('survey.view.questions');
     Route::post('/survey/answers/create' , [SurveyController::class ,'storeAnswers'])->name('survey.store.answers');
     Route::get('/surveys/{survey}/results' , [SurveyResultsController::class , 'viewResults'])->name('survey.view.results');
+    Route::get('/surveys/{survey}/results/pdf' , [SurveyResultsController::class , 'downloadPdf'])->name('survey.answer.resultPdf');
 });
 
 

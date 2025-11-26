@@ -7,6 +7,12 @@
 
     <div class="py-6 max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-4">
 
+        <a href="{{ route('survey.answer.resultPdf', $survey) }}"
+           class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">
+            Télécharger en PDF
+        </a>
+
+
         @foreach ($survey->questions as $question)
             <button
                 onclick="openModal('modal_{{ $question->id }}')"
