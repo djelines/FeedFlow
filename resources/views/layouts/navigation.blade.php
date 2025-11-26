@@ -1,4 +1,5 @@
-<div class="min-h-screen bg-background dark:bg-background-dark text-text-primary dark:text-text-primary-dark">
+<div class="min-h-screen bg-background dark:bg-background-dark text-text-primary dark:text-text-primary-dark transition-colors duration-300">
+
 
 @if (Auth::check())
     {{-- Sidebar --}}
@@ -128,12 +129,81 @@
                             </ul>
                         </li>
                     @endforeach
-
+                    {{-- All surveys --}}
+                    <li>
+                        <a
+                            href="{{ url('/survey') }}"
+                            class="relative overflow-hidden group flex items-center px-3 py-2 rounded-lg
+                                   text-text-primary dark:text-text-primary-dark
+                                   transform transition-all duration-150
+                                   hover:scale-[1.02] active:scale-[0.97]
+                                   before:absolute before:inset-0 before:-z-10
+                                   before:bg-primary-noise dark:before:bg-primary-noise-dark
+                                   before:bg-[length:260%_260%] before:bg-center
+                                   before:opacity-0 before:transition-opacity before:duration-200
+                                   hover:before:opacity-100 hover:before:animate-gradient-noise
+                                   hover:text-white dark:hover:text-white"
+                        >
+                            <i class="fa-solid fa-list-check text-base text-text-secondary dark:text-text-secondary-dark group-hover:text-white"></i>
+                            <span class="ml-3">Tous mes sondages</span>
+                        </a>
+                    </li>
                 </ul>
             </nav>
 
+            {{-- Theme toggle --}}
+            <div class="px-3 pb-3 border-t-[2px] border-bordercolor/60 dark:border-bordercolor-dark/60">
+                <button
+                    type="button"
+                    onclick="(function(){
+                        const html = document.documentElement;
+                        const isDark = html.classList.contains('dark');
 
-            {{-- User block --}}
+                        if (isDark) {
+                            html.classList.remove('dark');
+                            html.classList.add('white');
+                            localStorage.setItem('theme', 'light');
+                        } else {
+                            html.classList.add('dark');
+                            html.classList.remove('white');
+                            localStorage.setItem('theme', 'dark');
+                        }
+                    })()"
+                    class="relative overflow-hidden w-full flex items-center justify-between px-3 py-2 mt-3 rounded-xl
+                           bg-surface dark:bg-surface-dark
+                           text-xs font-medium text-text-secondary dark:text-text-secondary-dark
+                           hover:bg-primary-soft/70 dark:hover:bg-primary-soft-dark/70
+                           hover:text-text-primary dark:hover:text-text-primary-dark
+                           transition-all duration-150"
+                >
+                    <div class="flex items-center gap-2">
+                        {{-- Icons change with theme --}}
+                        <i class="fa-solid fa-sun text-sm text-accent dark:hidden w-5"></i>
+                        <i class="fa-solid fa-moon text-sm text-indigo-300 hidden dark:inline-block w-5"></i>
+
+                        <span class="truncate">
+                            <span class="inline dark:hidden">Passer en mode sombre</span>
+                            <span class="hidden dark:inline">Passer en mode clair</span>
+                        </span>
+                    </div>
+
+                    {{-- Toggle pill + knob --}}
+                    <span class="flex items-center">
+                        <span class="w-9 h-5 flex items-center rounded-full bg-bordercolor/90 dark:bg-bordercolor-dark/90 px-0.5">
+                            <span
+                                class="w-4 h-4 rounded-full
+                                       bg-accent dark:bg-indigo-300
+                                       border border-white/70 dark:border-white/60
+                                       shadow-md
+                                       transform transition-transform duration-200 translate-x-0 dark:translate-x-4"
+                            ></span>
+                        </span>
+                    </span>
+                </button>
+            </div>
+
+
+
             {{-- User block --}}
             <div class="px-3 py-4 border-t-[2px] border-bordercolor/70 dark:border-bordercolor-dark/70">
                 <button

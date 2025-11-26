@@ -7,7 +7,7 @@
             class="text-3xl font-bold text-text-primary dark:text-text-primary-dark tracking-tight
                    border-b-2 border-bordercolor dark:border-bordercolor-dark pb-3"
         >
-            Mes Organisations
+            Mes Organisations :
         </h1>
 
         {{-- Create new organization --}}
@@ -43,7 +43,8 @@
                                hover:border-accent dark:hover:border-accent-dark
                                focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary
                                focus:-translate-y-[1px] focus:shadow-md
-                               placeholder:text-white/40"
+                               placeholder:text-black/40
+                               dark:placeholder:text-white/40"
                     >
                 </div>
 
