@@ -16,49 +16,40 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+    // Route for profile management
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
 
-Route::middleware('auth')->group(function () {
+    // Routes for organization management
     Route::post('/organizations/create', [OrganizationController::class, 'store'])->name('organizations.store');
     Route::put('/organizations/{organization}/update', [OrganizationController::class, 'update'])->name('organizations.update');
     Route::delete('/organizations/{organization}/delete', [OrganizationController::class, 'delete'])->name('organizations.delete');
-    Route::get('/organizations', [OrganizationController::class, 'view'])->name('organizations.view');
     Route::get('/organizations/view/{id}', [OrganizationController::class, 'viewOrganization'])->name('organizations.viewOrganization');
+    Route::get('/organizations', [OrganizationController::class, 'view'])->name('organizations.view');
 
+    // Routes for organization members management
     Route::post('/organizations/member/create', [MemberController::class, 'store'])->name('organizations.member.store');
     Route::delete('/organizations/member/{organization_member}/delete', [MemberController::class, 'delete'])->name('organizations.member.delete');
 
-
-    Route::get('/organizations/{id}', [OrganizationController::class, 'view'])->name('organizations.view');
-
-
-    //Route for add question and Survey
-    Route::get('/survey/show/{id}', [SurveyController::class, 'showSurvey'])->name('survey.show');
-    Route::get('/survey/add/{id}', [SurveyController::class, 'add'])->name('survey.add');
+    // Routes for survey question management
     Route::post('/survey/question/create', [SurveyController::class, 'storeQuestion'])->name('survey.question.store');
     Route::delete('/survey/question/delete/{question}', [SurveyController::class, 'destroyQuestion'])->name('survey.question.destroy');
     Route::put('/survey/question/update/{question}', [SurveyController::class, 'updateQuestion'])->name('survey.question.update');
-});
+    Route::get('/survey/questions/{id}' , [SurveyController::class ,  'viewQuestions'])->name('survey.view.questions');
 
-Route::middleware('auth')->group(function(){
+    // Routes for survey management
+    Route::get('/survey/show/{id}', [SurveyController::class, 'showSurvey'])->name('survey.show');
+    Route::get('/survey/add/{id}', [SurveyController::class, 'add'])->name('survey.add');
     Route::get('/survey' , [SurveyController::class ,  'view'])->name('survey.view');
     Route::post('/survey/create' , [SurveyController::class ,'store'])->name('survey.store');   
-    Route::delete('/surveys/delete/{survey}', [SurveyController::class, 'destroySurvey'])->name('surveys.destroy');
     Route::put('/survey/update/{survey}', [SurveyController::class , 'updateSurvey'])->name('surveys.update');
+    Route::delete('/surveys/delete/{survey}', [SurveyController::class, 'destroySurvey'])->name('surveys.destroy');
 
-
-});
-
-Route::middleware('auth')->group(function(){
-    Route::get('/survey/questions/{id}' , [SurveyController::class ,  'viewQuestions'])->name('survey.view.questions')
-    ->middleware('cache.headers:private,no_cache,no_store,must_revalidate,max_age=0');
+    //Routes for survey answers and results
     Route::post('/survey/answers/create' , [SurveyController::class ,'storeAnswers'])->name('survey.store.answers');
-    Route::delete('/surveys/{survey}', [SurveyController::class, 'destroySurvey'])->name('surveys.destroy');
-
     Route::get('/surveys/{survey}/results' , [SurveyResultsController::class , 'viewResults'])->name('survey.view.results');
 });
+
 
 require __DIR__.'/auth.php';
