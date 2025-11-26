@@ -1,6 +1,35 @@
 <x-app-layout>
 
-    <div class="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8">
+    <div class="p-8 space-y-10 animate-in fade-in duration-500">
+
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-slate-200 pb-8">
+            <div class="flex-1">
+                <div class="flex items-center gap-3 text-sm font-bold text-slate-500 mb-2 uppercase tracking-wider">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-briefcase-icon lucide-briefcase"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/></svg>
+                    <span class="text-xs">Aperçu de l'espace de travail</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right-icon lucide-chevron-right"><path d="m9 18 6-6-6-6"/></svg>
+
+                    <a
+                        href="/organizations/plan/{{$organization->id}}"
+                        class="text-[10px] flex items-center gap-1.5 px-2 py-0.5
+                    rounded border transition-all hover:scale-105 active:scale-95 cursor-pointer
+                    {{ $organization->plan === "free" ? "bg-slate-100 text-slate-600 border-slate-200 hover:bg-slate-200" :
+                        "bg-gradient-to-r from-indigo-600 to-purple-600 text-white border-transparent shadow-sm"}}">
+                        @if ($organization->plan === "free")
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-zap-icon lucide-zap">
+                                <path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/>
+                            </svg>
+                            GRATUIT
+                            <span class="opacity-70 border-1 border-white/20 pl-1.5 ml-0.5">Mettre à niveau</span>
+                        @else
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-crown-icon lucide-crown"><path d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z"/><path d="M5 21h14"/></svg>
+                            PREMIUM
+                            <span class="opacity-70 border-1 border-white/20 pl-1.5 ml-0.5">Gérer</span>
+                        @endif
+                    </a>
+                </div>
+            </div>
+        </div>
 
         @if (session('error'))
             <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">

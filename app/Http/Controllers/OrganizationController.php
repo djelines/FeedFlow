@@ -102,4 +102,11 @@ class OrganizationController extends Controller
         ));
     }
 
+    public function viewOrganizationPlan($id){
+        $organization = Organization::find($id);
+
+
+        return  view('organizations.viewOrganizationPlan', compact('organization'));
+    }
+
 }

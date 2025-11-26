@@ -24,7 +24,7 @@ class Survey extends Model
     // A survey belongs to an organization
     public function organization()
     {
-        return $this->belongsTo(Organization::class);       
+        return $this->belongsTo(Organization::class);
     }
 
     // A survey belongs to a user
@@ -50,7 +50,7 @@ class Survey extends Model
 
     // Check if the user is the owner or admin for modified/delete
     public function canBeModifiedOrDeletedBy(User $user , Survey $survey)
-    {   
+    {
         if ($user->hasRoleInOrganizationById("admin",$survey->organization_id) || $survey->user_id === $user -> id) {
             return true;
         }
@@ -68,14 +68,8 @@ class Survey extends Model
     }
 
     public function scopeActiveNow(Builder $query) : Builder{
-        $now = Carbon::now();
 
-        return $query->whereNotNull('start_date')
-            ->where('start_date', '<=', $now)
-            ->where(function (Builder $query) use ($now) {
-                $query->whereNull('end_date')
-                    ->orWhere('end_date', '>=', $now);
-            });
+        return $query->where('is_closed', false);
     }
 
     // A survey has many answer
