@@ -16,7 +16,7 @@
             </button>
 
             <div id="modal_{{ $question->id }}" class="fixed inset-0 bg-black bg-opacity-40 hidden items-center justify-center z-50">
-                <div class="bg-indigo-50 rounded-2xl w-80 md:w-96 h-[700px] p-4 relative shadow-md border-2 border-stone-300 flex flex-col">
+                <div class="bg-indigo-50 rounded-2xl w-96 h-[700px] p-4 relative shadow-md border-2 border-stone-300 flex flex-col">
 
                     <button onclick="closeModal('modal_{{ $question->id }}')" class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 text-sm">
                         ✕
@@ -25,7 +25,7 @@
                     <h3 class="text-lg font-semibold mb-4 text-gray-800">{{ $question->title }}</h3>
 
                     @php
-                        // Les variables PHP sont nécessaires ici pour l'affichage des labels HTML (légende)
+                        // PHP variables are required here for displaying HTML labels (captions).
                         $allAnswers = [];
                         foreach($question->answers as $a){
                             $decoded = json_decode($a->answer, true);
@@ -78,7 +78,7 @@
         @endforeach
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 
     <script>
         const colorPalette = [
@@ -97,7 +97,7 @@
 
         @foreach ($survey->questions as $question)
         @php
-            // CALCUL DÉPLACÉ ET RÉPÉTÉ ICI POUR ÊTRE UTILISÉ CORRECTEMENT DANS LE JS
+            // Calculation here to be use in js
             $allAnswers = [];
             foreach($question->answers as $a){
                 $decoded = json_decode($a->answer, true);
@@ -113,7 +113,7 @@
             $values = array_values($countAnswers);
         @endphp
 
-        // Les variables JS sont maintenant injectées avec les stats spécifiques à $question
+        // The JS variables are now injected with the stats specific to $question.
         const labels_{{ $question->id }} = {!! json_encode($labels) !!};
         const data_{{ $question->id }} = {!! json_encode($values) !!};
         const colors_{{ $question->id }} = labels_{{ $question->id }}.map((_,i)=>colorPalette[i % colorPalette.length]);
