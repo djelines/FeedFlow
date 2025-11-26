@@ -23,6 +23,6 @@ class SendNewAnswerNotification implements ShouldQueue
      */
     public function handle(SurveyAnswerSubmitted $event): void
     {
-         Mail::to($event->ownerEmail)->send(new NewAnswerNotification($event->survey));
+         Mail::to($event->ownerEmail)->send(new NewAnswerNotification($event->survey, $event->userName));
     }
 }

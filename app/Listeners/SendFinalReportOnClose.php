@@ -24,6 +24,6 @@ class SendFinalReportOnClose
      */
     public function handle(SurveyClosed $event): void
     {
-        Mail::to($event->ownerEmail)->send(new FinalReportOnClose());
+        Mail::to($event->ownerEmail)->send(new FinalReportOnClose($event->survey, $event->surveyAnswersCount, $event->userName));
     }
 }

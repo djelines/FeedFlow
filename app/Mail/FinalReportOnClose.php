@@ -10,14 +10,20 @@ use Illuminate\Queue\SerializesModels;
 class FinalReportOnClose extends Mailable
 {
     use Queueable, SerializesModels;
+    public Survey $survey;
+    public int $surveyAnswersCount;
+    public string $userName;
 
-    public function __construct()
+    public function __construct(Survey $survey, int $surveyAnswersCount, string $userName)
     {
+        $this->survey = $survey;
+        $this->surveyAnswersCount = $surveyAnswersCount;
+        $this->userName = $userName;
     }
     public function build(): self
     {
         return $this
-            ->subject('Voici le report de vos sondages quotidiens')
+            ->subject('Votre rapport final pour le sondage : ' . $this->survey->title)
             ->view('emails.finalReportTemplate');
     }
 }

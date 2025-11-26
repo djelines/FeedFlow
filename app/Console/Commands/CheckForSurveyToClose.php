@@ -28,18 +28,22 @@ class CheckForSurveyToClose extends Command
     public function handle()
     {
         $allSuveys = Survey::where('is_closed', false)->get();
-        $this->info('Checking ' . $allSuveys->count() . ' open surveys at ' . now()->toDateTimeString());
 
         foreach ($allSuveys as $survey) {
             $closingDate = $survey->end_date;
             if ($closingDate <= now()) {
-                $survey->is_closed = true;
-                $survey->save();
+                try {
+                    $survey->is_closed = true;
+                    $survey->save();
+                    $ownerEmail = User::find($survey->user_id)->email;
+                    $userName = User::find($survey->user_id)->last_name . " " . User::find($survey->user_id)->first_name;
+                    $surveyAnswerCount = $survey->answers()->count();
 
-                $ownerEmail = User::find($survey->user_id)->email;;
-                
-                event(new SurveyClosed($ownerEmail));
 
+                    event(new SurveyClosed($survey,$ownerEmail, $surveyAnswerCount, $userName));
+                } catch (\Exception $e) {
+                    $this->error('Failed to close survey ID ' . $survey->id . ': ' . $e->getMessage());
+                }
             }
         }
     }

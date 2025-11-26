@@ -45,9 +45,11 @@ final class StoreSurveyAnswerAction
 
              
              $OwnerEmail = User::find($survey->user_id)->email;
+             $userName = User::find($survey->user_id)->last_name . " " . User::find($survey->user_id)->first_name;
+        
 
              try {
-                 event(new SurveyAnswerSubmitted($survey , $OwnerEmail));
+                 event(new SurveyAnswerSubmitted($survey , $OwnerEmail,$userName));
              } catch (\Exception $e) {
                  \Log::error('Failed to dispatch SurveyAnswerSubmitted event: ' . $e->getMessage());
              }

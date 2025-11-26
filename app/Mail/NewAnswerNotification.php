@@ -12,18 +12,17 @@ class NewAnswerNotification extends Mailable
     use Queueable, SerializesModels;
 
     public Survey $survey;
+    public string $userName;
 
-    public function __construct(Survey $survey)
+    public function __construct(Survey $survey, String $userName)
     {
         $this->survey = $survey;
+        $this->userName = $userName;
     }
     public function build(): self
     {
         return $this
-            ->subject('Hello bb i love you talk with me I have big boobs')
-            ->view('emails.newAnswerTemplate')
-            ->with([
-                'survey' => $this->survey,
-            ]);
+            ->subject('Nouvelle réponse à votre sondage : ' . $this->survey->title)
+            ->view('emails.newAnswerTemplate');
     }
 }
