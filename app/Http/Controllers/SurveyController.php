@@ -79,6 +79,7 @@ class SurveyController extends Controller
     //function to destroy a survey 
     public function destroySurvey(Request $request, Survey $survey, DeleteSurveyAction $action): RedirectResponse{
         //delete survey in database
+        $this->authorize('delete',arguments:[Survey::find($survey->user_id)]);
         $deleteSurvey = $action -> delete($survey);
         return redirect()->back()->with('success', 'Sondage supprimé avec succès !');
     }
