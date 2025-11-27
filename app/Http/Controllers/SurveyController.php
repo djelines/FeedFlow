@@ -168,7 +168,7 @@ class SurveyController extends Controller
     // Function to play survey
     public function viewQuestions($id)
     {
-        $this->authorize('view', Survey::findByHashOrFail($id));
+        $this->authorize('viewSurvey', Survey::findByHashOrFail($id));
         $survey = Survey::findByHashOrFail($id);
         $surveyQuestions = $survey->questions;
         return view('surveys.answer.survey', [
@@ -181,9 +181,7 @@ class SurveyController extends Controller
     {
         $survey = Survey::findByHashOrFail($id);
         $this->authorize( 'viewAnonymous',   $survey);
-
         $surveyQuestions = $survey->questions;
-
         if (is_null($id) === false) {
             $url = URL::signedRoute(
                 'survey.answers.public',
@@ -200,7 +198,7 @@ class SurveyController extends Controller
     public function storeAnswers(StoreSurveyAnswerRequest $request, StoreSurveyAnswerAction $action)
     {
         $survey = Survey::find($request->survey_id);
-        $this->authorize(ability: 'view', arguments: [$survey]);
+        $this->authorize(ability: 'viewSurvey', arguments: [$survey]);
 
         if ($request->user()->cannot('limitCreateAnswer', arguments: [$survey])) {
             return redirect()->back()->with('error', 'Quota des 100 reponses mensuels atteint !');
@@ -217,14 +215,10 @@ class SurveyController extends Controller
     public function storeAnswersAnonymous(StoreSurveyAnswerRequest $request, StoreSurveyAnswerAction $action)
     {
         $survey = Survey::find($request->survey_id);
-        $this->authorize('viewAnonymous', $survey);
-
+        $this->authorize('viewAnonymous',   $survey);
         $this->authorize('limitCreateAnswer', $survey);
-
         $dto = SurveyAnswerDTO::fromRequest($request);
-
         $surveyAnswers = $action->execute($dto);
-
         $organization_id = Survey::find($dto->survey_id)->organization_id;
 
         return redirect()->route("organizations.view", $organization_id)->with("success", "Vous avez completé le sondage !");

@@ -25,7 +25,11 @@ class SurveyPolicy
      */
     public function view(User $user, Survey $survey): bool
     {
-        return $user->isUserInOrganization($survey->organization_id) && $survey->isClosed($survey);
+        return $user->isUserInOrganization($survey->organization_id);
+    }
+    public function viewSurvey(User $user, Survey $survey): bool
+    {
+        return $user->isUserInOrganization($survey->organization_id)&& $survey->isClosed($survey);
     }
 
     public function viewAnonymous(?User $user, Survey $survey): bool

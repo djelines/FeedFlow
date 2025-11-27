@@ -56,7 +56,7 @@ class Organization extends Model
     }
 
     public function canCreateSurveyLimit(){
-        return $this->hasMany(Survey::class, "user_id")->activeNow()->count() < config('freenium.active_limit');
+        return $this->hasMany(Survey::class, "organization_id")->where("is_closed", false)->count() < config('freenium.active_limit');
     }
 
     //check if the user can create a surver in a organization

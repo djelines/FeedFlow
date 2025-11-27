@@ -61,9 +61,6 @@ Route::middleware('auth')->group(function () {
 
 
 
-
-
-
     Route::get('/survey/add/{id}', [SurveyController::class, 'add'])->name('survey.add');
 
 });
