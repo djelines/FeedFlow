@@ -273,4 +273,9 @@
         </div>
 
     </div>
+
+    {{-- Include modals !--}}
+    @include('components.member.modal-form-member', ['organization' => $organization])
+    @include('components.survey.modal-form-survey', ['organization' => $organization])
+
 </x-app-layout>
