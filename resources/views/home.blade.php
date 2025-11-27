@@ -4,7 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>Sonde Urinaire</title>
+    <link rel="icon" href="logo.png" />
 
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
@@ -19,14 +20,36 @@
             @auth
                 <a
                     href="{{ url('/dashboard') }}"
-                    class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal transition-colors"
+                    class="relative overflow-hidden inline-flex items-center justify-center px-5 py-1.5 text-sm font-medium
+                           rounded-md text-text-primary dark:text-[#EDEDEC]
+                           border border-[#19140035] dark:border-[#3E3E3A]
+                           hover:text-text-primary-dark
+                           transition-all duration-150
+                           hover:-translate-y-[1px]
+                           before:absolute before:inset-0 before:-z-10
+                           before:bg-primary-noise dark:before:bg-primary-noise-dark
+                           before:bg-[length:260%_260%] before:bg-center
+                           before:opacity-0 before:transition-opacity before:duration-200
+                           hover:before:opacity-100 hover:before:animate-gradient-noise
+                           focus:outline-none focus:ring-2 focus:ring-primary"
                 >
                     Dashboard
                 </a>
             @else
                 <a
                     href="{{ route('login') }}"
-                    class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal transition-colors"
+                    class="relative overflow-hidden inline-flex items-center justify-center px-5 py-1.5 text-sm font-medium
+                           rounded-md text-text-primary dark:text-[#EDEDEC]
+                           border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A]
+                           hover:text-text-primary-dark
+                           transition-all duration-150
+                           hover:-translate-y-[1px]
+                           before:absolute before:inset-0 before:-z-10
+                           before:bg-primary-noise dark:before:bg-primary-noise-dark
+                           before:bg-[length:260%_260%] before:bg-center
+                           before:opacity-0 before:transition-opacity before:duration-200
+                           hover:before:opacity-100 hover:before:animate-gradient-noise
+                           focus:outline-none focus:ring-2 focus:ring-primary"
                 >
                     Log in
                 </a>
@@ -34,7 +57,19 @@
                 @if (Route::has('register'))
                     <a
                         href="{{ route('register') }}"
-                        class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal transition-colors">
+                        class="relative overflow-hidden inline-flex items-center justify-center px-5 py-1.5 text-sm font-medium
+                               rounded-md text-white shadow-md
+                               border border-transparent
+                               bg-gradient-to-r from-primary to-accent dark:from-primary-dark dark:to-accent-dark
+                               transition-all duration-150
+                               hover:-translate-y-[1px]
+                               before:absolute before:inset-0 before:-z-10
+                               before:bg-primary-noise dark:before:bg-primary-noise-dark
+                               before:bg-[length:260%_260%] before:bg-center
+                               before:opacity-0 before:transition-opacity before:duration-200
+                               hover:before:opacity-100 hover:before:animate-gradient-noise
+                               focus:outline-none focus:ring-2 focus:ring-primary"
+                    >
                         Register
                     </a>
                 @endif

@@ -14,9 +14,9 @@
 
             {{-- Brand --}}
             <div class="flex items-center h-16 px-4 border-b-[2px] border-bordercolor/70 dark:border-bordercolor-dark/70">
-                <span class="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-primary-soft dark:bg-primary-soft-dark text-primary dark:text-primary-dark font-semibold">
-                    S
-                </span>
+                <a href="/">
+                    <img src="logo.png" class="w-12">
+                </a>
                 <span class="ml-3 text-base font-semibold tracking-tight">
                     Sonde Urinaire
                 </span>
@@ -318,9 +318,9 @@
 
                     {{-- Mobile brand --}}
                     <div class="flex items-center gap-2">
-                    <span class="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-primary-soft dark:bg-primary-soft-dark text-primary dark:text-primary-dark font-semibold">
-                        S
-                    </span>
+                        <a href="/">
+                            <img src="logo.png" class="w-12">
+                        </a>
                         <span class="text-base font-semibold tracking-tight">
                         Sonde Urinaire
                     </span>
