@@ -51,59 +51,35 @@
             @endif
         </div>
 
-        {{-- Forms section: add member and survey form side by side --}}
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {{-- Members list card --}}
+        <div class="bg-surface dark:bg-surface-dark shadow-sm border border-bordercolor dark:border-bordercolor-dark rounded-xl p-6">
 
-            @can('createMember', $organization)
-                {{-- Add member card --}}
-                <div
-                    class="bg-surface dark:bg-surface-dark shadow-sm border border-bordercolor dark:border-bordercolor-dark rounded-xl p-6">
-                    <h2 class="text-2xl font-semibold text-text-primary dark:text-text-primary-dark mb-4 flex items-center">
-                        <i class="fas fa-user-plus mr-3 text-emerald-500"></i>
-                        Ajouter un membre
-                    </h2>
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-2xl font-semibold text-text-primary dark:text-text-primary-dark flex items-center">
+                    <i class="fas fa-users mr-3 text-primary"></i>
+                    Liste des membres
+                </h2>
 
+                @can('createMember', $organization)
                     <button
                         data-modal-target="add-member-modal"
                         data-modal-toggle="add-member-modal"
-                        class="px-4 py-2 bg-primary text-white rounded-lg shadow hover:brightness-110 transition"
+                        class="relative overflow-hidden inline-flex items-center justify-center px-4 py-2.5 text-sm font-medium
+                               rounded-lg text-white shadow-md transition-transform duration-150
+                               bg-gradient-to-r from-primary to-accent dark:from-primary-dark dark:to-accent-dark
+                               hover:-translate-y-[1px]
+                               before:absolute before:inset-0 before:-z-10
+                               before:bg-primary-noise dark:before:bg-primary-noise-dark
+                               before:bg-[length:260%_260%] before:bg-center
+                               before:opacity-0 before:transition-opacity before:duration-200
+                               hover:before:opacity-100 hover:before:animate-gradient-noise
+                               focus:outline-none focus:ring-2 focus:ring-primary"
                     >
-                        Ajouter un membre
+                        <i class="fas fa-user-plus text-xs mr-2"></i>
+                        <span>Ajouter un membre</span>
                     </button>
-                    @include('components.member.modal-form-member', ['organization' => $organization])
-                </div>
-            @endcan
-
-            {{-- Survey creation (button + modal include) --}}
-            <div
-                class="bg-surface dark:bg-surface-dark shadow-sm border border-bordercolor dark:border-bordercolor-dark rounded-xl p-6">
-                {{-- Simple title for the survey creation area --}}
-                <h2 class="text-2xl font-semibold text-text-primary dark:text-text-primary-dark mb-4 flex items-center">
-                    <i class="fa-solid fa-clipboard-list mr-3 text-primary"></i>
-                    Créer un sondage
-                </h2>
-
-                {{-- Include survey modal trigger + modal itself --}}
-                <div class="text-sm text-text-secondary dark:text-text-secondary-dark">
-                    {{-- Survey creation modal + trigger (component) --}}
-                    <button data-modal-target="create-survey-modal" data-modal-toggle="create-survey-modal"
-                        class="px-4 py-2 bg-primary text-white rounded-lg shadow hover:brightness-110 transition">
-                        Créer un sondage
-                    </button>
-
-                    @include('components.survey.modal-form-survey', ['organization' => $organization])
-                </div>
+                @endcan
             </div>
-
-        </div>
-
-        {{-- Members list card --}}
-        <div
-            class="bg-surface dark:bg-surface-dark shadow-sm border border-bordercolor dark:border-bordercolor-dark rounded-xl p-6">
-            <h2 class="text-2xl font-semibold text-text-primary dark:text-text-primary-dark mb-4 flex items-center">
-                <i class="fas fa-users mr-3 text-primary"></i>
-                Liste des membres
-            </h2>
 
             <div
                 class="overflow-x-auto rounded-lg border border-bordercolor/80 dark:border-bordercolor-dark/80 bg-background dark:bg-background-dark">
@@ -180,17 +156,39 @@
 
         {{-- Organization surveys list --}}
         <div class="space-y-4">
-            <div class="flex items-center justify-between">
+            <div class="flex items-center justify-between gap-3">
                 <h2 class="text-2xl font-semibold text-text-primary dark:text-text-primary-dark">
                     Sondages de l'Organisation
                 </h2>
-                @if($surveys->count() > 0)
-                    <span
-                        class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200">
-                        {{ $surveys->count() }} sondages
-                    </span>
-                @endif
+
+                <div class="flex items-center gap-3">
+                    @if($surveys->count() > 0)
+                        <span
+                            class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200">
+                            {{ $surveys->count() }} sondages
+                        </span>
+                    @endif
+
+                    <button
+                        data-modal-target="create-survey-modal"
+                        data-modal-toggle="create-survey-modal"
+                        class="relative overflow-hidden inline-flex items-center justify-center px-4 py-2.5 text-sm font-medium
+                               rounded-lg text-white shadow-md transition-transform duration-150
+                               bg-gradient-to-r from-primary to-accent dark:from-primary-dark dark:to-accent-dark
+                               hover:-translate-y-[1px]
+                               before:absolute before:inset-0 before:-z-10
+                               before:bg-primary-noise dark:before:bg-primary-noise-dark
+                               before:bg-[length:260%_260%] before:bg-center
+                               before:opacity-0 before:transition-opacity before:duration-200
+                               hover:before:opacity-100 hover:before:animate-gradient-noise
+                               focus:outline-none focus:ring-2 focus:ring-primary"
+                    >
+                        <i class="fa-solid fa-plus text-xs mr-2"></i>
+                        <span>Créer un sondage</span>
+                    </button>
+                </div>
             </div>
+
 
             {{-- Full-width survey list --}}
             <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
