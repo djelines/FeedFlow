@@ -314,7 +314,7 @@
                 </div>
                 <div class="font-bold text-xl">VISA</div>
                 <div class="font-bold text-xl">Mastercard</div>
-                <div class="font-bold text-xl">ROBLOX REPUBLIC <span class="text-sm text-dark/20 dark:text-white/20">(aka la meilleure banque)</span></div>
+                <div class="font-bold text-xl">Robux Republic <span class="text-sm text-dark/20 dark:text-white/20">(aka la meilleure banque)</span></div>
             </div>
         </div>
     </div>

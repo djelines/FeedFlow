@@ -12,16 +12,13 @@ final class DeleteOrganizationAction
     /**
      * Delete an organization
      * @param OrganizationDTO $dto
-     * @return array
+     * @return Organization
      */
     public function execute(OrganizationDTO $dto, Organization $organization)
     {
+        $organization->delete();
 
-        if($organization->delete()){
-            return "J'ai supprimé";
-        } else{
-            return "J'ai pas supprimé";
-        }
+        return $organization;
     }
 
 

@@ -7,7 +7,7 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use App\Traits\HashableId; 
+use App\Traits\HashableId;
 
 
 class User extends Authenticatable
@@ -66,13 +66,23 @@ class User extends Authenticatable
             ->withPivot('role');
     }
 
+    /**
+     * return if user is in the specified organization
+     * @param $organization_id
+     * @return bool
+     */
     public function isUserInOrganization($organization_id){
         return $this->organizations()
             ->where('organizations.id', $organization_id)
             ->exists();
     }
 
-    // Returns whether the user has a specific role in the selected organization.
+    /**
+     * Returns whether the user has a specific role in the selected organization.
+     * @param string $role
+     * @param Organization $organization
+     * @return bool
+     */
     public function hasRoleInOrganization(string $role, Organization $organization): bool{
         return !is_null(
             $this->organizations()
@@ -82,9 +92,14 @@ class User extends Authenticatable
         );
     }
 
+    /**
+     * Return if the user has a free plan
+     * @return bool
+     */
     public function isFreePlan(){
         return $this->plan === "free";
     }
+
 
     public function canAnswerSurveyLimit(Organization $organization){
         dd($this->hasMany(SurveyAnswer::class , "survey_id")->survey()->organization());
@@ -92,6 +107,12 @@ class User extends Authenticatable
         return $this->hasMany(SurveyAnswer::class , "survey_id")->countMonthlyAnswers() < config('freenium.response_limit');
     }
 
+    /**
+     * Return  if the user has a role in a organization by organization id
+     * @param string $role
+     * @param $organizationId
+     * @return bool
+     */
     public function hasRoleInOrganizationById(string $role, $organizationId): bool{
         return !is_null(
             $this->organizations()
@@ -101,11 +122,6 @@ class User extends Authenticatable
         );
     }
 
-    // An user has many survey answers
-    public function surveyAnswers()
-    {
-        return $this->hasMany(SurveyAnswer::class);
-    }
 
     // An user has many surveys
     public function surveys()
@@ -113,6 +129,19 @@ class User extends Authenticatable
         return $this->hasMany(Survey::class);
     }
 
+    // An user has many survey answers
+    public function surveyAnswers(){
+        return $this->hasMany(SurveyAnswer::class, 'survey_id');
+    }
+
+    public function allActiveSurvey(){
+        return $this->hasMany(Survey::class)->where('is_closed', false);
+    }
+
+    /**
+     * Return all the surveys from all organizations
+     * @return mixed
+     */
     public function allSurveysFromOrganizations()
     {
         return Survey::whereIn(
