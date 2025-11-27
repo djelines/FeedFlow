@@ -153,8 +153,14 @@
                                                    hover:text-text-primary dark:hover:text-text-primary-dark
                                                    transition"
                                         >
-                                            <span class="mr-2 h-1.5 w-1.5 rounded-full bg-text-secondary/60 dark:bg-text-secondary-dark/70"></span>
-                                            <span class="truncate">{{ $survey->title }}</span>
+                                        <span
+                                            class="mr-2 h-1.5 w-1.5 rounded-full
+                                            {{ $survey->is_closed
+                                                ? 'bg-red-500 dark:bg-red-400'  
+                                                : 'bg-green-500 dark:bg-green-400 shadow-[0_0_8px_rgba(34,197,94,0.6)]' 
+                                            }}">
+                                        </span>
+                                        <span class="truncate">{{ $survey->title }}</span>
                                         </a>
                                     </li>
                                 @empty

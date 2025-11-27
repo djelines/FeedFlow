@@ -116,8 +116,10 @@
                                 >
                             <i class="fas fa-arrow-right text-xs"></i>
                         </span>
+                        
                             </div>
                         </a>
+                        
 
                         {{-- EDIT --}}
                         @can('update', $organization)

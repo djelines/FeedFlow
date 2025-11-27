@@ -209,7 +209,17 @@
                                     class="flex justify-between items-start border-b border-bordercolor/70 dark:border-bordercolor-dark/70 pb-3">
                                     <h3 class="text-lg font-semibold text-text-primary dark:text-text-primary-dark">
                                         {{ $survey->title }}
+                                        <span
+                                            class="ml-1 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border align-middle
+                                            {{ $survey->is_closed
+                                                ? 'bg-red-100 text-red-800 border-red-200 dark:bg-red-900/30 dark:text-red-300 dark:border-red-800'
+                                                : 'bg-green-100 text-green-800 border-green-200 dark:bg-green-900/30 dark:text-green-300 dark:border-green-800'
+                                            }}">
+                                            {{ $survey->is_closed ? 'Clôturé' : 'Ouvert' }}
+                                        </span>
                                     </h3>
+
+   
 
                                     {{-- Delete survey --}}
                                     <form action="{{ route('surveys.destroy', $survey->hash_id) }}" method="POST"

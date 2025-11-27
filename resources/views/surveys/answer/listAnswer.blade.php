@@ -45,6 +45,14 @@
                                 <h3 class="text-xl font-bold mb-1 flex items-center gap-2 {{ $style['title'] }}">
                                     <i class="fa-solid fa-clipboard-list text-sm opacity-70"></i>
                                     <span class="line-clamp-2">{{ $survey->title ?? 'Sondage #'.$surveyId }}</span>
+                                        <span
+                                            class="ml-1 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border align-middle
+                                            {{ $survey->is_closed
+                                                ? 'bg-red-100 text-red-800 border-red-200 dark:bg-red-900/30 dark:text-red-300 dark:border-red-800'
+                                                : 'bg-green-100 text-green-800 border-green-200 dark:bg-green-900/30 dark:text-green-300 dark:border-green-800'
+                                            }}">
+                                            {{ $survey->is_closed ? 'Clôturé' : 'Ouvert' }}
+                                        </span>
                                 </h3>
                                 <p class="text-xs mb-4 {{ $style['muted'] }} opacity-75">
                                     {{ $submissions->count() }} soumission(s) différente(s)
