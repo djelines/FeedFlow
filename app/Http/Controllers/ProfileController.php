@@ -3,12 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Http\Requests\User\UserUpdateRequest;
+use Illuminate\Cache\RetrievesMultipleKeys;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
-
+use PhpParser\Node\Expr\FuncCall;
+use App\Actions\User\UpdateUserAction;
+use App\DTOs\UserDTO;
 class ProfileController extends Controller
 {
     /**
@@ -56,5 +60,24 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+    /**
+     * Update in table user mail_notifications.
+     */
+    public function editNotficationsProfile(UserUpdateRequest $userUpdateRequest, UpdateUserAction $action) {
+
+        $dto = UserDTO::fromRequest($userUpdateRequest);
+        $action->execute($dto, $userUpdateRequest->user());
+
+        return back()->with('success', 'Préférences de notifications mises à jour.');
+    }
+
+
+    /**
+     * Show page Setting for user.
+     */
+
+    public function showSetting(){
+        return view('layouts.setting');
     }
 }

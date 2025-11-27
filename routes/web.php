@@ -58,6 +58,8 @@ Route::middleware('auth')->group(function () {
     /* Fait*/Route::get('/surveys/{survey}/results/pdf' , [SurveyResultsController::class , 'downloadPdf'])->name('survey.answer.resultPdf');
 
 
+    Route::get('/setting',[ProfileController::class , 'showSetting'])->name('setting.show');
+    Route::put('/user/update',[ProfileController::class , 'editNotficationsProfile'])->name('update.notification');
 
 
 
