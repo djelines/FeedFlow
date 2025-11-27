@@ -12,7 +12,7 @@ class SurveyResultsController extends Controller
     public function viewResults(Survey $survey)
     {
 
-        $this->authorize('view');
+        $this->authorize('view', $survey);
 
         // All survey questions and answers are loaded at the same time.
         $survey->load('questions.answers');
