@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use Illuminate\Cache\RetrievesMultipleKeys;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use PhpParser\Node\Expr\FuncCall;
 
 class ProfileController extends Controller
 {
@@ -56,5 +58,13 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+    /**
+     * Show page Setting for user.
+     */
+
+    public function showSetting(){
+        return view('layouts.setting');
     }
 }
