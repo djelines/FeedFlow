@@ -21,7 +21,7 @@ class OrganizationPolicy
      */
     public function view(User $user, Organization $organization): bool
     {
-        return false;
+        return $user->isUserInOrganization($organization->id);
     }
 
     /**

@@ -64,8 +64,10 @@ class User extends Authenticatable
             ->withPivot('role');
     }
 
-    public function isUserInOrganization($organizaion_id){
-        return $this->belongsToMany(Organization::class, 'organization_user')->where('organizations.id', $organizaion_id)->exists();
+    public function isUserInOrganization($organization_id){
+        return $this->organizations()
+            ->where('organizations.id', $organization_id)
+            ->exists();
     }
 
     // Returns whether the user has a specific role in the selected organization.

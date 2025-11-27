@@ -90,7 +90,7 @@
                             Voir les statistiques
                         </button>
 
-                        @can('view')
+                        @can('view', $survey)
                                 <button x-data="{ copied: false }" @click="
                             navigator.clipboard.writeText('{{ $url }}');
                             copied = true;

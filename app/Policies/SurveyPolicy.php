@@ -115,6 +115,7 @@ class SurveyPolicy
     public function createAnswer(User $user, Survey $survey): bool{
         // If the survey is anonymous then return true
         $organization = Organization::find($survey->organization_id);
+
         if($organization->exists()){
             if($survey->is_anonymous){
                 return true;

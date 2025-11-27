@@ -164,9 +164,10 @@ class SurveyController extends Controller
     public function viewQuestions($id)
     {
 
-        $this->authorize('view');
-
         $survey = Survey::find($id);
+
+        //$this->authorize('view', $survey);
+
         $surveyQuestions = $survey->questions;
         $data = [
             'surveyQuestions' => $surveyQuestions,
@@ -186,17 +187,6 @@ class SurveyController extends Controller
             }
         }
         return view('surveys.answer.survey', $data);
-    }
-
-    public function viewQuestionsAnonymous($id)
-    {
-        $survey = Survey::find($id);
-        $surveyQuestions = $survey->questions;
-
-        return view('surveys.answer.survey', [
-            'surveyQuestions' => $surveyQuestions,
-            'survey_id' => $id
-        ]);
     }
 
     public function storeAnswers(StoreSurveyAnswerRequest $request, StoreSurveyAnswerAction $action)
