@@ -22,6 +22,7 @@ final class StoreOrganizationAction
     }
 
     /**
+     * Store an organization and auto add the creator to admin
      * @param OrganizationDTO $dto
      * @return Organization
      */

@@ -3,7 +3,9 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-
+use App\Models\Survey;
+use App\Models\User;
+use App\Events\SurveyClosed;
 class CheckForSurveyToClose extends Command
 {
     /**
@@ -25,6 +27,24 @@ class CheckForSurveyToClose extends Command
      */
     public function handle()
     {
-        //
+        $allSuveys = Survey::where('is_closed', false)->get();
+
+        foreach ($allSuveys as $survey) {
+            $closingDate = $survey->end_date;
+            if ($closingDate <= now()) {
+                try {
+                    $survey->is_closed = true;
+                    $survey->save();
+                    $ownerEmail = User::find($survey->user_id)->email;
+                    $userName = User::find($survey->user_id)->last_name . " " . User::find($survey->user_id)->first_name;
+                    $surveyAnswerCount = $survey->answers()->count();
+
+
+                    event(new SurveyClosed($survey,$ownerEmail, $surveyAnswerCount, $userName));
+                } catch (\Exception $e) {
+                    $this->error('Failed to close survey ID ' . $survey->id . ': ' . $e->getMessage());
+                }
+            }
+        }
     }
 }

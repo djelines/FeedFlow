@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" >
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="white">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,12 +15,26 @@
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+        {{-- Stock and get dark mode data--}}
+        <script>
+            (function () {
+                const html = document.documentElement;
+                const stored = localStorage.getItem('theme');
+
+                if (stored === 'dark') {
+                    html.classList.add('dark');
+                    html.classList.remove('white');
+                } else {
+                    html.classList.remove('dark');
+                    html.classList.add('white');
+                }
+            })();
+        </script>
     </head>
 
     <body class="font-sans antialiased bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
-        @include('components.toast')
-
-
+    @include('components.toast')
     @include('layouts.navigation')
 
 

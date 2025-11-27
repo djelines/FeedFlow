@@ -18,6 +18,9 @@ class AppServiceProvider extends ServiceProvider
         \App\Events\SurveyAnswerSubmitted::class => [
             \App\Listeners\SendNewAnswerNotification::class,
         ],
+        \App\Events\PlanChanged::class => [
+            \App\Listeners\SendPlanChangeNotification::class,
+        ],
     ];
     /**
      * Register any application services.

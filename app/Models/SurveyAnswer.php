@@ -44,6 +44,6 @@ class SurveyAnswer extends Model
 
         $month = Carbon::now()->month;
 
-        return $query->whereMonth('created_at', $month)->count();
+        return $query->whereMonth('survey_answers.created_at', $month)->count();
     }
 }

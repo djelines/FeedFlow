@@ -128,13 +128,7 @@
                 @empty
                     <p>Aucune question.</p>
                 @endforelse
-
-                <div class="bg-gray-100 p-4 rounded text-xs font-mono">
-                    <p class="font-bold mb-2">Ce qui sera envoyé au Back (Array) :</p>
-                    <pre x-text="JSON.stringify(Object.values(questions), null, 2)"></pre>
-                </div>
-
-                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                          <button type="submit" class="{{ $surveyQuestions->count() === 0 ? 'pointer-events-none opacity-50 px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700' : 'px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700' }}">
                     Envoyer
                 </button>
             </div>

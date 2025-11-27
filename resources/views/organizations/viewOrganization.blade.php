@@ -1,137 +1,212 @@
 <x-app-layout>
 
-    <div class="p-8 space-y-10 animate-in fade-in duration-500">
+    <div class="max-w-7xl py-10 mx-auto px-8 space-y-8">
 
-        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-slate-200 pb-8">
-            <div class="flex-1">
-                <div class="flex items-center gap-3 text-sm font-bold text-slate-500 mb-2 uppercase tracking-wider">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-briefcase-icon lucide-briefcase"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/></svg>
-                    <span class="text-xs">Aperçu de l'espace de travail</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right-icon lucide-chevron-right"><path d="m9 18 6-6-6-6"/></svg>
+        {{-- Workspace header --}}
+        <div class="bg-surface dark:bg-surface-dark rounded-xl shadow-sm border border-bordercolor dark:border-bordercolor-dark p-6">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 ">
+                <div class="flex-1">
+                    <div class="flex items-center gap-2 text-xs font-semibold text-text-secondary dark:text-text-secondary-dark uppercase tracking-wide mb-2">
+                        <i class="fa-solid fa-briefcase text-[13px]"></i>
+                        <span>Aperçu de l'organisation</span>
+                        <i class="fa-solid fa-chevron-right text-[11px] opacity-70"></i>
 
-                    <a
-                        href="/organizations/plan/{{$organization->id}}"
-                        class="text-[10px] flex items-center gap-1.5 px-2 py-0.5
-                    rounded border transition-all hover:scale-105 active:scale-95 cursor-pointer
-                    {{ $organization->plan === "free" ? "bg-slate-100 text-slate-600 border-slate-200 hover:bg-slate-200" :
-                        "bg-gradient-to-r from-indigo-600 to-purple-600 text-white border-transparent shadow-sm"}}">
-                        @if ($organization->plan === "free")
-                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-zap-icon lucide-zap">
-                                <path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/>
-                            </svg>
-                            GRATUIT
-                            <span class="opacity-70 border-1 border-white/20 pl-1.5 ml-0.5">Mettre à niveau</span>
-                        @else
-                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-crown-icon lucide-crown"><path d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z"/><path d="M5 21h14"/></svg>
-                            PREMIUM
-                            <span class="opacity-70 border-1 border-white/20 pl-1.5 ml-0.5">Gérer</span>
-                        @endif
-                    </a>
+                        {{-- Plan badge --}}
+                        <a
+                            href="/organizations/plan/{{ $organization->id }}"
+                            class="text-[10px] flex items-center gap-1.5 px-2 py-0.5 rounded border transition-all hover:scale-105 active:scale-95 cursor-pointer
+                            {{ $organization->plan === 'free'
+                                ? 'bg-background dark:bg-background-dark text-text-secondary dark:text-text-secondary-dark border-bordercolor dark:border-bordercolor-dark hover:bg-background/80'
+                                : 'bg-gradient-to-r from-primary to-accent text-white border-transparent shadow-sm' }}"
+                        >
+                            @if ($organization->plan === 'free')
+                                <i class="fa-solid fa-bolt text-[10px]"></i>
+                                GRATUIT
+                                <span class="opacity-70 border-l border-white/20 pl-1.5 ml-0.5">Mettre à niveau</span>
+                            @else
+                                <i class="fa-solid fa-crown text-[10px]"></i>
+                                PREMIUM
+                                <span class="opacity-70 border-l border-white/20 pl-1.5 ml-0.5">Gérer</span>
+                            @endif
+                        </a>
+                    </div>
+                    <h1 class="text-3xl font-bold text-text-primary dark:text-text-primary-dark tracking-tight">
+                        <i class="fas fa-sitemap mr-3 text-primary"></i>
+                        {{ $organization->name }}
+                    </h1>
+                    <p class="text-sm font-semibold text-text-secondary dark:text-text-secondary-dark mt-3 pt-3 border-t border-bordercolor/60 dark:border-bordercolor-dark/60">
+                        Détails de l'Organisation
+                    </p>
                 </div>
             </div>
+
+            {{-- Error alert --}}
+            @if (session('error'))
+                <div
+                    class="bg-red-50 dark:bg-red-900/20 border border-red-300 dark:border-red-500/60 text-red-700 dark:text-red-200 px-4 py-3 rounded-lg"
+                    role="alert"
+                >
+                    <strong class="font-semibold">Oups !</strong>
+                    <span class="block sm:inline ml-1">{{ session('error') }}</span>
+                </div>
+            @endif
         </div>
 
-        @if (session('error'))
-            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
-                <strong class="font-bold">Oups !</strong>
-                <span class="block sm:inline">{{ session('error') }}</span>
+        {{-- Forms section: add member and survey form side by side --}}
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+            @can('createMember', $organization)
+                {{-- Add member card --}}
+                <div class="bg-surface dark:bg-surface-dark shadow-sm border border-bordercolor dark:border-bordercolor-dark rounded-xl p-6">
+                    <h2 class="text-2xl font-semibold text-text-primary dark:text-text-primary-dark mb-4 flex items-center">
+                        <i class="fas fa-user-plus mr-3 text-emerald-500"></i>
+                        Ajouter un membre
+                    </h2>
+
+                    <form action="{{ route('organizations.member.store') }}" method="POST" class="space-y-4">
+                        @csrf
+
+                        {{-- Member email --}}
+                        <div>
+                            <label for="email" class="block font-medium text-sm text-text-primary dark:text-text-primary-dark mb-1">
+                                Email du membre
+                            </label>
+                            <input
+                                type="email"
+                                name="email"
+                                id="email"
+                                required
+                                placeholder="exemple@domain.com"
+                                class="mt-1 block w-full bg-background dark:bg-background-dark border border-bordercolor dark:border-bordercolor-dark
+                                       rounded-lg shadow-sm px-3 py-2.5 text-sm text-text-primary dark:text-text-primary-dark
+                                       transition-all duration-150
+                                       hover:border-accent dark:hover:border-accent-dark
+                                       focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary
+                                       focus:-translate-y-[1px] focus:shadow-md"
+                            >
+                            @error('email')
+                            <p class="text-red-500 dark:text-red-400 text-xs mt-1 font-semibold">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        {{-- Member role --}}
+                        <div>
+                            <label for="role" class="block font-medium text-sm text-text-primary dark:text-text-primary-dark mb-1">
+                                Rôle
+                            </label>
+                            <div class="relative">
+                                <select
+                                    name="role"
+                                    id="role"
+                                    required
+                                    class="select-base pr-9 mt-1 capitalize"
+                                >
+                                    <option value="member">Membre</option>
+                                    <option value="admin">Admin</option>
+                                </select>
+                                <span class="pointer-events-none absolute inset-y-0 right-3 flex items-center text-text-secondary dark:text-text-secondary-dark">
+                                    <i class="fa-solid fa-chevron-down text-[11px]"></i>
+                                </span>
+                            </div>
+                            @error('role')
+                            <p class="text-red-500 dark:text-red-400 text-xs mt-1 font-semibold">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <input type="hidden" name="organization_id" value="{{ $organization->id }}">
+
+                        @error('user_id')
+                        <p class="text-red-500 dark:text-red-400 text-xs mt-1 font-semibold">{{ $message }}</p>
+                        @enderror
+
+                        {{-- Submit button --}}
+                        <button
+                            type="submit"
+                            class="relative overflow-hidden inline-flex items-center justify-center w-full px-4 py-2.5 text-sm font-medium
+                                   rounded-lg text-white shadow-md transition-transform duration-150
+                                   bg-gradient-to-r from-emerald-500 to-emerald-600
+                                   hover:-translate-y-[1px]
+                                   before:absolute before:inset-0 before:-z-10
+                                   before:bg-primary-noise dark:before:bg-primary-noise-dark
+                                   before:bg-[length:260%_260%] before:bg-center
+                                   before:opacity-0 before:transition-opacity before:duration-200
+                                   hover:before:opacity-100 hover:before:animate-gradient-noise
+                                   focus:outline-none focus:ring-2 focus:ring-primary"
+                        >
+                            <i class="fas fa-paper-plane text-xs mr-2"></i>
+                            <span>Ajouter ce membre</span>
+                        </button>
+                    </form>
+                </div>
+            @endcan
+
+            {{-- Survey creation (button + modal include) --}}
+            <div class="bg-surface dark:bg-surface-dark shadow-sm border border-bordercolor dark:border-bordercolor-dark rounded-xl p-6">
+                {{-- Simple title for the survey creation area --}}
+                <h2 class="text-2xl font-semibold text-text-primary dark:text-text-primary-dark mb-4 flex items-center">
+                    <i class="fa-solid fa-clipboard-list mr-3 text-primary"></i>
+                    Créer un sondage
+                </h2>
+
+                {{-- Include survey modal trigger + modal itself --}}
+                <div class="text-sm text-text-secondary dark:text-text-secondary-dark">
+                    {{-- Survey creation modal + trigger (component) --}}
+                    @include('components.survey.modal-form-survey', ['organization' => $organization])
+                </div>
             </div>
-        @endif
 
-        <h1 class="text-3xl font-extrabold text-gray-800 mb-8 tracking-tight border-b-2 border-indigo-400 pb-2">
-            <i class="fas fa-sitemap mr-3 text-indigo-600"></i>
-            {{ $organization->name }}
-            <p class="text-sm font-bold text-gray-500 mt-2 pt-2 border-t border-gray-100">Détails de l'Organisation</p>
-
-        </h1>
-
-
-        @can('createMember', $organization)
-        <div class="bg-white shadow-lg border-t-4 border-green-500 rounded-lg p-6 mb-8">
-            <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
-                <i class="fas fa-user-plus mr-3 text-green-500"></i>
-                Ajouter un membre
-            </h2>
-            <form action="{{ route('organizations.member.store') }}" method="POST" class="space-y-4">
-                @csrf
-
-                <div>
-                    <label for="email" class="block font-medium text-sm text-gray-700 mb-1">Email du membre</label>
-                    <input type="email" name="email" id="email" required
-                        class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:border-green-500 focus:ring-green-500 p-2 transition duration-150"
-                        placeholder="exemple@domain.com">
-                    @error('email')
-                        <p class="text-red-600 text-xs mt-1 font-semibold">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div>
-                    <label for="role" class="block font-medium text-sm text-gray-700 mb-1">Rôle</label>
-                    <select name="role" id="role" required
-                        class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:border-green-500 focus:ring-green-500 p-2 transition duration-150 capitalize">
-                        <option value="member">Membre</option>
-                        <option value="admin">Admin</option>
-                    </select>
-                    @error('role')
-                        <p class="text-red-600 text-xs mt-1 font-semibold">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <input type="hidden" name="organization_id" value="{{ $organization->id }}">
-
-                @error('user_id')
-                    <p class="text-red-600 text-xs mt-1 font-semibold">{{ $message }}</p>
-                @enderror
-
-                <button type="submit"
-                    class="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition duration-300 flex items-center justify-center space-x-2">
-                    <i class="fas fa-paper-plane text-sm"></i>
-                    <span>Ajouter ce membre</span>
-                </button>
-            </form>
         </div>
-        @endcan
-        <div class="bg-white shadow-lg border-t-4 border-blue-500 rounded-lg p-6">
-            <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
-                <i class="fas fa-users mr-3 text-blue-500"></i>
+
+        {{-- Members list card --}}
+        <div class="bg-surface dark:bg-surface-dark shadow-sm border border-bordercolor dark:border-bordercolor-dark rounded-xl p-6">
+            <h2 class="text-2xl font-semibold text-text-primary dark:text-text-primary-dark mb-4 flex items-center">
+                <i class="fas fa-users mr-3 text-primary"></i>
                 Liste des membres
             </h2>
 
-            <div class="overflow-x-auto rounded-lg border border-gray-200">
+            <div class="overflow-x-auto rounded-lg border border-bordercolor/80 dark:border-bordercolor-dark/80 bg-background dark:bg-background-dark">
                 <table class="min-w-full text-left border-collapse">
-                    <thead class="bg-gray-50 border-b border-gray-200">
-                        <tr>
-                            <th class="py-3 px-4 text-sm font-bold text-gray-700">Nom</th>
-                            <th class="py-3 px-4 text-sm font-bold text-gray-700">Email</th>
-                            <th class="py-3 px-4 text-sm font-bold text-gray-700">Rôle</th>
-                            <th class="py-3 px-4 text-sm font-bold text-gray-700">Actions</th>
-                        </tr>
+                    <thead class="bg-background/80 dark:bg-background-dark/80 border-b border-bordercolor dark:border-bordercolor-dark">
+                    <tr>
+                        <th class="py-3 px-4 text-xs font-semibold text-text-secondary dark:text-text-secondary-dark uppercase tracking-wide">Nom</th>
+                        <th class="py-3 px-4 text-xs font-semibold text-text-secondary dark:text-text-secondary-dark uppercase tracking-wide">Email</th>
+                        <th class="py-3 px-4 text-xs font-semibold text-text-secondary dark:text-text-secondary-dark uppercase tracking-wide">Rôle</th>
+                        <th class="py-3 px-4 text-xs font-semibold text-text-secondary dark:text-text-secondary-dark uppercase tracking-wide">Actions</th>
+                    </tr>
                     </thead>
                     <tbody>
                     @forelse($organization->members as $member)
-                        <tr class="border-b last:border-b-0 hover:bg-blue-50/50 transition duration-150">
-                            <td class="py-3 px-4 text-sm text-gray-800">{{ $member->oneUser->getFullName() }}</td>
-                            <td class="py-3 px-4 text-sm text-gray-800">{{ $member->oneUser->email }}</td>
+                        <tr class="border-b border-bordercolor/70 dark:border-bordercolor-dark/70 last:border-b-0 hover:bg-primary-soft/30 dark:hover:bg-primary-soft-dark/20 transition duration-150">
+                            <td class="py-3 px-4 text-sm text-text-primary dark:text-text-primary-dark">
+                                {{ $member->oneUser->getFullName() }}
+                            </td>
+                            <td class="py-3 px-4 text-sm text-text-secondary dark:text-text-secondary-dark">
+                                {{ $member->oneUser->email }}
+                            </td>
                             <td class="py-3 px-4 text-sm capitalize">
                                 <span class="px-2 py-0.5 rounded-full text-xs font-semibold
                                     @if($member->role === 'admin')
-                                        bg-indigo-100 text-indigo-700
+                                        bg-primary-soft text-primary
                                     @else
-                                        bg-gray-200 text-gray-700
+                                        bg-background dark:bg-background-dark text-text-secondary dark:text-text-secondary-dark
                                     @endif">
                                     {{ $member->role }}
                                 </span>
                             </td>
-
 
                             @can('deleteMember', [$organization, \App\Models\User::find($member->user_id)])
                                 <td class="py-3 px-4">
                                     <form action="{{ route('organizations.member.delete', $member) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit"
-                                                class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md text-xs font-medium shadow-md transition duration-150 flex items-center space-x-1">
-                                            <i class="fas fa-trash-alt text-xs"></i>
+                                        <button
+                                            type="submit"
+                                            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium
+                                                   text-red-500 hover:text-red-400
+                                                   bg-red-500/5 hover:bg-red-500/10
+                                                   shadow-sm transition-all duration-150"
+                                        >
+                                            <i class="fas fa-trash-alt text-[11px]"></i>
                                             <span>Supprimer</span>
                                         </button>
                                     </form>
@@ -141,7 +216,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4" class="py-4 px-4 text-center text-gray-500 bg-white">
+                            <td colspan="4" class="py-4 px-4 text-center text-text-secondary dark:text-text-secondary-dark bg-background dark:bg-background-dark">
                                 <i class="fas fa-exclamation-circle mr-1"></i>
                                 Aucun membre pour cette organisation.
                             </td>
@@ -151,61 +226,96 @@
                 </table>
             </div>
         </div>
-    </div>
 
-    <div class="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8">
-        @include('components.survey.modal-form-survey', ['organization' => $organization])
-    </div>
+        {{-- Organization surveys list --}}
+        <div class="space-y-4">
+            <div class="flex items-center justify-between">
+                <h2 class="text-2xl font-semibold text-text-primary dark:text-text-primary-dark">
+                    Sondages de l'Organisation
+                </h2>
+                @if($surveys->count() > 0)
+                    <span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200">
+                        {{ $surveys->count() }} sondages
+                    </span>
+                @endif
+            </div>
 
-    <div class="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8 space-y-6">
+            {{-- Full-width survey list --}}
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                @forelse($surveys as $survey)
+                    <div
+                        class="bg-surface dark:bg-surface-dark shadow-sm rounded-xl overflow-hidden border border-bordercolor dark:border-bordercolor-dark
+                                transition duration-300 hover:shadow-xl hover:-translate-y-[2px] flex flex-col justify-between cursor-pointer"
+                        onclick="window.location='{{ route('survey.show', $survey->id) }}'"
+                    >
+                        <div class="p-6 space-y-4">
+                            <div class="flex justify-between items-start border-b border-bordercolor/70 dark:border-bordercolor-dark/70 pb-3">
+                                <h3 class="text-lg font-semibold text-text-primary dark:text-text-primary-dark">
+                                    {{ $survey->title }}
+                                </h3>
 
-        <h2 class="text-2xl font-bold text-gray-800 border-b pb-2">Sondages de l'Organisation</h2>
+                                {{-- Delete survey --}}
+                                <form
+                                    action="{{ route('surveys.destroy', $survey) }}"
+                                    method="POST"
+                                    onclick="event.stopPropagation()"
+                                    onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce sondage ? Cette action est irréversible.');"
+                                >
+                                    @csrf
+                                    @method('DELETE')
+                                    <button
+                                        type="submit"
+                                        title="Supprimer le sondage"
+                                        class="inline-flex items-center justify-center p-2 rounded-full
+                                               text-red-500 hover:text-red-400
+                                               hover:bg-red-500/10 transition duration-150 text-sm"
+                                    >
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </button>
+                                </form>
+                            </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <p class="text-xs font-semibold text-text-secondary dark:text-text-secondary-dark mb-1">
+                                    Description du sondage :
+                                </p>
+                                <p class="text-sm text-text-primary dark:text-text-primary-dark leading-relaxed line-clamp-3">
+                                    {{ Str::limit($survey->description, 150) }}
+                                </p>
+                            </div>
 
-            @forelse($surveys as $survey)
-                <div class="bg-white shadow-xl rounded-xl overflow-hidden border border-gray-100 transition duration-300 hover:shadow-2xl flex flex-col justify-between cursor-pointer"
-                    onclick="window.location='{{ route('survey.show', $survey->id) }}'">
-
-                    <div class="p-6 space-y-4">
-                        <div class="flex justify-between items-start border-b pb-3">
-                            <h3 class="text-xl font-semibold text-blue-700">
-                                {{ $survey->title }}
-                            </h3>
-
-                            <form action="{{ route('surveys.destroy', $survey) }}" method="POST"
-                                onclick="event.stopPropagation()"
-                                onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce sondage ? Cette action est irréversible.');">
-                                @csrf
-                                @method('DELETE')
-
-                                <button type="submit" title="Supprimer le sondage"
-                                    class="text-sm font-medium text-red-600 p-2 rounded-full hover:bg-red-50 transition duration-150 flex items-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20"
-                                        fill="currentColor">
-                                        <path fill-rule="evenodd"
-                                            d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 6h6v10H7V6z"
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                    Supprimer
-                                </button>
-                            </form>
-                        </div>
-
-                        <div>
-                            <p class="text-gray-500 italic mb-2 text-sm">Description du Sondage:</p>
-                            <p class="text-gray-700 leading-relaxed line-clamp-3">
-                                {{ Str::limit($survey->description, 150) }}
-                            </p>
+                            {{-- Dates (French format) --}}
+                            <div class="mt-3 pt-3 border-t border-bordercolor/60 dark:border-bordercolor-dark/60 text-xs text-text-secondary dark:text-text-secondary-dark flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+                                <div class="flex items-center gap-2">
+                                    <i class="fa-regular fa-calendar text-[11px]"></i>
+                                    <span>
+                                        Début :
+                                        <span class="font-medium text-text-primary dark:text-text-primary-dark">
+                                            {{ \Carbon\Carbon::parse($survey->start_date)->format('d/m/Y H:i') }}
+                                        </span>
+                                    </span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <i class="fa-solid fa-flag-checkered text-[11px]"></i>
+                                    <span>
+                                        Fin :
+                                        <span class="font-medium text-text-primary dark:text-text-primary-dark">
+                                            {{ \Carbon\Carbon::parse($survey->end_date)->format('d/m/Y H:i') }}
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-
-            @empty
-                <div class="p-6 text-center bg-white rounded-xl shadow-md border border-gray-200 md:col-span-2">
-                    <p class="text-gray-500 italic">Aucun sondage n'a été trouvé pour cette organisation.</p>
-                </div>
-            @endforelse
+                @empty
+                    <div class="p-6 text-center bg-surface dark:bg-surface-dark rounded-xl shadow-sm border border-bordercolor dark:border-bordercolor-dark md:col-span-2 xl:col-span-3">
+                        <p class="text-text-secondary dark:text-text-secondary-dark italic">
+                            Aucun sondage n'a été trouvé pour cette organisation.
+                        </p>
+                    </div>
+                @endforelse
+            </div>
         </div>
+
     </div>
 </x-app-layout>

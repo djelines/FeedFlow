@@ -47,7 +47,7 @@ module.exports = {
 
                 // Accent
                 accent: '#A855F7',
-                'accent-dark': '#C4B5FD',
+                'accent-dark': '#A855F7',
             },
 
             // Gradient hover style

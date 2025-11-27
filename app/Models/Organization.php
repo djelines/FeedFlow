@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Organization extends Model
 {
@@ -30,6 +31,20 @@ class Organization extends Model
     public function surveys(): HasMany
     {
         return $this->hasMany(Survey::class);
+    }
+
+    public function answers(): hasManyThrough
+    {
+        return $this->hasManyThrough(
+            SurveyAnswer::class, // Data from the table we want
+            Survey::class, // middle table
+        'organization_id', // middle fk (surveys)
+            'survey_id', // final fk (survey_answsers)
+            'id'); // organizations pk
+    }
+
+    public function canAnswerSurveyLimit(){
+        return $this->answers()->countMonthlyAnswers()< config('freenium.response_limit');
     }
 
     public function isFreePlan(){
