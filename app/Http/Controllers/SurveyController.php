@@ -66,6 +66,9 @@ class SurveyController extends Controller
         GeminiSurveyService $aiService
     ) {
 
+        //Call createSurvey Policies
+        $this->authorize('createSurvey', [Survey::class, $request->organization_id]);
+
         $dto = SurveyDTO::fromRequest($request);
 
         $surveyCheck = new Survey((array) $dto);
@@ -116,8 +119,8 @@ class SurveyController extends Controller
     // Store a new question for a survey
     public function storeQuestion(StoreSurveyQuestionRequest $request, StoreSurveyQuestionAction $action): RedirectResponse
     {
-        //Create DTO
         $this->authorize('createQuestion', arguments: [Survey::find($request->survey_id)]);
+        //Create DTO
         $dto = SurveyQuestionDTO::fromRequest($request);
         $action->execute($dto);
         return redirect()->back()->with('success', 'Question ajoutée avec succès !');

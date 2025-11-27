@@ -29,7 +29,6 @@
                     @csrf
                     
                     <input type="hidden" name="_method" :value="formMethod">
-                    
                     <input type="hidden" name="survey_id" value="{{ $survey->id }}">
 
                     <div>

@@ -1,6 +1,6 @@
 <x-app-layout>
     <div x-data="{
-        modalOpen: {{ $errors->any() ? 'true' : 'false' }},
+        modalOpen: {{ old('form') === 'question' && $errors->any() ? 'true' : 'false' }},
         isEditMode: false,
         questionId: null,
         formAction: '{{ route('survey.question.store') }}',

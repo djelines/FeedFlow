@@ -55,4 +55,16 @@ class Organization extends Model
         return $this->hasMany(Survey::class, "user_id")->activeNow()->count() < config('freenium.active_limit');
     }
 
+    //check if the user can create a surver in a organization
+    public function canBeCreateSurvey(User $user): bool
+    {
+        //check if user = member/admin 
+        if ($user->hasRoleInOrganizationById('membre', $this->id) 
+            || $user->hasRoleInOrganizationById('admin', $this->id)) {
+            return true;
+        }
+        
+        return false;
+    }
+
 }
