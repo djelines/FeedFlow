@@ -93,16 +93,21 @@
                             {{-- Add question --}}
                             <button
                                 @click="openAddModal()"
-                                class="relative overflow-hidden inline-flex items-center justify-center px-4 py-2.5 text-sm font-medium
-                                       rounded-lg text-white shadow-md transition-transform duration-150
-                                       bg-gradient-to-r from-primary to-accent dark:from-primary-dark dark:to-accent-dark
-                                       hover:-translate-y-[1px]
-                                       before:absolute before:inset-0 before:-z-10
-                                       before:bg-primary-noise dark:before:bg-primary-noise-dark
-                                       before:bg-[length:260%_260%] before:bg-center
-                                       before:opacity-0 before:transition-opacity before:duration-200
-                                       hover:before:opacity-100 hover:before:animate-gradient-noise
-                                       focus:outline-none focus:ring-2 focus:ring-primary"
+                                class="relative overflow-hidden inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium
+                                        rounded-lg text-white shadow-md transition-transform duration-150
+                                        
+                                        @if($survey->is_closed)
+                                            bg-gray-400 dark:bg-gray-600 cursor-not-allowed opacity-80 pointer-events-none
+                                        @else
+                                            bg-gradient-to-r from-primary to-accent dark:from-primary-dark dark:to-accent-dark
+                                            hover:-translate-y-[1px] active:scale-[0.97]
+                                            before:absolute before:inset-0 before:-z-10
+                                            before:bg-primary-noise dark:before:bg-primary-noise-dark
+                                            before:bg-[length:260%_260%] before:bg-center
+                                            before:opacity-0 before:transition-opacity before:duration-200
+                                            hover:before:opacity-100 hover:before:animate-gradient-noise
+                                            focus:outline-none focus:ring-2 focus:ring-primary
+                                        @endif"
                             >
                                 <i class="fa-solid fa-circle-plus mr-2 text-sm"></i>
                                 Ajouter une question
@@ -112,16 +117,21 @@
                         {{-- Do survey --}}
                         <button
                             @click="window.location='{{ route('survey.view.questions', $survey->hash_id) }}'"
-                            class="relative overflow-hidden inline-flex items-center justify-center px-4 py-2.5 text-sm font-medium
-                                   rounded-lg text-white shadow-md transition-transform duration-150
-                                   bg-gradient-to-r from-primary to-accent dark:from-primary-dark dark:to-accent-dark
-                                   hover:-translate-y-[1px]
-                                   before:absolute before:inset-0 before:-z-10
-                                   before:bg-primary-noise dark:before:bg-primary-noise-dark
-                                   before:bg-[length:260%_260%] before:bg-center
-                                   before:opacity-0 before:transition-opacity before:duration-200
-                                   hover:before:opacity-100 hover:before:animate-gradient-noise
-                                   focus:outline-none focus:ring-2 focus:ring-primary"
+                            class="relative overflow-hidden inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium
+                                    rounded-lg text-white shadow-md transition-transform duration-150
+                                    
+                                    @if($survey->is_closed)
+                                        bg-gray-400 dark:bg-gray-600 cursor-not-allowed opacity-80 pointer-events-none
+                                    @else
+                                        bg-gradient-to-r from-primary to-accent dark:from-primary-dark dark:to-accent-dark
+                                        hover:-translate-y-[1px] active:scale-[0.97]
+                                        before:absolute before:inset-0 before:-z-10
+                                        before:bg-primary-noise dark:before:bg-primary-noise-dark
+                                        before:bg-[length:260%_260%] before:bg-center
+                                        before:opacity-0 before:transition-opacity before:duration-200
+                                        hover:before:opacity-100 hover:before:animate-gradient-noise
+                                        focus:outline-none focus:ring-2 focus:ring-primary
+                                    @endif"
                         >
                             <i class="fa-solid fa-play mr-2 text-sm"></i>
                             Faire le sondage
@@ -153,16 +163,21 @@
                                     copied = true;
                                     setTimeout(() => copied = false, 2000);
                                     "
-                            class="relative overflow-hidden inline-flex items-center justify-center px-4 py-2.5 text-sm font-medium
-                                   rounded-lg text-white shadow-md transition-transform duration-150
-                                   bg-gradient-to-r from-primary to-accent dark:from-primary-dark dark:to-accent-dark
-                                   hover:-translate-y-[1px]
-                                   before:absolute before:inset-0 before:-z-10
-                                   before:bg-primary-noise dark:before:bg-primary-noise-dark
-                                   before:bg-[length:260%_260%] before:bg-center
-                                   before:opacity-0 before:transition-opacity before:duration-200
-                                   hover:before:opacity-100 hover:before:animate-gradient-noise
-                                   focus:outline-none focus:ring-2 focus:ring-primary"
+                            class="relative overflow-hidden inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium
+                                    rounded-lg text-white shadow-md transition-transform duration-150
+                                    
+                                    @if($survey->is_closed)
+                                        bg-gray-400 dark:bg-gray-600 cursor-not-allowed opacity-80 pointer-events-none
+                                    @else
+                                        bg-gradient-to-r from-primary to-accent dark:from-primary-dark dark:to-accent-dark
+                                        hover:-translate-y-[1px] active:scale-[0.97]
+                                        before:absolute before:inset-0 before:-z-10
+                                        before:bg-primary-noise dark:before:bg-primary-noise-dark
+                                        before:bg-[length:260%_260%] before:bg-center
+                                        before:opacity-0 before:transition-opacity before:duration-200
+                                        hover:before:opacity-100 hover:before:animate-gradient-noise
+                                        focus:outline-none focus:ring-2 focus:ring-primary
+                                    @endif"
                             :class="copied ? 'from-primary to-accent' : ''"
                         >
                             <template x-if="!copied">

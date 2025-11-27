@@ -100,7 +100,7 @@
                                    hover:before:opacity-100 hover:before:animate-gradient-noise
                                    hover:text-white dark:hover:text-white"
                         >
-                            <i class="fa-solid fa-list-check text-base text-text-secondary dark:text-text-secondary-dark group-hover:text-white"></i>
+                            <i class="fa-solid fa-check-to-slot text-base text-text-secondary dark:text-text-secondary-dark group-hover:text-white"></i>
                             <span class="ml-3">Voir mes réponses</span>
                         </a>
                     </li>
@@ -112,7 +112,6 @@
                         </div>
                     </li>
 
-                    {{-- Each organization with its surveys --}}
                     @foreach($organization as $org)
                         <li>
                             {{-- Organization item (collapsible) --}}
@@ -289,7 +288,7 @@
                                hover:text-text-primary dark:hover:text-text-primary-dark
                                transition"
                                 >
-                                    Settings
+                                    Paramètres
                                 </a>
                             </li>
                             <li>
