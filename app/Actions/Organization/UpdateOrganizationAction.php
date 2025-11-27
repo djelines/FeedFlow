@@ -49,12 +49,14 @@ final class UpdateOrganizationAction
                 $ownerEmail = User::find($organization->user_id)->email;
 
                 // Call event to change Plan and Email
-                event(new PlanChanged(
-                    $organization,
-                    $oldPlan,
-                    $dto->plan,
-                    $ownerEmail
-                ));
+                if(User::find($organization->user_id)->mailNotificationsEnabled()){
+                    event(new PlanChanged(
+                        $organization,
+                        $oldPlan,
+                        $dto->plan,
+                        $ownerEmail
+                    ));
+                }
             }
         }
 

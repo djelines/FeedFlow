@@ -6,6 +6,7 @@ use App\Models\Survey;
 use App\Actions\Survey\GetSurveyResultsAction;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use App\Models\SurveyAnswer;
 
 class SurveyResultsController extends Controller
 {
@@ -38,6 +39,18 @@ class SurveyResultsController extends Controller
         $pdf = Pdf::loadView('surveys.answer.resultPdf', compact('survey'));
 
         return $pdf->download('results.pdf');
+    }
+
+    public function listAllAnswers()
+    {
+        $surveysAnswer = SurveyAnswer::with('survey', 'user')->get();
+        $groupedAnswers = $surveysAnswer->groupBy([
+        'survey_id',
+        function ($item) {
+            return $item->created_at->format('d/m/Y H:i');
+        }
+    ]);
+        return view('surveys.answer.listAnswer', compact('groupedAnswers'));
     }
 
 }

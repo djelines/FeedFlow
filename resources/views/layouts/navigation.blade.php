@@ -85,6 +85,25 @@
                             <span class="ml-3">Gerer mes sondages</span>
                         </a>
                     </li>
+                    {{-- My answers --}}
+                    <li>
+                        <a
+                            href="{{ url('/surveys/answers/list') }}"
+                            class="relative overflow-hidden group flex items-center px-3 py-2 rounded-lg
+                                   text-text-primary dark:text-text-primary-dark
+                                   transform transition-all duration-150
+                                   hover:scale-[1.02] active:scale-[0.97]
+                                   before:absolute before:inset-0 before:-z-10
+                                   before:bg-primary-noise dark:before:bg-primary-noise-dark
+                                   before:bg-[length:260%_260%] before:bg-center
+                                   before:opacity-0 before:transition-opacity before:duration-200
+                                   hover:before:opacity-100 hover:before:animate-gradient-noise
+                                   hover:text-white dark:hover:text-white"
+                        >
+                            <i class="fa-solid fa-list-check text-base text-text-secondary dark:text-text-secondary-dark group-hover:text-white"></i>
+                            <span class="ml-3">Voir mes réponses</span>
+                        </a>
+                    </li>
 
                     {{-- Separator --}}
                     <li>
