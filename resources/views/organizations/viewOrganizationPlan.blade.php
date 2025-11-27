@@ -19,16 +19,13 @@
                     <span class="text-sm text-slate-400 italic">* Chaque organisation est facturée séparément.</span>
                 </p>
 
-                {{-- Remplacez '#' par votre route de retour --}}
-                <a href="#" class="text-sm text-slate-400 hover:text-slate-600 underline">
+                <a href="/organizations/view/{{$organization->id}}" class="text-sm text-slate-400 hover:text-slate-600 underline">
                     Retour au tableau de bord
                 </a>
             </div>
 
-            {{-- Conteneur des cartes de prix --}}
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
 
-                {{-- Free Plan Card --}}
                 <div @class([
                 'relative bg-white rounded-2xl p-8 border-2 transition-all duration-300 flex flex-col',
                 'border-slate-300 shadow-sm opacity-80' => $organization->isFreePlan(),
@@ -81,26 +78,30 @@
                         </li>
                     </ul>
 
-                    <a href="{{ $organization->isFreePlan() ? '#' : '' }}"
-                        @class([
-                            'w-full py-3 px-4 rounded-xl font-bold text-sm transition-colors text-center',
-                            // Condition pour le style du bouton
-                            'bg-slate-100 text-slate-400 cursor-default pointer-events-none' => $organization->isFreePlan(),
-                            'bg-white border-2 border-slate-900 text-slate-900 hover:bg-slate-50' => !$organization->isFreePlan(),
-                        ])
-                        {{ $organization->isFreePlan() ? 'aria-disabled="true"' : '' }}
-                    >
-                        @if ($organization->isFreePlan())
-                            Votre plan actuel
-                        @else
-                            Passer au plan Gratuit
-                        @endif
-                    </a>
+                        <form action="{{ route('organizations.update', $organization) }}" method="POST">
+                            @csrf
+                            @method("PUT")
+                            <input hidden="hidden" value="free" name="plan">
+                            <button
+                                    @disabled($organization->isFreePlan())
+                                    type="submit"
+                                    @class([
+                                    'w-full py-3 px-4 rounded-xl font-bold text-sm transition-colors text-center',
+                                    'bg-slate-100 text-slate-400 cursor-default pointer-events-none' => $organization->isFreePlan(),
+                                    'bg-white border-2 border-slate-900 text-slate-900 hover:bg-slate-50' => !$organization->isFreePlan(),
+                                    ])
+                            >
+                                @if ($organization->isFreePlan())
+                                    Votre plan actuel
+                                @else
+                                    Passer au plan Gratuit
+                                @endif
+                            </button>
+                        </form>
                 </div>
 
                 <div @class([
                 'relative bg-white rounded-2xl p-8 border-2 transition-all duration-300 flex flex-col',
-                // Condition pour le style du plan ACTUEL
                 'border-indigo-500 shadow-xl ring-4 ring-indigo-500/10' => $organization->isFreePlan(),
                 'border-slate-200 shadow-lg hover:border-indigo-300' => !$organization->isFreePlan(),
             ])>
@@ -170,21 +171,26 @@
                         </li>
                     </ul>
 
-                    <a href="{{ !$organization->isFreePlan() ? '#' : '' }}"
-                        @class([
-                            'w-full py-3 px-4 rounded-xl font-bold text-sm transition-all shadow-lg text-center',
-                            // Condition pour le style du bouton
-                            'bg-emerald-50 text-emerald-600 border border-emerald-200 cursor-default pointer-events-none' => $organization->isFreePlan(),
-                            'bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:shadow-indigo-500/30 hover:scale-[1.02]' => !$organization->isFreePlan(),
-                        ])
-                        {{ !$organization->isFreePlan() ? 'aria-disabled="true"' : '' }}
-                    >
-                        @if (!$organization->isFreePlan())
-                            Plan Actif
-                        @else
-                            Passer Pro
-                        @endif
-                    </a>
+                        <form action="{{ route('organizations.update', $organization) }}" method="POST">
+                            @csrf
+                            @method("PUT")
+                            <input hidden="hidden" value="premium" name="plan">
+                            <button
+                                    @disabled(!$organization->isFreePlan())
+                                    type="submit"
+                                @class([
+                                    'w-full py-3 px-4 rounded-xl font-bold text-sm transition-all shadow-lg text-center',
+                                    'bg-emerald-50 text-emerald-600 border border-emerald-200 cursor-pointer' => $organization->isFreePlan(),
+                                    'bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:shadow-indigo-500/30 hover:scale-[1.02]' => !$organization->isFreePlan(),
+                                ])
+                            >
+                                @if (!$organization->isFreePlan())
+                                    Plan Actif
+                                @else
+                                    Passer Pro
+                                @endif
+                            </button>
+                        </form>
                 </div>
 
             </div>

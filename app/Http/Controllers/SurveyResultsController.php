@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Survey;
 use App\Actions\Survey\GetSurveyResultsAction;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+
 class SurveyResultsController extends Controller
 {
+    use AuthorizesRequests;
     /**
      * @param Survey $survey
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
@@ -14,6 +17,8 @@ class SurveyResultsController extends Controller
      */
     public function viewResults(Survey $survey)
     {
+
+        $this->authorize('view', $survey);
 
         // All survey questions and answers are loaded at the same time.
         $survey->load('questions.answers');

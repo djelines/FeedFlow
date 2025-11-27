@@ -64,6 +64,10 @@ class User extends Authenticatable
             ->withPivot('role');
     }
 
+    public function isUserInOrganization($organizaion_id){
+        return $this->belongsToMany(Organization::class, 'organization_user')->where('organizations.id', $organizaion_id)->exists();
+    }
+
     // Returns whether the user has a specific role in the selected organization.
     public function hasRoleInOrganization(string $role, Organization $organization): bool{
         return !is_null(
@@ -78,12 +82,10 @@ class User extends Authenticatable
         return $this->plan === "free";
     }
 
-    public function canCreateSurveyLimit(){
-        return $this->hasMany(Survey::class, "user_id")->activeNow()->count() < config('freenium.active_limit');
-    }
-
-    public function canAnswerSurveyLimit(){
-        return $this->hasMany(SurveyAnswer::class , "user_id")->countMonthlyAnswers() < config('freenium.response_limit');
+    public function canAnswerSurveyLimit(Organization $organization){
+        dd($this->hasMany(SurveyAnswer::class , "survey_id")->survey()->organization());
+        dd($this->hasMany(SurveyAnswer::class , "survey_id")->survey()->organization()->countMonthlyAnswers());
+        return $this->hasMany(SurveyAnswer::class , "survey_id")->countMonthlyAnswers() < config('freenium.response_limit');
     }
 
     public function hasRoleInOrganizationById(string $role, $organizationId): bool{

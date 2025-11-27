@@ -129,11 +129,6 @@
                     <p>Aucune question.</p>
                 @endforelse
 
-                <div class="bg-gray-100 p-4 rounded text-xs font-mono">
-                    <p class="font-bold mb-2">Ce qui sera envoyé au Back (Array) :</p>
-                    <pre x-text="JSON.stringify(Object.values(questions), null, 2)"></pre>
-                </div>
-
                 <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
                     Envoyer
                 </button>
