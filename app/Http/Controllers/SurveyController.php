@@ -166,9 +166,12 @@ class SurveyController extends Controller
         $this->authorize('view', Survey::find($id));
         $survey = Survey::find($id);
         $surveyQuestions = $survey->questions;
+        $organization =  $survey->organization;
         return view('surveys.answer.survey', [
             'surveyQuestions' => $surveyQuestions,
             'survey_id' => $id,
+            'survey' =>  $survey,
+            'organization' => $organization,
         ]);
     }
 
@@ -176,7 +179,7 @@ class SurveyController extends Controller
     {
         $this->authorize(ability: 'viewAnonymous', arguments: [Survey::find($id)]);
         $survey = Survey::find($id);
-        
+
         $surveyQuestions = $survey->questions;
 
             if (is_null($id) === false) {
