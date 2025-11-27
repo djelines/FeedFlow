@@ -6,17 +6,19 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\SurveyController;
 use \App\Http\Controllers\MemberController;
+use App\Http\Controllers\DashboardController;
 use PhpParser\Node\Name;
 
 Route::get('/', function () {
     return view('home');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+
+    // Route to dashboard
+    Route::get('/dashboard', [DashboardController::class, 'view'])->name('dashboard');
+
     // Route for profile management
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -29,7 +31,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/organizations/create', [OrganizationController::class, 'store'])->name('organizations.store');
     Route::put('/organizations/{organization}/update', [OrganizationController::class, 'update'])->name('organizations.update');
     Route::delete('/organizations/{organization}/delete', [OrganizationController::class, 'delete'])->name('organizations.delete');
-    
+
     Route::get('/organizations/view/{id}', [OrganizationController::class, 'viewOrganization'])->name('organizations.viewOrganization');
     Route::get('/organizations', [OrganizationController::class, 'view'])->name('organizations.view');
     Route::get('/organizations/plan/{id}', [OrganizationController::class, 'viewOrganizationPlan'])->name('organizations.viewOrganizationPlan');
@@ -46,7 +48,7 @@ Route::middleware('auth')->group(function () {
     // Routes for survey management
     Route::get('/survey/show/{id}', [SurveyController::class, 'showSurvey'])->name('survey.show');
 
-    
+
     Route::get('/survey' , [SurveyController::class ,  'view'])->name('survey.view');
     Route::post('/survey/create' , [SurveyController::class ,'store'])->name('survey.store');
     Route::put('/survey/update/{survey}', [SurveyController::class , 'updateSurvey'])->name('surveys.update');
