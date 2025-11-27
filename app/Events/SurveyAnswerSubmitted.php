@@ -16,13 +16,16 @@ class SurveyAnswerSubmitted
     use Dispatchable, InteractsWithSockets, SerializesModels;
     public Survey $survey;
     public string $ownerEmail;
+    public string $userName;
     /**
      * Create a new event instance.
+     * Get the current email
      */
-    public function __construct(Survey $survey, string $ownerEmail)
+    public function __construct(Survey $survey, string $ownerEmail, string $userName)
     {
         $this->survey = $survey;
         $this->ownerEmail = $ownerEmail;
+        $this->userName = $userName;
     }
 
     /**

@@ -23,7 +23,11 @@ class SendSurveyDailyReports extends Command
      */
     protected $description = 'Command description';
 
-  
+
+    /**
+     * Execute the console command.
+     * Send an email when answer is > 10 every last 24h
+     */
     public function handle()
     {
         $allSurveys = Survey::all();
@@ -31,10 +35,13 @@ class SendSurveyDailyReports extends Command
         foreach ($allSurveys as $survey) {
 
             $surveyAnswersCount = $survey->answers()->where('created_at', '>=', now()->subDay())->count();
+            $surveyName = $survey->title;
+            $userName = User::find($survey->user_id)->last_name . " " . User::find($survey->user_id)->first_name;
             
             if ($surveyAnswersCount > 0) {
+                $this->info("ici");
                 $ownerEmail = User::find($survey->user_id)->email;
-                event(new DailyAnswersThresholdReached( $ownerEmail));
+                event(new DailyAnswersThresholdReached( $ownerEmail ,$surveyName, $surveyAnswersCount ,$userName));
             }
 
         }

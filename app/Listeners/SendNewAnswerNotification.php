@@ -3,7 +3,6 @@
 namespace App\Listeners;
 
 use App\Events\SurveyAnswerSubmitted;
-use App\Models\Survey;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Mail;
@@ -24,6 +23,6 @@ class SendNewAnswerNotification implements ShouldQueue
      */
     public function handle(SurveyAnswerSubmitted $event): void
     {
-         Mail::to($event->ownerEmail)->send(new NewAnswerNotification($event->survey));
+         Mail::to($event->ownerEmail)->send(new NewAnswerNotification($event->survey, $event->userName));
     }
 }

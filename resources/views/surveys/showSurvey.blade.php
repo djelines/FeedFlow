@@ -1,6 +1,6 @@
 <x-app-layout>
     <div x-data="{
-        modalOpen: {{ $errors->any() ? 'true' : 'false' }},
+        modalOpen: {{ old('form') === 'question' && $errors->any() ? 'true' : 'false' }},
         isEditMode: false,
         questionId: null,
         formAction: '{{ route('survey.question.store') }}',
@@ -126,7 +126,7 @@
                             <i class="fa-solid fa-play mr-2 text-sm"></i>
                             Faire le sondage
                         </button>
-
+        @can('view', $survey)
                         {{-- View stats --}}
                         <button
                             @click="window.location='{{ route('survey.view.results', $survey->id) }}'"
@@ -174,11 +174,15 @@
 
                             <template x-if="copied">
                                 <div class="inline-flex items-center">
-                                    <i class="fa-solid fa-check mr-2 text-sm"></i>
+                                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7"></path>
+                                    </svg>
                                     Lien copié !
                                 </div>
                             </template>
                         </button>
+                        @endcan
                     </div>
                 </div>
             </div>

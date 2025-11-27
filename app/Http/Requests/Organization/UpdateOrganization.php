@@ -22,7 +22,8 @@ class UpdateOrganization extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
+            'name' => ['string', 'max:255'],
+            'plan' => ['string', 'in:free,premium'],
         ];
     }
 
@@ -33,9 +34,10 @@ class UpdateOrganization extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required' => 'The organization name is required.',
             'name.string'   => 'The organization name must be a string.',
             'name.max'      => 'The organization name may not be greater than :max characters.',
+            'plan.string'   => 'The organization plan must be a string.',
+            'plan.in'       => 'The organization plan must be free or premium.',
         ];
     }
 }

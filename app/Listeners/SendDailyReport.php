@@ -23,6 +23,6 @@ class SendDailyReport
      */
     public function handle(DailyAnswersThresholdReached $event): void
     {
-        Mail::to($event->ownerEmail)->send(new DailyReportSurvey());
+        Mail::to($event->ownerEmail)->send(new DailyReportSurvey($event->surveyName, $event->surveyAnswersCount , $event->userName));
     }
 }

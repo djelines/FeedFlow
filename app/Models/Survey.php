@@ -56,7 +56,6 @@ class Survey extends Model
         }
         return false;
     }
-
     public function isActiveNow(){
         $now = Carbon::now();
 
@@ -76,6 +75,17 @@ class Survey extends Model
     public function answers()
     {
         return $this->hasMany(SurveyAnswer::class);
+    }
+    public function is_anonymous(Survey $survey): bool
+    {
+        return $survey->is_anonymous;
+    }
+    public function isClosed(Survey $survey): bool
+    {
+        if($survey->is_closed){
+            return false;
+        }
+        return true;
     }
 
 }

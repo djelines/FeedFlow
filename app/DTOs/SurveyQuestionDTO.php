@@ -15,7 +15,13 @@ public function __construct(
         public readonly \DateTime $created_at,
         public readonly \DateTime $updated_at,
     ) {}
-    // Create DTO from Request for validation 
+
+
+    /**
+     * Create DTO from Request for validation SurveyQuestion
+     * @param StoreSurveyQuestionRequest $request
+     * @return self
+     */
     public static function fromRequest(StoreSurveyQuestionRequest $request): self
     {
         return new self(

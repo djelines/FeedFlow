@@ -7,22 +7,23 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
 
-class NewAnswerNotification extends Mailable
+class FinalReportOnClose extends Mailable
 {
     use Queueable, SerializesModels;
-
     public Survey $survey;
+    public int $surveyAnswersCount;
     public string $userName;
 
-    public function __construct(Survey $survey, String $userName)
+    public function __construct(Survey $survey, int $surveyAnswersCount, string $userName)
     {
         $this->survey = $survey;
+        $this->surveyAnswersCount = $surveyAnswersCount;
         $this->userName = $userName;
     }
     public function build(): self
     {
         return $this
-            ->subject('Nouvelle réponse à votre sondage : ' . $this->survey->title)
-            ->view('emails.newAnswerTemplate');
+            ->subject('Votre rapport final pour le sondage : ' . $this->survey->title)
+            ->view('emails.finalReportTemplate');
     }
 }

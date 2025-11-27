@@ -10,7 +10,7 @@ final class StoreSurveyQuestionAction
     public function __construct() {}
 
     /**
-     * Store a Survey
+     * Store a Survey qu
      * @param SurveyQuestionDTO $dto
      * @return array
      */
@@ -20,6 +20,11 @@ final class StoreSurveyQuestionAction
         });
     }
 
+    /**
+     * Store survey question
+     * @param SurveyQuestionDTO $dto
+     * @return SurveyQuestion
+     */
     public function execute(SurveyQuestionDTO $dto): SurveyQuestion
     {
         return SurveyQuestion::create([

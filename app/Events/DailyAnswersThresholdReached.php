@@ -17,9 +17,12 @@ class DailyAnswersThresholdReached
     /**
      * Create a new event instance.
      */
-    public function __construct( public string $ownerEmail)
+    public function __construct( public string $ownerEmail, public string $surveyName, public int $surveyAnswersCount, public string $userName)
     {
         $this->ownerEmail = $ownerEmail;
+        $this->surveyName = $surveyName;
+        $this->surveyAnswersCount = $surveyAnswersCount;
+        $this->userName = $userName;
     }
 
 

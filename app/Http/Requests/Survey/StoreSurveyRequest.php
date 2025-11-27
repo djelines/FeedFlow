@@ -31,7 +31,7 @@ class StoreSurveyRequest extends FormRequest
             // 'user_id'        => ['required', 'int'],
             'organization_id'=> ['required', 'int'],
             'start_date'     => ['required', Rule::date(),],
-            'end_date'       => ['required', Rule::date(),],
+            'end_date'        => ['required', Rule::date(), 'after:start_date'],
             'isAi'           => ['required', 'boolean'],
             'ai_prompt'      => ['nullable', 'required_if:isAi,1', 'string', 'max:500'],
             'ai_question_count' => ['nullable', 'required_if:isAi,1', 'integer', 'min:1', 'max:40']

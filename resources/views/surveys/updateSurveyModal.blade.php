@@ -1,3 +1,6 @@
+@php
+    $showUpdateModal = $errors->any() && old('form') === 'update_survey';
+@endphp
 <div
     id="modalUpdate"
     tabindex="-1"
@@ -121,7 +124,22 @@
                         <span>Sauvegarder</span>
                     </button>
                 </div>
+                <input type="hidden" name="form" value="update_survey">
             </form>
         </div>
     </div>
 </div>
+
+@if ($errors->any() && old('form') === 'update_survey')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const modal = document.getElementById('modalUpdate');
+        modal.classList.add('!transition-none');
+        modal.classList.remove('hidden');
+        requestAnimationFrame(() => {
+            modal.classList.remove('!transition-none');
+        });
+    });
+</script>
+@endif
+
