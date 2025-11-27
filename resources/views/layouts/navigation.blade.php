@@ -29,7 +29,7 @@
                     {{-- Dashboard --}}
                     <li>
                         <a
-                            href="#"
+                            href="{{url("/dashboard")}}"
                             class="relative overflow-hidden group flex items-center px-3 py-2 rounded-lg
                                    text-text-primary dark:text-text-primary-dark
                                    transform transition-all duration-150
@@ -62,14 +62,34 @@
                                    hover:text-white dark:hover:text-white"
                         >
                             <i class="fa-solid fa-briefcase text-base text-text-secondary dark:text-text-secondary-dark group-hover:text-white"></i>
-                            <span class="ml-3">Mes organisations</span>
+                            <span class="ml-3">Gerer mes organisations</span>
+                        </a>
+                    </li>
+
+                    {{-- All surveys --}}
+                    <li>
+                        <a
+                            href="{{ url('/survey') }}"
+                            class="relative overflow-hidden group flex items-center px-3 py-2 rounded-lg
+                                   text-text-primary dark:text-text-primary-dark
+                                   transform transition-all duration-150
+                                   hover:scale-[1.02] active:scale-[0.97]
+                                   before:absolute before:inset-0 before:-z-10
+                                   before:bg-primary-noise dark:before:bg-primary-noise-dark
+                                   before:bg-[length:260%_260%] before:bg-center
+                                   before:opacity-0 before:transition-opacity before:duration-200
+                                   hover:before:opacity-100 hover:before:animate-gradient-noise
+                                   hover:text-white dark:hover:text-white"
+                        >
+                            <i class="fa-solid fa-list-check text-base text-text-secondary dark:text-text-secondary-dark group-hover:text-white"></i>
+                            <span class="ml-3">Gerer mes sondages</span>
                         </a>
                     </li>
 
                     {{-- Separator --}}
                     <li>
                         <div class="pt-3 pb-1 px-3 text-[11px] font-semibold uppercase tracking-wide text-text-secondary/70 dark:text-text-secondary-dark/70">
-                            Organisations & sondages
+                            - Sondages des organisations -
                         </div>
                     </li>
 
@@ -129,25 +149,7 @@
                             </ul>
                         </li>
                     @endforeach
-                    {{-- All surveys --}}
-                    <li>
-                        <a
-                            href="{{ url('/survey') }}"
-                            class="relative overflow-hidden group flex items-center px-3 py-2 rounded-lg
-                                   text-text-primary dark:text-text-primary-dark
-                                   transform transition-all duration-150
-                                   hover:scale-[1.02] active:scale-[0.97]
-                                   before:absolute before:inset-0 before:-z-10
-                                   before:bg-primary-noise dark:before:bg-primary-noise-dark
-                                   before:bg-[length:260%_260%] before:bg-center
-                                   before:opacity-0 before:transition-opacity before:duration-200
-                                   hover:before:opacity-100 hover:before:animate-gradient-noise
-                                   hover:text-white dark:hover:text-white"
-                        >
-                            <i class="fa-solid fa-list-check text-base text-text-secondary dark:text-text-secondary-dark group-hover:text-white"></i>
-                            <span class="ml-3">Tous mes sondages</span>
-                        </a>
-                    </li>
+
                 </ul>
             </nav>
 
@@ -249,14 +251,14 @@
                         <ul class="space-y-1">
                             <li>
                                 <a
-                                    href="#"
+                                    href="{{url("/dashboard")}}"
                                     class="block mx-1 px-3 py-1.5 rounded-lg
                                text-text-primary dark:text-text-primary-dark
                                hover:bg-primary-soft dark:hover:bg-primary-soft-dark
                                hover:text-text-primary dark:hover:text-text-primary-dark
                                transition"
                                 >
-                                    Dashboard
+                                    Tableau de bord
                                 </a>
                             </li>
                             <li>
@@ -272,16 +274,22 @@
                                 </a>
                             </li>
                             <li>
-                                <a
-                                    href="#"
-                                    class="block mx-1 px-3 py-1.5 rounded-lg
-                               text-text-primary dark:text-text-primary-dark
-                               hover:bg-primary-soft dark:hover:bg-primary-soft-dark
-                               hover:text-text-primary dark:hover:text-text-primary-dark
-                               transition"
-                                >
-                                    Sign out
-                                </a>
+                                <form id="logout-form"
+                                      action="{{ route('logout') }}"
+                                      method="POST"
+                                      class="mx-1">
+                                    @csrf
+                                    <button
+                                        type="submit"
+                                        class="w-full px-3 py-1.5 rounded-lg text-left
+                                               text-text-primary dark:text-text-primary-dark
+                                               hover:bg-primary-soft dark:hover:bg-primary-soft-dark
+                                               hover:text-text-primary dark:hover:text-text-primary-dark
+                                               transition"
+                                    >
+                                        Se déconnecter
+                                    </button>
+                                </form>
                             </li>
                         </ul>
                     </div>

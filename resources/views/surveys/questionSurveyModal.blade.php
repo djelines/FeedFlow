@@ -53,13 +53,15 @@
                             type="text"
                             name="title"
                             x-model="title"
+                            placeholder="Ex: Aimez-vous Sonde Urinaire ?"
                             required
                             class="block w-full rounded-lg bg-background dark:bg-background-dark border border-bordercolor dark:border-bordercolor-dark
                                    text-text-primary dark:text-text-primary-dark text-sm px-3 py-2.5
                                    transition-all duration-150
                                    hover:border-accent dark:hover:border-accent-dark
                                    focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary
-                                   focus:-translate-y-[1px] focus:shadow-md"
+                                   focus:-translate-y-[1px] focus:shadow-md
+                                   placeholder:text-black/40 dark:placeholder:text-white/40"
                         >
                     </div>
 

@@ -171,9 +171,12 @@ class SurveyController extends Controller
         $this->authorize('viewSurvey', Survey::findByHashOrFail($id));
         $survey = Survey::findByHashOrFail($id);
         $surveyQuestions = $survey->questions;
+        $organization =  $survey->organization;
         return view('surveys.answer.survey', [
             'surveyQuestions' => $surveyQuestions,
             'survey_id' => $id,
+            'survey' =>  $survey,
+            'organization' => $organization,
         ]);
     }
 

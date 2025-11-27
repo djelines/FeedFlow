@@ -244,69 +244,81 @@
             <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                 @forelse($surveys as $survey)
                     <div
-                        class="bg-surface dark:bg-surface-dark shadow-sm rounded-xl overflow-hidden border border-bordercolor dark:border-bordercolor-dark
-                                transition duration-300 hover:shadow-xl hover:-translate-y-[2px] flex flex-col justify-between cursor-pointer"
-                        onclick="window.location='{{ route('survey.show', $survey->hash_id) }}'"
+                        class="relative rounded-2xl px-[2px] py-[6px]
+                               bg-primary-noise dark:bg-primary-noise-dark
+                               bg-[length:260%_260%] bg-center animate-gradient-noise
+                               transition-all duration-300 cursor-pointer
+                               hover:-translate-y-[4px] hover:shadow-xl"
+                                onclick="window.location='{{ route('survey.show', $survey->hash_id) }}'"
                     >
-                        <div class="p-6 space-y-4">
-                            <div class="flex justify-between items-start border-b border-bordercolor/70 dark:border-bordercolor-dark/70 pb-3">
-                                <h3 class="text-lg font-semibold text-text-primary dark:text-text-primary-dark">
-                                    {{ $survey->title }}
-                                </h3>
+                        {{-- CARD --}}
+                        <div
+                            class="rounded-xl p-6
+                                   bg-surface dark:bg-surface-dark
+                                   border border-bordercolor/70 dark:border-bordercolor-dark/70
+                                   shadow-sm transition-all duration-300 flex flex-col justify-between"
+                        >
+                            <div class="space-y-4">
+                                <div class="flex justify-between items-start border-b border-bordercolor/70 dark:border-bordercolor-dark/70 pb-3">
+                                    <h3 class="text-lg font-semibold text-text-primary dark:text-text-primary-dark">
+                                        {{ $survey->title }}
+                                    </h3>
 
-                                {{-- Delete survey --}}
-                                <form
-                                    action="{{ route('surveys.destroy', $survey->hash_id) }}"
-                                    method="POST"
-                                    onclick="event.stopPropagation()"
-                                    onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce sondage ? Cette action est irréversible.');"
-                                >
-                                    @csrf
-                                    @method('DELETE')
-                                    <button
-                                        type="submit"
-                                        title="Supprimer le sondage"
-                                        class="inline-flex items-center justify-center p-2 rounded-full
-                                               text-red-500 hover:text-red-400
-                                               hover:bg-red-500/10 transition duration-150 text-sm"
+                                    {{-- Delete survey --}}
+                                    <form
+                                        action="{{ route('surveys.destroy', $survey->hash_id) }}"
+                                        method="POST"
+                                        onclick="event.stopPropagation()"
+                                        onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce sondage ? Cette action est irréversible.');"
                                     >
-                                        <i class="fa-solid fa-trash-can"></i>
-                                    </button>
-                                </form>
-                            </div>
-
-                            <div>
-                                <p class="text-xs font-semibold text-text-secondary dark:text-text-secondary-dark mb-1">
-                                    Description du sondage :
-                                </p>
-                                <p class="text-sm text-text-primary dark:text-text-primary-dark leading-relaxed line-clamp-3">
-                                    {{ Str::limit($survey->description, 150) }}
-                                </p>
-                            </div>
-
-                            {{-- Dates (French format) --}}
-                            <div class="mt-3 pt-3 border-t border-bordercolor/60 dark:border-bordercolor-dark/60 text-xs text-text-secondary dark:text-text-secondary-dark flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
-                                <div class="flex items-center gap-2">
-                                    <i class="fa-regular fa-calendar text-[11px]"></i>
-                                    <span>
-                                        Début :
-                                        <span class="font-medium text-text-primary dark:text-text-primary-dark">
-                                            {{ \Carbon\Carbon::parse($survey->start_date)->format('d/m/Y H:i') }}
-                                        </span>
-                                    </span>
+                                        @csrf
+                                        @method('DELETE')
+                                        <button
+                                            type="submit"
+                                            title="Supprimer le sondage"
+                                            class="inline-flex items-center justify-center p-2 rounded-full
+                                                   text-red-500 hover:text-red-400
+                                                   hover:bg-red-500/10 transition duration-150 text-sm"
+                                        >
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </button>
+                                    </form>
                                 </div>
-                                <div class="flex items-center gap-2">
-                                    <i class="fa-solid fa-flag-checkered text-[11px]"></i>
-                                    <span>
-                                        Fin :
-                                        <span class="font-medium text-text-primary dark:text-text-primary-dark">
-                                            {{ \Carbon\Carbon::parse($survey->end_date)->format('d/m/Y H:i') }}
+
+                                <div>
+                                    <p class="text-xs font-semibold text-text-secondary dark:text-text-secondary-dark mb-1">
+                                        Description du sondage :
+                                    </p>
+                                    <p class="text-sm text-text-primary dark:text-text-primary-dark leading-relaxed line-clamp-3">
+                                        {{ Str::limit($survey->description, 150) }}
+                                    </p>
+                                </div>
+
+                                {{-- Dates --}}
+                                <div class="mt-3 pt-3 border-t border-bordercolor/60 dark:border-bordercolor-dark/60 text-xs text-text-secondary dark:text-text-secondary-dark flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+                                    <div class="flex items-center gap-2">
+                                        <i class="fa-regular fa-calendar text-[11px]"></i>
+                                        <span>
+                                            Début :
+                                            <span class="font-medium text-text-primary dark:text-text-primary-dark">
+                                                {{ \Carbon\Carbon::parse($survey->start_date)->format('d/m/Y H:i') }}
+                                            </span>
                                         </span>
-                                    </span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fa-solid fa-flag-checkered text-[11px]"></i>
+                                        <span>
+                                            Fin :
+                                            <span class="font-medium text-text-primary dark:text-text-primary-dark">
+                                                {{ \Carbon\Carbon::parse($survey->end_date)->format('d/m/Y H:i') }}
+                                            </span>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                 @empty
                     <div class="p-6 text-center bg-surface dark:bg-surface-dark rounded-xl shadow-sm border border-bordercolor dark:border-bordercolor-dark md:col-span-2 xl:col-span-3">
                         <p class="text-text-secondary dark:text-text-secondary-dark italic">

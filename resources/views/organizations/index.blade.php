@@ -4,16 +4,27 @@
 
         {{-- Page title --}}
         <h1
-            class="text-3xl font-bold text-text-primary dark:text-text-primary-dark tracking-tight
-                   border-b-2 border-bordercolor dark:border-bordercolor-dark pb-3"
+            class="flex items-center justify-between gap-3
+                       text-3xl font-bold text-text-primary dark:text-text-primary-dark tracking-tight
+                       border-b-2 border-bordercolor dark:border-bordercolor-dark pb-3 mb-10"
         >
-            Mes Organisations :
+            <span>Mes Organisations :</span>
+
+            @if($organizations->count() > 0)
+                <span
+                    class="px-2.5 py-0.5 rounded-full text-xs font-medium
+                               bg-indigo-100 text-indigo-800
+                               dark:bg-indigo-900 dark:text-indigo-200"
+                >
+                        {{ $organizations->count() }} organisations
+                    </span>
+            @endif
         </h1>
 
         {{-- Create new organization --}}
         <div class="bg-surface dark:bg-surface-dark shadow-sm border border-bordercolor dark:border-bordercolor-dark rounded-xl p-6">
             <h2 class="font-semibold text-xl mb-4 text-text-primary dark:text-text-primary-dark flex items-center">
-                <i class="fas fa-plus-circle h-5 w-5 mr-3 text-emerald-500"></i>
+                <i class="fas fa-plus-circle h-5 w-5 mr-3 text-primary dark:text-primary-dark"></i>
                 Créer une nouvelle organisation
             </h2>
 
@@ -71,119 +82,142 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
 
             @forelse($organizations as $organization)
+
+                {{-- ANIMATED BORDER--}}
                 <div
-                    class="organization-card relative bg-surface dark:bg-surface-dark shadow-sm
-                           border-l-4 border-primary rounded-xl p-5
-                           border border-bordercolor/80 dark:border-bordercolor-dark/80
-                           hover:shadow-xl hover:-translate-y-[2px]
-                           transition duration-300"
+                    class="relative rounded-2xl px-[2px] py-[6px]
+                           bg-primary-noise dark:bg-primary-noise-dark
+                           bg-[length:260%_260%] bg-center animate-gradient-noise
+                           transition-all duration-300
+                           hover:-translate-y-[4px] hover:shadow-xl"
                 >
-                    {{-- Card header: title + link --}}
-                    <a
-                        href="{{ route('organizations.viewOrganization', $organization->hash_id) }}"
-                        class="block border-b border-bordercolor/60 dark:border-bordercolor-dark/60 pb-3 mb-3
-                               text-text-primary dark:text-text-primary-dark hover:text-primary dark:hover:text-primary-dark
-                               transition-colors duration-150"
+                    {{-- CARD --}}
+                    <div
+                        class="rounded-xl p-5
+                               bg-surface dark:bg-surface-dark
+                               border border-bordercolor/70 dark:border-bordercolor-dark/70
+                               shadow-sm transition-all duration-300"
                     >
-                        <div class="flex justify-between items-start">
-                            <h2 class="font-semibold text-lg leading-tight">
-                                {{ $organization->name }}
-                            </h2>
-                            <span
-                                class="p-1 rounded-full text-primary flex-shrink-0 flex items-center justify-center
-                                       bg-primary-soft/40 dark:bg-primary-soft-dark/40"
-                            >
-                                <i class="fas fa-arrow-right text-xs"></i>
-                            </span>
-                        </div>
-                    </a>
+                        {{-- TITLE LINK --}}
+                        <a
+                            href="{{ route('organizations.viewOrganization', $organization->hash_id) }}"
+                            class="block border-b border-bordercolor/50 dark:border-bordercolor-dark/50 pb-3 mb-3
+                                   text-text-primary dark:text-text-primary-dark
+                                   hover:text-primary dark:hover:text-primary-dark transition"
+                        >
+                            <div class="flex justify-between items-start">
+                                <h2 class="font-semibold text-lg leading-tight">
+                                    {{ $organization->name }}
+                                </h2>
 
-                    @can('update', $organization)
-                        {{-- Edit organization name --}}
-                        <div class="pt-2 border-b border-bordercolor/60 dark:border-bordercolor-dark/60 pb-4 mb-4">
-                            <form method="POST" action="{{ route('organizations.update', $organization->hash_id) }}">
-                                @method('PUT')
-                                @csrf
+                                <span
+                                    class="p-1 rounded-full text-primary flex-shrink-0 flex items-center justify-center
+                                           bg-primary-soft/40 dark:bg-primary-soft-dark/40 w-6"
+                                >
+                            <i class="fas fa-arrow-right text-xs"></i>
+                        </span>
+                            </div>
+                        </a>
 
-                                <h3 class="text-sm font-semibold mb-2 text-text-secondary dark:text-text-secondary-dark flex items-center space-x-1">
+                        {{-- EDIT --}}
+                        @can('update', $organization)
+                            <div class="pt-2">
+
+                                <h3 class="text-sm font-semibold mb-2 text-text-secondary dark:text-text-secondary-dark flex items-center gap-1">
                                     <i class="fas fa-edit text-primary text-xs"></i>
-                                    <span>Modifier le nom</span>
+                                    Modifier le nom
                                 </h3>
 
                                 <div class="mb-3">
-                                    <label for="name_{{ $organization->id }}" class="sr-only">
-                                        Nom de l'organisation
-                                    </label>
                                     <input
                                         type="text"
-                                        id="name_{{ $organization->id }}"
                                         name="name"
+                                        form="org-update-{{ $organization->id }}"
                                         value="{{ $organization->name }}"
                                         required
                                         class="w-full text-sm bg-background dark:bg-background-dark
                                                border border-bordercolor dark:border-bordercolor-dark
                                                rounded-lg px-3 py-2 text-text-primary dark:text-text-primary-dark
-                                               shadow-inner transition-all duration-150
+                                               shadow-inner transition
                                                hover:border-accent dark:hover:border-accent-dark
-                                               focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                                               focus:ring-2 focus:ring-primary focus:border-primary"
                                     >
                                 </div>
 
-                                <button
-                                    type="submit"
-                                    class="relative overflow-hidden w-full px-3 py-2 text-xs font-semibold
-                                           rounded-lg text-white shadow-sm inline-flex items-center justify-center space-x-1
-                                           bg-gradient-to-r from-primary to-accent dark:from-primary-dark dark:to-accent-dark
-                                           hover:-translate-y-[1px] active:scale-[0.97]
-                                           before:absolute before:inset-0 before:-z-10
-                                           before:bg-primary-noise dark:before:bg-primary-noise-dark
-                                           before:bg-[length:260%_260%] before:bg-center
-                                           before:opacity-0 before:transition-opacity before:duration-200
-                                           hover:before:opacity-100 hover:before:animate-gradient-noise
-                                           focus:outline-none focus:ring-2 focus:ring-primary"
-                                >
-                                    <i class="fas fa-save text-[11px]"></i>
-                                    <span>Enregistrer la modification</span>
-                                </button>
-                            </form>
-                        </div>
-                    @endcan
+                                {{-- BUTTONS ROW --}}
+                                <div class="flex items-center gap-2 border-t border-bordercolor/50 dark:border-bordercolor-dark/50 pt-5">
 
-                    @can('delete', $organization)
-                        {{-- Delete organization --}}
-                        <div class="">
-                            <form method="POST" action="{{ route('organizations.delete', $organization->hash_id) }}">
-                                @method('DELETE')
-                                @csrf
-                                <button
-                                    type="submit"
-                                    class="w-full py-1.5 rounded-lg text-xs font-semibold
-                                           inline-flex items-center justify-center space-x-1
-                                           text-red-500 hover:text-red-400
-                                           bg-red-500/10 hover:bg-red-500/15
-                                           shadow-sm transition-all duration-150"
-                                >
-                                    <i class="fas fa-trash-alt text-[11px]"></i>
-                                    <span>Supprimer l'organisation</span>
-                                </button>
-                            </form>
-                        </div>
-                    @endcan
+                                    {{-- DELETE ICONNN --}}
+                                    @can('delete', $organization)
+                                        <form
+                                            method="POST"
+                                            action="{{ route('organizations.delete', $organization->hash_id) }}"
+                                        >
+                                            @csrf
+                                            @method('DELETE')
 
+                                            <button
+                                                type="submit"
+                                                title="Supprimer"
+                                                class="h-9 w-9 flex items-center justify-center
+                                                       rounded-lg text-red-500 hover:text-red-400
+                                                       bg-red-500/10 hover:bg-red-500/20
+                                                       transition-all duration-150 shadow-sm
+                                                       hover:-translate-y-[1px] active:scale-[0.97]"
+                                            >
+                                                <i class="fas fa-trash text-[12px]"></i>
+                                            </button>
+                                        </form>
+                                    @endcan
+
+                                    {{-- SAVE --}}
+                                    <form
+                                        id="org-update-{{ $organization->id }}"
+                                        method="POST"
+                                        action="{{ route('organizations.update', $organization->hash_id) }}"
+                                        class="flex-1"
+                                    >
+                                        @csrf
+                                        @method('PUT')
+
+                                        <button
+                                            type="submit"
+                                            class="relative overflow-hidden w-full px-3 py-2 text-xs font-semibold
+                                                   rounded-lg text-white shadow-sm
+                                                   inline-flex items-center justify-center gap-1
+                                                   bg-gradient-to-r from-primary to-accent
+                                                   dark:from-primary-dark dark:to-accent-dark
+                                                   transition-all duration-150
+                                                   hover:-translate-y-[1px] active:scale-[0.97]
+                                                   before:absolute before:inset-0 before:-z-10
+                                                   before:bg-primary-noise dark:before:bg-primary-noise-dark
+                                                   before:bg-[length:260%_260%] before:bg-center
+                                                   hover:before:opacity-100 hover:before:animate-gradient-noise"
+                                        >
+                                            <i class="fas fa-save text-[11px]"></i>
+                                            <span>Enregistrer</span>
+                                        </button>
+                                    </form>
+
+                                </div>
+                            </div>
+                        @endcan
+
+                    </div>
                 </div>
+
             @empty
-                <div
-                    class="col-span-full text-lg text-text-secondary dark:text-text-secondary-dark
-                           p-10 bg-surface dark:bg-surface-dark rounded-xl shadow-sm
-                           border border-bordercolor dark:border-bordercolor-dark"
-                >
-                    <p class="text-center">
-                        <i class="fas fa-exclamation-circle mr-2"></i>
-                        Aucune organisation trouvée. Créez-en une pour commencer !
-                    </p>
+                <div class="col-span-full text-center text-text-secondary dark:text-text-secondary-dark
+                            p-10 bg-surface dark:bg-surface-dark rounded-xl shadow-sm
+                            border border-bordercolor dark:border-bordercolor-dark">
+                    <i class="fas fa-exclamation-circle mr-2"></i>
+                    Aucune organisation trouvée.
                 </div>
             @endforelse
+
         </div>
+
+
 
     </div>
 
