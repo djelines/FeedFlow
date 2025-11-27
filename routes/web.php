@@ -55,6 +55,9 @@ Route::middleware('auth')->group(function () {
 
     //Route for show setting page
     Route::get('/setting',[ProfileController::class , 'showSetting'])->name('setting.show');
+
+    //Route for update mail_notifications
+    Route::put('/user/update',[ProfileController::class , 'editNotficationsProfile'])->name('update.notification');
 });
 
 // Route for anonymous user
