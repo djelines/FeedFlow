@@ -57,7 +57,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/survey/answers/create/{id}' , [SurveyController::class ,'storeAnswers'])->name('survey.store.answers');
     Route::get('/surveys/{survey}/results' , [SurveyResultsController::class , 'viewResults'])->name('survey.view.results');
     Route::get('/surveys/{survey}/results/pdf' , [SurveyResultsController::class , 'downloadPdf'])->name('survey.answer.resultPdf');
-
+    Route::get('/surveys/answers/list' , [SurveyResultsController::class , 'listAllAnswers'])->name('survey.answers.list');
 });
 
 // Route for anonymous user
