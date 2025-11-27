@@ -38,15 +38,21 @@ class SurveyPolicy
             return $organization->canCreateSurveyLimit();
         }
         
-        return $user->canBeCreateSurvey($user, $organization_id);
+        return $organization->canBeCreateSurvey($user);
     }
 
-       public function createSurvey(User $user, string $organization_id): bool
-        {   
-            $organization = Organization::find($organization_id);
-            //CALL function canBeCreateSurvey for organization.php
-            return $organization->canBeCreateSurvey($user);
-        }
+    /**
+     * Determine whether the user can create a survey if is admin/membre/proprio.
+     * @param User $user
+     * @param string $organization_id
+     * @return bool
+     */
+    public function createSurvey(User $user, string $organization_id): bool
+    {   
+        $organization = Organization::find($organization_id);
+        //CALL function canBeCreateSurvey for organization.php
+        return $organization->canBeCreateSurvey($user);
+    }
 
     /**
      * Determine whether the user can update the model.
