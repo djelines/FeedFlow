@@ -62,6 +62,33 @@ docker exec -it feedflow-app php artisan db:seed
 | Artisan           | `docker exec -it feedflow-app php artisan` |
 
 ---
+## 🧪 Commandes Artisan utiles
+
+### ▶️ Tests unitaires ciblés
+```bash
+php artisan test --filter StoreSurveyActionTest
+php artisan test --filter StoreSurveyAnswerActionTest
+````
+
+### ▶️ Scheduler (tâches planifiées)
+
+```bash
+php artisan schedule:run   # Exécute les tâches planifiées une fois
+php artisan schedule:work  # Exécute en continu comme un worker
+```
+
+### ▶️ Queue (emails, jobs, notifications)
+
+```bash
+php artisan queue:work
+```
+
+### ▶️ Commande CRON recommandée
+
+```bash
+schedule:run >> /dev/null 2>&1
+```
+---
 
 ## 📦 Fonctionnalités réalisées
 
