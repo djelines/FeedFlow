@@ -143,7 +143,6 @@ class SurveyPolicy
         if($isFreePlan){
             return $organization->canAnswerSurveyLimit();
         }
-
         return true;
     }
 }
