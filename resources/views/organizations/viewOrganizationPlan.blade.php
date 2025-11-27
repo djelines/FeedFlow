@@ -43,7 +43,7 @@
                 </p>
 
                 <a
-                    href="/organizations/view/{{ $organization->id }}"
+                    href="/organizations/view/{{ $organization->hash_id }}"
                     class="text-sm text-slate-400 dark:text-slate-300 hover:text-slate-600 dark:hover:text-slate-100 underline"
                 >
                     Retour à {{$organization->name}}
@@ -135,7 +135,7 @@
                         </li>
                     </ul>
 
-                    <form action="{{ route('organizations.update', $organization) }}" method="POST">
+                    <form action="{{ route('organizations.update', $organization->hash_id) }}" method="POST">
                         @csrf
                         @method('PUT')
                         <input hidden="hidden" value="free" name="plan">
@@ -273,7 +273,7 @@
                         </li>
                     </ul>
 
-                    <form action="{{ route('organizations.update', $organization) }}" method="POST">
+                    <form action="{{ route('organizations.update', $organization->hash_id) }}" method="POST">
                         @csrf
                         @method('PUT')
                         <input hidden="hidden" value="premium" name="plan">
