@@ -4,11 +4,24 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
             <h1
-                class="text-3xl font-bold text-text-primary dark:text-text-primary-dark tracking-tight
+                class="flex items-center justify-between gap-3
+                       text-3xl font-bold text-text-primary dark:text-text-primary-dark tracking-tight
                        border-b-2 border-bordercolor dark:border-bordercolor-dark pb-3 mb-10"
             >
-                Tous mes sondages :
+                <span>Tous mes sondages :</span>
+
+                @if($surveys->count() > 0)
+                    <span
+                        class="px-2.5 py-0.5 rounded-full text-xs font-medium
+                               bg-indigo-100 text-indigo-800
+                               dark:bg-indigo-900 dark:text-indigo-200"
+                    >
+                        {{ $surveys->count() }} sondages
+                    </span>
+                @endif
             </h1>
+
+
 
             @if($surveys->isEmpty())
                 {{-- empty state when user have no survey --}}

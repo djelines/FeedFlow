@@ -52,10 +52,10 @@
                     <div class="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
                         <div>
                             <h1 class="text-3xl font-bold text-text-primary dark:text-text-primary-dark">
-                                {{ $survey->title }}
+                                Sondage : {{ $survey->title }}
                             </h1>
                             <p class="mt-2 text-lg text-text-secondary dark:text-text-secondary-dark">
-                                {{ $survey->description }}
+                                Description : {{ $survey->description }}
                             </p>
                         </div>
 
