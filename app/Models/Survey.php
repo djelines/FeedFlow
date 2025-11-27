@@ -6,9 +6,11 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use App\Traits\HashableId; 
 
 class Survey extends Model
 {
+    use HashableId;
     use HasFactory;
 
     protected $table    = 'surveys';

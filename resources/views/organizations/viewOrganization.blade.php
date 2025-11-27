@@ -13,7 +13,7 @@
 
                         {{-- Plan badge --}}
                         <a
-                            href="/organizations/plan/{{ $organization->id }}"
+                            href="/organizations/plan/{{ $organization->hash_id }}"
                             class="text-[10px] flex items-center gap-1.5 px-2 py-0.5 rounded border transition-all hover:scale-105 active:scale-95 cursor-pointer
                             {{ $organization->plan === 'free'
                                 ? 'bg-background dark:bg-background-dark text-text-secondary dark:text-text-secondary-dark border-bordercolor dark:border-bordercolor-dark hover:bg-background/80'
@@ -196,7 +196,7 @@
 
                             @can('deleteMember', [$organization, \App\Models\User::find($member->user_id)])
                                 <td class="py-3 px-4">
-                                    <form action="{{ route('organizations.member.delete', $member) }}" method="POST">
+                                    <form action="{{ route('organizations.member.delete', $member->hash_id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <button
@@ -246,7 +246,7 @@
                     <div
                         class="bg-surface dark:bg-surface-dark shadow-sm rounded-xl overflow-hidden border border-bordercolor dark:border-bordercolor-dark
                                 transition duration-300 hover:shadow-xl hover:-translate-y-[2px] flex flex-col justify-between cursor-pointer"
-                        onclick="window.location='{{ route('survey.show', $survey->id) }}'"
+                        onclick="window.location='{{ route('survey.show', $survey->hash_id) }}'"
                     >
                         <div class="p-6 space-y-4">
                             <div class="flex justify-between items-start border-b border-bordercolor/70 dark:border-bordercolor-dark/70 pb-3">
@@ -256,7 +256,7 @@
 
                                 {{-- Delete survey --}}
                                 <form
-                                    action="{{ route('surveys.destroy', $survey) }}"
+                                    action="{{ route('surveys.destroy', $survey->hash_id) }}"
                                     method="POST"
                                     onclick="event.stopPropagation()"
                                     onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce sondage ? Cette action est irréversible.');"

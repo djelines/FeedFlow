@@ -25,15 +25,13 @@ class SurveyPolicy
      */
     public function view(User $user, Survey $survey): bool
     {
-         
         return $user->isUserInOrganization($survey->organization_id) && $survey->isClosed($survey);
     }
 
-    public function viewAnonymous(User $user, Survey $survey): bool
+    public function viewAnonymous(?User $user, Survey $survey): bool
     {
         return $survey->is_anonymous($survey) && $survey->isClosed($survey);
     }
-
     /**
      * Determine whether the user can create a survey.
      */
@@ -134,7 +132,7 @@ class SurveyPolicy
         return false;
     }
 
-    public function limitCreateAnswer(User $user, Survey $survey): bool{
+    public function limitCreateAnswer(?User $user, Survey $survey): bool{
 
         $organization = Organization::find($survey->organization_id);
         $isFreePlan = $organization->isFreePlan();

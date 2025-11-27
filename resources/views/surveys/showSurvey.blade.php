@@ -111,7 +111,7 @@
 
                         {{-- Do survey --}}
                         <button
-                            @click="window.location='{{ route('survey.view.questions', $survey->id) }}'"
+                            @click="window.location='{{ route('survey.view.questions', $survey->hash_id) }}'"
                             class="relative overflow-hidden inline-flex items-center justify-center px-4 py-2.5 text-sm font-medium
                                    rounded-lg text-white shadow-md transition-transform duration-150
                                    bg-gradient-to-r from-primary to-accent dark:from-primary-dark dark:to-accent-dark
@@ -129,7 +129,7 @@
         @can('view', $survey)
                         {{-- View stats --}}
                         <button
-                            @click="window.location='{{ route('survey.view.results', $survey->id) }}'"
+                            @click="window.location='{{ route('survey.view.results', $survey->hash_id) }}'"
                             class="relative overflow-hidden inline-flex items-center justify-center px-4 py-2.5 text-sm font-medium
                                    rounded-lg text-white shadow-md transition-transform duration-150
                                    bg-gradient-to-r from-primary to-accent dark:from-primary-dark dark:to-accent-dark
@@ -225,7 +225,7 @@
                                     {{-- Edit question --}}
                                     <div class="ml-auto">
                                         <button
-                                            @click="openEditModal({{ json_encode($question) }}, '{{ route('survey.question.update', $question) }}')"
+                                            @click="openEditModal({{ json_encode($question) }}, '{{ route('survey.question.update', $question->hash_id) }}')"
                                             class="p-2 rounded-lg
                                                    text-text-secondary dark:text-text-secondary-dark
                                                    transition-all duration-150
@@ -240,7 +240,7 @@
                                     {{-- Delete question --}}
                                     <div class="ml-auto">
                                         <form
-                                            action="{{ route('survey.question.destroy', $question) }}"
+                                            action="{{ route('survey.question.destroy', $question->hash_id) }}"
                                             method="POST"
                                             onsubmit="return confirm('Êtes-vous sûr ?');"
                                         >

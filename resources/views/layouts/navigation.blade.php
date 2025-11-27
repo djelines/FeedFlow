@@ -108,7 +108,7 @@
                                 @forelse($org->surveys as $survey)
                                     <li>
                                         <a
-                                            href="{{ route('survey.show', $survey->id) }}"
+                                            href="{{ route('survey.show', $survey->hash_id) }}"
                                             class="flex items-center px-3 py-1.5 rounded-lg text-xs
                                                    text-text-secondary dark:text-text-secondary-dark
                                                    hover:bg-primary-soft dark:hover:bg-primary-soft-dark

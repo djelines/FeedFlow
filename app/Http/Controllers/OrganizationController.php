@@ -47,14 +47,13 @@ class OrganizationController extends Controller
      * @return RedirectResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function update(UpdateOrganization $request, UpdateOrganizationAction $action, Organization $organization): RedirectResponse{
+    public function update(UpdateOrganization $request, UpdateOrganizationAction $action,  $hash_id): RedirectResponse{
 
-        $this->authorize('update', arguments: Organization::find($organization->id));
+        $this->authorize('update', arguments: Organization::findByHashOrFail($hash_id));
 
         $dto = OrganizationDTO::fromRequest($request);
 
-
-        $organization = $action->execute($dto, $organization);
+        $organization = $action->execute($dto, Organization::findByHashOrFail($hash_id));
 
         return redirect()->back()->with('success', 'Organisation modifiée avec succès !');
     }
@@ -67,7 +66,7 @@ class OrganizationController extends Controller
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function delete(DeleteOrganization $request, DeleteOrganizationAction $action, Organization $organization){
-        $this->authorize('delete', Organization::find($organization->id));
+        $this->authorize('delete', Organization::findByHashOrFail($organization->hash_id));
 
         $dto = OrganizationDTO::fromRequest($request);
 
@@ -96,7 +95,7 @@ class OrganizationController extends Controller
     public function viewOrganization($id){
 
 
-        $organization = Organization::find($id);
+        $organization = Organization::findByHashOrFail($id);
         $this->authorize('view', $organization);
         $surveys = $organization->surveys;
 
@@ -107,7 +106,7 @@ class OrganizationController extends Controller
 
     public function viewOrganizationPlan($id){
 
-        $organization = Organization::find($id);
+        $organization = Organization::findByHashOrFail($id);
 
         $this->authorize('view', $organization);
 

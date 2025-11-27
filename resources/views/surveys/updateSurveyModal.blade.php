@@ -34,7 +34,7 @@
             </div>
 
             {{-- Body --}}
-            <form action="{{ route('surveys.update',$survey) }}" class="p-4 md:p-5" method="POST">
+            <form action="{{ route('surveys.update',$survey->hash_id) }}" class="p-4 md:p-5" method="POST">
                 @csrf
                 @method("put")
 

@@ -125,7 +125,7 @@
                                 {{-- CTA button --}}
                                 <div class="flex justify-center mt-6">
                                     <a
-                                        href="{{ route('survey.show', $survey->id) }}"
+                                        href="{{ route('survey.show', $survey->hash_id) }}"
                                         class="relative overflow-hidden inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium
                                                rounded-lg text-white shadow-md transition-transform duration-150
                                                bg-gradient-to-r from-primary to-accent dark:from-primary-dark dark:to-accent-dark

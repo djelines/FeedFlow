@@ -80,7 +80,7 @@
                 >
                     {{-- Card header: title + link --}}
                     <a
-                        href="{{ route('organizations.viewOrganization', $organization->hash_id) }}"
+                        href="{{ route('organizations.viewOrganization', $organization->id) }}"
                         class="block border-b border-bordercolor/60 dark:border-bordercolor-dark/60 pb-3 mb-3
                                text-text-primary dark:text-text-primary-dark hover:text-primary dark:hover:text-primary-dark
                                transition-colors duration-150"
@@ -101,7 +101,7 @@
                     @can('update', $organization)
                         {{-- Edit organization name --}}
                         <div class="pt-2 border-b border-bordercolor/60 dark:border-bordercolor-dark/60 pb-4 mb-4">
-                            <form method="POST" action="{{ route('organizations.update', $organization->hash_id) }}">
+                            <form method="POST" action="{{ route('organizations.update', $organization) }}">
                                 @method('PUT')
                                 @csrf
 

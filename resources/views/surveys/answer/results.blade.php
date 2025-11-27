@@ -3,7 +3,7 @@
         Résultats : {{ $survey->title }}
     </h2>
     <div class="py-6 max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-4">
-        <a href="{{ route('survey.answer.resultPdf', $survey) }}"
+        <a href="{{ route('survey.answer.resultPdf', $survey->hash_id) }}"
             class="{{ $survey->questions->count() === 0 ? 'pointer-events-none opacity-50 px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700' : 'px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700' }}">
             Télécharger en PDF
         </a>

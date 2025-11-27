@@ -11,7 +11,7 @@ use App\Models\User;
 class MemberDTO
 {
 
-    private function __construct(
+    public function __construct(
         public readonly ?int $user_id,
         public readonly ?int $organization_id,
         public readonly string $role,

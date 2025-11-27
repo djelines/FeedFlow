@@ -7,9 +7,12 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Traits\HashableId; 
+
 
 class User extends Authenticatable
 {
+    use HashableId;
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 

@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Survey;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Models\Survey;
 
 class StoreSurveyAnswerRequest extends FormRequest
 {
@@ -28,12 +29,16 @@ class StoreSurveyAnswerRequest extends FormRequest
                 $this->merge([
                     'answers' => $decodedAnswers
                 ]);
-
-                // if(count($decodedAnswers) > 100 && $this->user()->isFreePlan()){
-
-                // }
             }
         }
+        $hash = $this->route('id');
+        $survey = Survey::findByHashOrFail($hash);
+        $this->merge([
+            'survey_id' => $survey->id
+        ]);
+
+
+
     }
     /**
      * Get the validation rules that apply to the request.
@@ -48,7 +53,8 @@ class StoreSurveyAnswerRequest extends FormRequest
         ];
     }
 
-    public function messages(): array{
+    public function messages(): array
+    {
         return [
             'survey_id.required' => 'Survey id is required',
             'survey_id.integer' => 'Survey id must be integer',

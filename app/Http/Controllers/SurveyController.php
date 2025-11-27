@@ -46,8 +46,9 @@ class SurveyController extends Controller
     // Display the specified survey
     public function showSurvey($id)
     {
-        $this->authorize('view', Survey::find($id));
-        $survey = Survey::find($id);
+        $this->authorize('view', Survey::findByHashOrFail($id));
+        $survey = Survey::findByHashOrFail($id);
+
         if (is_null($id) === false) {
             $url = URL::signedRoute(
                 'survey.public',
@@ -126,25 +127,28 @@ class SurveyController extends Controller
         return redirect()->back()->with('success', 'Question ajoutée avec succès !');
     }
     // Delete a question from a survey
-    public function destroyQuestion(StoreSurveyQuestionRequest $request, DeleteSurveyQuestionAction $action, SurveyQuestion $question): RedirectResponse
+    public function destroyQuestion(StoreSurveyQuestionRequest $request, DeleteSurveyQuestionAction $action, $hash_id): RedirectResponse
     {
+        $question = SurveyQuestion::findByHashOrFail($hash_id);
         $this->authorize('deleteQuestion', arguments: [Survey::find($question->survey_id)]);
         $dto = SurveyQuestionDTO::fromRequest($request);
         $action->execute($dto, $question);
         return redirect()->back()->with('success', 'Question supprimée avec succès !');
     }
     // Update question from survey
-    public function updateQuestion(StoreSurveyQuestionRequest $request , UpdateSurveyQuestionAction $action , SurveyQuestion $question): RedirectResponse
+    public function updateQuestion(StoreSurveyQuestionRequest $request, UpdateSurveyQuestionAction $action,  $hash_id): RedirectResponse
     {
-        $this->authorize('editQuestion', arguments:  [Survey::find($question->survey_id)]);
+        $question = SurveyQuestion::findByHashOrFail($hash_id);
+        $this->authorize('editQuestion', arguments: [Survey::find($question->survey_id)]);
         $dto = SurveyQuestionDTO::fromRequest($request);
         $action->execute($dto, $question);
         return redirect()->back()->with('success', 'Question modifiée avec succès !');
     }
 
     //function to edit a survey
-    public function updateSurvey(UpdateSurveyRequest $request, UpdateSurveyAction $action, Survey $survey)
+    public function updateSurvey(UpdateSurveyRequest $request, UpdateSurveyAction $action, $hash_id)
     {
+        $survey = Survey::findByHashOrFail($hash_id);
         $this->authorize('update', arguments: $survey);
         $dto = SurveyDTO::fromRequest($request);
         $action->update($dto, $survey);
@@ -152,8 +156,9 @@ class SurveyController extends Controller
     }
 
     //function to destroy a survey
-    public function destroySurvey(Request $request, Survey $survey, DeleteSurveyAction $action): RedirectResponse
+    public function destroySurvey(Request $request, $hash_id, DeleteSurveyAction $action): RedirectResponse
     {
+        $survey = Survey::findByHashOrFail($hash_id);
         //delete survey in database
         $this->authorize('delete', arguments: $survey);
         $deleteSurvey = $action->delete($survey);
@@ -163,8 +168,8 @@ class SurveyController extends Controller
     // Function to play survey
     public function viewQuestions($id)
     {
-        $this->authorize('view', Survey::find($id));
-        $survey = Survey::find($id);
+        $this->authorize('view', Survey::findByHashOrFail($id));
+        $survey = Survey::findByHashOrFail($id);
         $surveyQuestions = $survey->questions;
         return view('surveys.answer.survey', [
             'surveyQuestions' => $surveyQuestions,
@@ -172,31 +177,32 @@ class SurveyController extends Controller
         ]);
     }
 
-        public function viewQuestionsAnonymous($id)
+    public function viewQuestionsAnonymous($id)
     {
-        $this->authorize(ability: 'viewAnonymous', arguments: [Survey::find($id)]);
-        $survey = Survey::find($id);
-        
+        $survey = Survey::findByHashOrFail($id);
+        $this->authorize( 'viewAnonymous',   $survey);
+
         $surveyQuestions = $survey->questions;
 
-            if (is_null($id) === false) {
-                $url = URL::signedRoute(
-                    'survey.answers.public',
-                    ['id' => $id]
-                );
+        if (is_null($id) === false) {
+            $url = URL::signedRoute(
+                'survey.answers.public',
+                ['id' => $id]
+            );
         }
         return view('surveys.answer.survey', [
-                    'surveyQuestions' => $surveyQuestions,
-                    'survey_id' => $id,
-                    'url' => $url
-                ]);
+            'surveyQuestions' => $surveyQuestions,
+            'survey_id' => $id,
+            'url' => $url
+        ]);
     }
 
     public function storeAnswers(StoreSurveyAnswerRequest $request, StoreSurveyAnswerAction $action)
     {
-        $this->authorize(ability: 'view', arguments: [Survey::find($request->survey_id)]);
+        $survey = Survey::find($request->survey_id);
+        $this->authorize(ability: 'view', arguments: [$survey]);
 
-        if ($request->user()->cannot('limitCreateAnswer', arguments: [Survey::find($request->survey_id)])) {
+        if ($request->user()->cannot('limitCreateAnswer', arguments: [$survey])) {
             return redirect()->back()->with('error', 'Quota des 100 reponses mensuels atteint !');
         }
         $dto = SurveyAnswerDTO::fromRequest($request);
@@ -208,13 +214,13 @@ class SurveyController extends Controller
         return redirect()->route("organizations.view", $organization_id)->with("success", "Vous avez completé le sondage !");
     }
 
-        public function storeAnswersAnonymous(StoreSurveyAnswerRequest $request, StoreSurveyAnswerAction $action)
+    public function storeAnswersAnonymous(StoreSurveyAnswerRequest $request, StoreSurveyAnswerAction $action)
     {
-        $this->authorize('viewAnonymous', Survey::find($request->survey_id));
+        $survey = Survey::find($request->survey_id);
+        $this->authorize('viewAnonymous', $survey);
 
-        if ($request->user()->cannot('limitCreateAnswer', arguments: [Survey::find($request->survey_id)])) {
-            return redirect()->back()->with('error', 'Quota des 100 reponses mensuels atteint !');
-        }
+        $this->authorize('limitCreateAnswer', $survey);
+
         $dto = SurveyAnswerDTO::fromRequest($request);
 
         $surveyAnswers = $action->execute($dto);

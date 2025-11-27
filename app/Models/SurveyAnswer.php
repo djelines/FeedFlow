@@ -6,15 +6,21 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\HashableId; 
 
 class SurveyAnswer extends Model
 {
+        use HashableId;
+
     use HasFactory;
 
     protected $table    = 'survey_answers';
     public $timestamps  = true;
     protected $fillable = [
-        'id', 'survey_id', 'survey_question_id', 'user_id',
+        'id',
+        'survey_id', 
+        'survey_question_id', 
+        'user_id',
         'answer',
         'created_at', 'updated_at'
     ];

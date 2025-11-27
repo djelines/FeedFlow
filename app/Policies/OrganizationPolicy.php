@@ -53,6 +53,7 @@ class OrganizationPolicy
      */
     public function deleteMember(User $user, Organization $organization, User $target): bool
     {
+
         // Only a admin can delete
         if (!$user->hasRoleInOrganization('admin', $organization)) {
             return false;

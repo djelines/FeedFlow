@@ -58,7 +58,7 @@
                 </div>
             @endif
 
-        <form method="POST" action="{{ Auth::check() ? route('survey.store.answers') : $url }}" >
+        <form method="POST" action="{{ Auth::check() ? route('survey.store.answers', ['id' => $survey_id]) : $url }}" >
             @csrf
 
             <input type="hidden" name="answers" :value="JSON.stringify(questions)">
@@ -98,7 +98,6 @@
                                         <span class="ml-2">{{ $option }}</span>
                                     </div>
                                 @endforeach
-
                             @elseif ($question->question_type === 'multiple_choice' && is_array($question->options))
                                 @php $sel = is_array($oldValue) ? $oldValue : []; @endphp
                                 @foreach ($question->options as $option)
@@ -125,6 +124,7 @@
                             @endif
                         </div>
                     </div>
+                    
                 @empty
                     <p>Aucune question.</p>
                 @endforelse
@@ -135,3 +135,4 @@
         </form>
     </div>
 </x-app-layout>
+

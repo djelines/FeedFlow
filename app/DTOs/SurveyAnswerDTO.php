@@ -7,10 +7,10 @@ use Illuminate\Http\Request;
 
 final class SurveyAnswerDTO
 {
-    private function __construct(
+    public function __construct(
         public readonly array $answers,
         public readonly int $survey_id,
-        public readonly int $user_id,
+        public readonly ?int $user_id,
     ) {
     }
 
@@ -24,7 +24,8 @@ final class SurveyAnswerDTO
         return new self(
             answers: $request->answers,
             survey_id: $request->survey_id,
-            user_id: $request->user()->id
+            user_id: $request->user()->id ?? null
         );
+
     }
 }

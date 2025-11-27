@@ -40,15 +40,21 @@ class MemberController
      * @param DeleteMemberAction $action
      * @return RedirectResponse
      */
-    public function delete(DeleteMemberRequest $request, DeleteMemberAction $action, OrganizationUser $organization_member): RedirectResponse
+    public function delete(DeleteMemberRequest $request, DeleteMemberAction $action, $hash_id): RedirectResponse
     {
-        $organization = Organization::findOrFail($organization_member->organization_id);
-        $target = User::findOrFail($organization_member->user_id);
-
+        $organizationUser = OrganizationUser::findByHashOrFail($hash_id);
+        $organization = Organization::find($organizationUser->organization_id);
+        $organization = Organization::findByHashOrFail($organization->hash_id);
+        $target = User::findOrFail($organizationUser->user_id);
         Gate::forUser(auth()->user())->authorize('deleteMember', [$organization, $target]);
-
-        $dto = MemberDTO::fromRequest($request);
-        $member = $action->execute($dto, $organization_member);
+        $dto = new \App\DTOs\MemberDTO(
+            organization_id: $organization->id,
+            user_id: $target->id,
+            role: $organizationUser->role,
+            created_at: $organizationUser->created_at,
+            updated_at: $organizationUser->updated_at,
+        );
+        $member = $action->execute($dto, $organizationUser);
 
         return redirect()->back()->with('success', 'Membre retiré avec succès !');
     }

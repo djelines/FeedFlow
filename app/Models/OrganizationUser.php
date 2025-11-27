@@ -4,10 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\HashableId; 
+
 
 class OrganizationUser extends Model
 {
     use HasFactory;
+    use HashableId;
+
 
     protected $table    = 'organization_user';
     public $timestamps  = true;
