@@ -131,4 +131,9 @@ class User extends Authenticatable
         return $this->where('email' , $email)->first();
     }
 
+    public function mailNotificationsEnabled(): bool
+    {
+        return $this->mail_notifications;
+    }
+
 }

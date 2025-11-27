@@ -41,7 +41,9 @@ class SendSurveyDailyReports extends Command
             if ($surveyAnswersCount > 0) {
                 $this->info("ici");
                 $ownerEmail = User::find($survey->user_id)->email;
-                event(new DailyAnswersThresholdReached( $ownerEmail ,$surveyName, $surveyAnswersCount ,$userName));
+                if(User::find($survey->user_id)->mailNotificationsEnabled()){
+                    event(new DailyAnswersThresholdReached( $ownerEmail ,$surveyName, $surveyAnswersCount ,$userName));
+                }
             }
 
         }

@@ -49,7 +49,9 @@ final class StoreSurveyAnswerAction
         
 
              try {
-                 event(new SurveyAnswerSubmitted($survey , $OwnerEmail,$userName));
+                if(User::find($survey->user_id)->mailNotificationsEnabled()){
+                    event(new SurveyAnswerSubmitted($survey , $OwnerEmail,$userName));
+                }
              } catch (\Exception $e) {
                  \Log::error('Failed to dispatch SurveyAnswerSubmitted event: ' . $e->getMessage());
              }

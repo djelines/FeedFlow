@@ -39,8 +39,9 @@ class CheckForSurveyToClose extends Command
                     $userName = User::find($survey->user_id)->last_name . " " . User::find($survey->user_id)->first_name;
                     $surveyAnswerCount = $survey->answers()->count();
 
-
-                    event(new SurveyClosed($survey,$ownerEmail, $surveyAnswerCount, $userName));
+                    if(User::find($survey->user_id)->mailNotificationsEnabled()){
+                         event(new SurveyClosed($survey,$ownerEmail, $surveyAnswerCount, $userName));
+                    }
                 } catch (\Exception $e) {
                     $this->error('Failed to close survey ID ' . $survey->id . ': ' . $e->getMessage());
                 }
