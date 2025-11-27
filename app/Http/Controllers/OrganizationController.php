@@ -94,7 +94,10 @@ class OrganizationController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function viewOrganization($id){
+
+
         $organization = Organization::find($id);
+        $this->authorize('view', $organization);
         $surveys = $organization->surveys;
 
         return view('organizations.viewOrganization', compact(
@@ -103,7 +106,10 @@ class OrganizationController extends Controller
     }
 
     public function viewOrganizationPlan($id){
+
         $organization = Organization::find($id);
+
+        $this->authorize('view', $organization);
 
 
         return  view('organizations.viewOrganizationPlan', compact('organization'));
