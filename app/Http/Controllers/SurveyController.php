@@ -223,7 +223,6 @@ class SurveyController extends Controller
         $dto = SurveyAnswerDTO::fromRequest($request);
         $surveyAnswers = $action->execute($dto);
         $organization_id = Survey::find($dto->survey_id)->organization_id;
-
         return redirect()->route("organizations.view", $organization_id)->with("success", "Vous avez completé le sondage !");
     }
 }
