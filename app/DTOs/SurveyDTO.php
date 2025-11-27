@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 final class SurveyDTO
 {
-    private function __construct(
+    public function __construct(
         public readonly string $title,
         public readonly string $description,
         public readonly int $user_id,
