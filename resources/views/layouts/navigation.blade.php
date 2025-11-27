@@ -15,7 +15,7 @@
             {{-- Brand --}}
             <div class="flex items-center h-16 px-4 border-b-[2px] border-bordercolor/70 dark:border-bordercolor-dark/70">
                 <a href="/">
-                    <img src="logo.png" class="w-12">
+                    <img src="{{@asset('logo.png')}}" class="w-12">
                 </a>
                 <span class="ml-3 text-base font-semibold tracking-tight">
                     Sonde Urinaire
@@ -337,7 +337,7 @@
                     {{-- Mobile brand --}}
                     <div class="flex items-center gap-2">
                         <a href="/">
-                            <img src="logo.png" class="w-12">
+                            <img src="{{@asset('logo.png')}}" class="w-12">
                         </a>
                         <span class="text-base font-semibold tracking-tight">
                         Sonde Urinaire
