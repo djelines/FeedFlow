@@ -87,8 +87,6 @@ class User extends Authenticatable
     }
 
     public function canAnswerSurveyLimit(Organization $organization){
-        dd($this->hasMany(SurveyAnswer::class , "survey_id")->survey()->organization());
-        dd($this->hasMany(SurveyAnswer::class , "survey_id")->survey()->organization()->countMonthlyAnswers());
         return $this->hasMany(SurveyAnswer::class , "survey_id")->countMonthlyAnswers() < config('freenium.response_limit');
     }
 
