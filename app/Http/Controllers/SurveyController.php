@@ -46,15 +46,15 @@ class SurveyController extends Controller
     // Display the specified survey
     public function showSurvey($id)
     {
-
+        $this->authorize('view', Survey::find($id));
         $survey = Survey::find($id);
-
         if (is_null($id) === false) {
             $url = URL::signedRoute(
                 'survey.public',
                 ['id' => $id]
             );
         }
+
         return view('surveys.showSurvey', ['survey' => $survey, 'url' => $url]);
     }
 
@@ -163,35 +163,38 @@ class SurveyController extends Controller
     // Function to play survey
     public function viewQuestions($id)
     {
-
+        $this->authorize('view', Survey::find($id));
         $survey = Survey::find($id);
-
-        //$this->authorize('view', $survey);
-
         $surveyQuestions = $survey->questions;
-        $data = [
+        return view('surveys.answer.survey', [
             'surveyQuestions' => $surveyQuestions,
             'survey_id' => $id,
-        ];
-        if (!Auth::check()) {
+        ]);
+    }
+
+        public function viewQuestionsAnonymous($id)
+    {
+        $this->authorize(ability: 'viewAnonymous', arguments: [Survey::find($id)]);
+        $survey = Survey::find($id);
+        
+        $surveyQuestions = $survey->questions;
+
             if (is_null($id) === false) {
                 $url = URL::signedRoute(
                     'survey.answers.public',
                     ['id' => $id]
                 );
-                $data = [
+        }
+        return view('surveys.answer.survey', [
                     'surveyQuestions' => $surveyQuestions,
                     'survey_id' => $id,
                     'url' => $url
-                ];
-            }
-        }
-        return view('surveys.answer.survey', $data);
+                ]);
     }
 
     public function storeAnswers(StoreSurveyAnswerRequest $request, StoreSurveyAnswerAction $action)
     {
-        $this->authorize(ability: 'createAnswer', arguments: [Survey::find($request->survey_id)]);
+        $this->authorize(ability: 'view', arguments: [Survey::find($request->survey_id)]);
 
         if ($request->user()->cannot('limitCreateAnswer', arguments: [Survey::find($request->survey_id)])) {
             return redirect()->back()->with('error', 'Quota des 100 reponses mensuels atteint !');
@@ -203,6 +206,21 @@ class SurveyController extends Controller
         $organization_id = Survey::find($dto->survey_id)->organization_id;
 
         return redirect()->route("organizations.view", $organization_id)->with("success", "Vous avez completé le sondage !");
+    }
 
+        public function storeAnswersAnonymous(StoreSurveyAnswerRequest $request, StoreSurveyAnswerAction $action)
+    {
+        $this->authorize('viewAnonymous', Survey::find($request->survey_id));
+
+        if ($request->user()->cannot('limitCreateAnswer', arguments: [Survey::find($request->survey_id)])) {
+            return redirect()->back()->with('error', 'Quota des 100 reponses mensuels atteint !');
+        }
+        $dto = SurveyAnswerDTO::fromRequest($request);
+
+        $surveyAnswers = $action->execute($dto);
+
+        $organization_id = Survey::find($dto->survey_id)->organization_id;
+
+        return redirect()->route("organizations.view", $organization_id)->with("success", "Vous avez completé le sondage !");
     }
 }

@@ -8,6 +8,7 @@ use App\Models\User;
 use GuzzleHttp\Psr7\Message;
 use Illuminate\Auth\Access\Response;
 use App\Models\SurveyQuestion;
+use Illuminate\Database\Eloquent\Builder;
 
 class SurveyPolicy
 {
@@ -24,7 +25,13 @@ class SurveyPolicy
      */
     public function view(User $user, Survey $survey): bool
     {
-        return $user->isUserInOrganization($survey->organization_id);
+         
+        return $user->isUserInOrganization($survey->organization_id) && $survey->isClosed($survey);
+    }
+
+    public function viewAnonymous(User $user, Survey $survey): bool
+    {
+        return $survey->is_anonymous($survey) && $survey->isClosed($survey);
     }
 
     /**

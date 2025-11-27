@@ -55,12 +55,12 @@ Route::middleware('auth')->group(function () {
 });
 
 // Route for anonymous user
-Route::get('/survey/{id}', [SurveyController::class, 'viewQuestions'])
+Route::get('/survey/{id}', [SurveyController::class, 'viewQuestionsAnonymous'])
     ->name('survey.public')
     ->middleware('signed');
 
 
-Route::post('/survey/create/{id}', [SurveyController::class, 'storeAnswers'])
+Route::post('/survey/create/{id}', [SurveyController::class, 'storeAnswersAnonymous'])
     ->name('survey.answers.public')
     ->middleware('signed');
 
