@@ -40,4 +40,13 @@ class SurveyResultsController extends Controller
         return $pdf->download('results.pdf');
     }
 
+    public function listAllAnswers()
+    {
+        $this->authorize('viewAny', Survey::class);
+
+        $surveys = Survey::with('questions.answers')->get();
+
+        return view('surveys.answer.listAllAnswers', compact('surveys'));
+    }
+
 }
