@@ -29,7 +29,7 @@
                     {{-- Dashboard --}}
                     <li>
                         <a
-                            href="#"
+                            href="{{url("/dashboard")}}"
                             class="relative overflow-hidden group flex items-center px-3 py-2 rounded-lg
                                    text-text-primary dark:text-text-primary-dark
                                    transform transition-all duration-150
@@ -251,14 +251,14 @@
                         <ul class="space-y-1">
                             <li>
                                 <a
-                                    href="#"
+                                    href="{{url("/dashboard")}}"
                                     class="block mx-1 px-3 py-1.5 rounded-lg
                                text-text-primary dark:text-text-primary-dark
                                hover:bg-primary-soft dark:hover:bg-primary-soft-dark
                                hover:text-text-primary dark:hover:text-text-primary-dark
                                transition"
                                 >
-                                    Dashboard
+                                    Tableau de bord
                                 </a>
                             </li>
                             <li>
@@ -274,16 +274,22 @@
                                 </a>
                             </li>
                             <li>
-                                <a
-                                    href="#"
-                                    class="block mx-1 px-3 py-1.5 rounded-lg
-                               text-text-primary dark:text-text-primary-dark
-                               hover:bg-primary-soft dark:hover:bg-primary-soft-dark
-                               hover:text-text-primary dark:hover:text-text-primary-dark
-                               transition"
-                                >
-                                    Sign out
-                                </a>
+                                <form id="logout-form"
+                                      action="{{ route('logout') }}"
+                                      method="POST"
+                                      class="mx-1">
+                                    @csrf
+                                    <button
+                                        type="submit"
+                                        class="w-full px-3 py-1.5 rounded-lg text-left
+                                               text-text-primary dark:text-text-primary-dark
+                                               hover:bg-primary-soft dark:hover:bg-primary-soft-dark
+                                               hover:text-text-primary dark:hover:text-text-primary-dark
+                                               transition"
+                                    >
+                                        Se déconnecter
+                                    </button>
+                                </form>
                             </li>
                         </ul>
                     </div>
