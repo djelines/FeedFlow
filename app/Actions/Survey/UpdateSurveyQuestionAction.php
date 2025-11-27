@@ -21,6 +21,12 @@ final class UpdateSurveyQuestionAction
         });
     }
 
+    /**
+     * Update survey question
+     * @param SurveyQuestionDTO $dto
+     * @param SurveyQuestion $question
+     * @return void
+     */
     public function execute(SurveyQuestionDTO $dto , SurveyQuestion $question): void
     {
         $question->update([

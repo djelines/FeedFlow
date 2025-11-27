@@ -11,17 +11,17 @@ final class DeleteSurveyAction
     public function __construct() {}
 
     /**
-     * Actions when a Survey is delete from db 
+     * Actions when a Survey is delete from db
      * @param SurveyDTO $dto
      * @return array
      */
     public function delete(Survey $survey): survey
     {
-        //Other action ? here
+
 
         //delete survey in database
         $survey->delete();
-        
+
         return $survey ;
     }
 }

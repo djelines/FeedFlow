@@ -20,6 +20,12 @@ final class UpdateOrganizationAction
         });
     }
 
+    /**
+     * Update an organization
+     * @param OrganizationDTO $dto
+     * @param Organization $organization
+     * @return Organization
+     */
     public function execute(OrganizationDTO $dto, Organization $organization) : Organization {
 
         if($organization){

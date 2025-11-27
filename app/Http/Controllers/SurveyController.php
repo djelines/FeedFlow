@@ -56,6 +56,8 @@ class SurveyController extends Controller
         }
         return view('surveys.showSurvey', ['survey' => $survey, 'url' => $url]);
     }
+
+    // Store survey with possibility to generate with IA
     public function store(
         StoreSurveyRequest $request,
         StoreSurveyAction $action,
@@ -109,6 +111,7 @@ class SurveyController extends Controller
         return redirect()->back()->with('success', 'Sondage et questions IA créés avec succès !');
     }
 
+
     // Store a new question for a survey
     public function storeQuestion(StoreSurveyQuestionRequest $request, StoreSurveyQuestionAction $action): RedirectResponse
     {
@@ -126,8 +129,9 @@ class SurveyController extends Controller
         $action->execute($dto, $question);
         return redirect()->back()->with('success', 'Question supprimée avec succès !');
     }
+    // Update question from survey
     public function updateQuestion(StoreSurveyQuestionRequest $request , UpdateSurveyQuestionAction $action , SurveyQuestion $question): RedirectResponse
-    {   
+    {
         $this->authorize('editQuestion', arguments:  [Survey::find($question->survey_id)]);
         $dto = SurveyQuestionDTO::fromRequest($request);
         $action->execute($dto, $question);

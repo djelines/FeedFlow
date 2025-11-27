@@ -8,6 +8,11 @@ use App\Models\Survey;
 
 class GetSurveyResultsAction
 {
+    /**
+     * Retreive all the questions and their answer to get statistics
+     * @param Survey $survey
+     * @return GetSurveyResultsDTO
+     */
     public function handle(Survey $survey): GetSurveyResultsDTO
     {
         // Get all questions with their answers and count total responses

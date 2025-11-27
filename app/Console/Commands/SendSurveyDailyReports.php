@@ -23,7 +23,11 @@ class SendSurveyDailyReports extends Command
      */
     protected $description = 'Command description';
 
-  
+
+    /**
+     * Execute the console command.
+     * Send an email when answer is > 10 every last 24h
+     */
     public function handle()
     {
         $allSurveys = Survey::all();

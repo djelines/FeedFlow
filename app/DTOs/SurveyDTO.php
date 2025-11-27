@@ -20,13 +20,18 @@ final class SurveyDTO
         public readonly bool $is_anonymous,
     ) {}
 
+    /**
+     * Create a new SurveyDTO from the request data
+     * @param StoreSurveyRequest|UpdateSurveyRequest $request
+     * @return self
+     */
     public static function fromRequest(StoreSurveyRequest|UpdateSurveyRequest $request): self
     {
 
         //Convert Date in Carbon
         $start = Carbon::parse($request->start_date);
         $end   = Carbon::parse($request->end_date);
-        
+
     return new self(
         title: $request->title ?? "",
         description: $request->description ?? "",

@@ -14,6 +14,11 @@ final class SurveyAnswerDTO
     ) {
     }
 
+    /**
+     * Create a new SuveyAnswerDTO from the request data
+     * @param StoreSurveyAnswerRequest $request
+     * @return self
+     */
     public static function fromRequest(StoreSurveyAnswerRequest $request): self
     {
         return new self(
