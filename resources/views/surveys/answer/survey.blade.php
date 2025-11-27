@@ -128,8 +128,7 @@
                 @empty
                     <p>Aucune question.</p>
                 @endforelse
-
-                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                          <button type="submit" class="{{ $surveyQuestions->count() === 0 ? 'pointer-events-none opacity-50 px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700' : 'px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700' }}">
                     Envoyer
                 </button>
             </div>

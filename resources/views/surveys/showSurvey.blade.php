@@ -41,97 +41,161 @@
         addOption() { this.options.push(''); },
         removeOption(index) { this.options.splice(index, 1); }
     }">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+        <div class="max-w-7xl pt-10 mx-auto px-8 space-y-6">
 
             <div
-                class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg border border-gray-100 dark:border-gray-700">
+                class="bg-surface dark:bg-surface-dark overflow-hidden rounded-xl shadow-sm border border-bordercolor dark:border-bordercolor-dark">
                 <div
-                    class="p-8 border-b border-gray-200 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-800/50 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                    <div>
-                        <h1 class="text-3xl font-bold text-gray-900 dark:text-white">{{ $survey->title }}</h1>
-                        <p class="mt-2 text-lg text-gray-500 dark:text-gray-400">{{ $survey->description }}</p>
+                    class="p-8 border-b border-bordercolor dark:border-bordercolor-dark bg-background/60 dark:bg-background-dark/40 flex flex-col gap-6">
+
+                    {{-- Title + description + organization --}}
+                    <div class="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+                        <div>
+                            <h1 class="text-3xl font-bold text-text-primary dark:text-text-primary-dark">
+                                {{ $survey->title }}
+                            </h1>
+                            <p class="mt-2 text-lg text-text-secondary dark:text-text-secondary-dark">
+                                {{ $survey->description }}
+                            </p>
+                        </div>
+
+                        <span
+                            class="inline-flex mt-1 md:mt-0 px-3 py-1 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200">
+                            {{ $survey->organization->name ?? 'Organisation no exista ?? si si bueno' }}
+                        </span>
                     </div>
-                    <div class="flex flex-col space-y-2">
+
+
+
+                    {{-- Actions --}}
+                    <div class="flex flex-wrap gap-3">
+
                         @can('createQuestion', $survey)
-                            <button data-modal-target="modalUpdate" data-modal-toggle="modalUpdate"
-                                class="inline-flex items-center px-5 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg shadow-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 4v16m8-8H4"></path>
-                                </svg>
+                            {{-- Edit survey --}}
+                            <button
+                                data-modal-target="modalUpdate"
+                                data-modal-toggle="modalUpdate"
+                                class="relative overflow-hidden inline-flex items-center justify-center px-4 py-2.5 text-sm font-medium
+                                       rounded-lg text-white shadow-md transition-transform duration-150
+                                       bg-gradient-to-r from-primary to-accent dark:from-primary-dark dark:to-accent-dark
+                                       hover:-translate-y-[1px]
+                                       before:absolute before:inset-0 before:-z-10
+                                       before:bg-primary-noise dark:before:bg-primary-noise-dark
+                                       before:bg-[length:260%_260%] before:bg-center
+                                       before:opacity-0 before:transition-opacity before:duration-200
+                                       hover:before:opacity-100 hover:before:animate-gradient-noise
+                                       focus:outline-none focus:ring-2 focus:ring-primary"
+                            >
+                                <i class="fa-solid fa-pen-to-square mr-2 text-sm"></i>
                                 Modifier le sondage
                             </button>
 
-                            <button @click="openAddModal()"
-                                class="inline-flex items-center px-5 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg shadow-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 4v16m8-8H4"></path>
-                                </svg>
+                            {{-- Add question --}}
+                            <button
+                                @click="openAddModal()"
+                                class="relative overflow-hidden inline-flex items-center justify-center px-4 py-2.5 text-sm font-medium
+                                       rounded-lg text-white shadow-md transition-transform duration-150
+                                       bg-gradient-to-r from-primary to-accent dark:from-primary-dark dark:to-accent-dark
+                                       hover:-translate-y-[1px]
+                                       before:absolute before:inset-0 before:-z-10
+                                       before:bg-primary-noise dark:before:bg-primary-noise-dark
+                                       before:bg-[length:260%_260%] before:bg-center
+                                       before:opacity-0 before:transition-opacity before:duration-200
+                                       hover:before:opacity-100 hover:before:animate-gradient-noise
+                                       focus:outline-none focus:ring-2 focus:ring-primary"
+                            >
+                                <i class="fa-solid fa-circle-plus mr-2 text-sm"></i>
                                 Ajouter une question
                             </button>
-
                         @endcan
-                        <button @click="window.location='{{ route('survey.view.questions', $survey->id) }}'"
-                            class="inline-flex items-center px-5 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg shadow-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 4v16m8-8H4"></path>
-                            </svg>
+
+                        {{-- Do survey --}}
+                        <button
+                            @click="window.location='{{ route('survey.view.questions', $survey->id) }}'"
+                            class="relative overflow-hidden inline-flex items-center justify-center px-4 py-2.5 text-sm font-medium
+                                   rounded-lg text-white shadow-md transition-transform duration-150
+                                   bg-gradient-to-r from-primary to-accent dark:from-primary-dark dark:to-accent-dark
+                                   hover:-translate-y-[1px]
+                                   before:absolute before:inset-0 before:-z-10
+                                   before:bg-primary-noise dark:before:bg-primary-noise-dark
+                                   before:bg-[length:260%_260%] before:bg-center
+                                   before:opacity-0 before:transition-opacity before:duration-200
+                                   hover:before:opacity-100 hover:before:animate-gradient-noise
+                                   focus:outline-none focus:ring-2 focus:ring-primary"
+                        >
+                            <i class="fa-solid fa-play mr-2 text-sm"></i>
                             Faire le sondage
                         </button>
-
-                        <button @click="window.location='{{ route('survey.view.results', $survey->id) }}'"
-                            class="inline-flex items-center px-5 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg shadow-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 4v16m8-8H4"></path>
-                            </svg>
+        @can('view', $survey)
+                        {{-- View stats --}}
+                        <button
+                            @click="window.location='{{ route('survey.view.results', $survey->id) }}'"
+                            class="relative overflow-hidden inline-flex items-center justify-center px-4 py-2.5 text-sm font-medium
+                                   rounded-lg text-white shadow-md transition-transform duration-150
+                                   bg-gradient-to-r from-primary to-accent dark:from-primary-dark dark:to-accent-dark
+                                   hover:-translate-y-[1px]
+                                   before:absolute before:inset-0 before:-z-10
+                                   before:bg-primary-noise dark:before:bg-primary-noise-dark
+                                   before:bg-[length:260%_260%] before:bg-center
+                                   before:opacity-0 before:transition-opacity before:duration-200
+                                   hover:before:opacity-100 hover:before:animate-gradient-noise
+                                   focus:outline-none focus:ring-2 focus:ring-primary"
+                        >
+                            <i class="fa-solid fa-chart-line mr-2 text-sm"></i>
                             Voir les statistiques
                         </button>
 
-                        @can('view', $survey)
-                                <button x-data="{ copied: false }" @click="
-                            navigator.clipboard.writeText('{{ $url }}');
-                            copied = true;
-                            setTimeout(() => copied = false, 2000);
-                        " :class="copied ? 'bg-green-600 hover:bg-green-700' : 'bg-indigo-600 hover:bg-indigo-700'"
-                                        class="inline-flex items-center px-5 py-3 text-white font-medium rounded-lg shadow-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        {{-- Copy link --}}
+                        <button
+                            x-data="{ copied: false }"
+                            @click="
+                                    navigator.clipboard.writeText('{{ $url }}');
+                                    copied = true;
+                                    setTimeout(() => copied = false, 2000);
+                                    "
+                            class="relative overflow-hidden inline-flex items-center justify-center px-4 py-2.5 text-sm font-medium
+                                   rounded-lg text-white shadow-md transition-transform duration-150
+                                   bg-gradient-to-r from-primary to-accent dark:from-primary-dark dark:to-accent-dark
+                                   hover:-translate-y-[1px]
+                                   before:absolute before:inset-0 before:-z-10
+                                   before:bg-primary-noise dark:before:bg-primary-noise-dark
+                                   before:bg-[length:260%_260%] before:bg-center
+                                   before:opacity-0 before:transition-opacity before:duration-200
+                                   hover:before:opacity-100 hover:before:animate-gradient-noise
+                                   focus:outline-none focus:ring-2 focus:ring-primary"
+                            :class="copied ? 'from-primary to-accent' : ''"
+                        >
+                            <template x-if="!copied">
+                                <div class="inline-flex items-center">
+                                    <i class="fa-regular fa-copy mr-2 text-sm"></i>
+                                    Copier le lien
+                                </div>
+                            </template>
 
-                                    <template x-if="!copied">
-                                        <div class="inline-flex items-center">
-                                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                      d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z">
-                                                </path>
-                                            </svg>
-                                            Copier le lien
-                                        </div>
-                                    </template>
-
-                                    <template x-if="copied">
-                                        <div class="inline-flex items-center">
-                                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                      d="M5 13l4 4L19 7"></path>
-                                            </svg>
-                                            Lien copié !
-                                        </div>
-                                    </template>
-                                </button>
+                            <template x-if="copied">
+                                <div class="inline-flex items-center">
+                                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                    Lien copié !
+                                </div>
+                            </template>
+                        </button>
                         @endcan
                     </div>
-
                 </div>
             </div>
 
+
             <div
-                class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg border border-gray-100 dark:border-gray-700 p-8">
-                <h2 class="text-xl font-semibold mb-6 text-gray-900 dark:text-white flex items-center">
-                    Questions existantes
+                class="bg-surface dark:bg-surface-dark overflow-hidden rounded-xl shadow-sm border border-bordercolor dark:border-bordercolor-dark
+                        p-8 border-b dark:bg-background-dark/40">
+                <h2 class="text-xl font-semibold mb-6 text-gray-900 dark:text-white flex items-center justify-between">
+                    <span>Questions de ce sondage :</span>
                     <span
                         class="ml-3 px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200">
-                        {{ $survey->questions->count() }}
+                        {{ $survey->questions->count() }} Questions
                     </span>
                 </h2>
 
@@ -158,30 +222,40 @@
                             @can('createQuestion', $survey)
                                 <div class="flex flex-col gap-2">
 
+                                    {{-- Edit question --}}
                                     <div class="ml-auto">
                                         <button
                                             @click="openEditModal({{ json_encode($question) }}, '{{ route('survey.question.update', $question) }}')"
-                                            class="p-2 text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200 rounded-full hover:bg-blue-50 dark:hover:bg-blue-900/20"
-                                            title="Modifier la question">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                                <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-                                                <path
-                                                    d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z" />
-                                            </svg>
+                                            class="p-2 rounded-lg
+                                                   text-text-secondary dark:text-text-secondary-dark
+                                                   transition-all duration-150
+                                                   hover:text-primary dark:hover:text-primary-dark
+                                                   hover:scale-110 hover:shadow-md"
+                                            title="Modifier la question"
+                                        >
+                                            <i class="fa-solid fa-pen-to-square text-[15px]"></i>
                                         </button>
                                     </div>
+
+                                    {{-- Delete question --}}
                                     <div class="ml-auto">
-                                        <form action="{{ route('survey.question.destroy', $question) }}" method="POST"
-                                            onsubmit="return confirm('Êtes-vous sûr ?');">
-                                            @csrf @method('DELETE')
-                                            <button type="submit"
-                                                class="p-2 text-gray-400 hover:text-red-600 rounded-full hover:bg-red-50">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                    stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                                                </svg>
+                                        <form
+                                            action="{{ route('survey.question.destroy', $question) }}"
+                                            method="POST"
+                                            onsubmit="return confirm('Êtes-vous sûr ?');"
+                                        >
+                                            @csrf
+                                            @method('DELETE')
+                                            <button
+                                                type="submit"
+                                                class="p-2 rounded-lg
+                                                       text-text-secondary dark:text-text-secondary-dark
+                                                       transition-all duration-150
+                                                       hover:text-red-500 dark:hover:text-red-400
+                                                        hover:scale-110 hover:shadow-md"
+                                                title="Supprimer la question"
+                                            >
+                                                <i class="fa-solid fa-trash text-[15px]"></i>
                                             </button>
                                         </form>
                                     </div>
