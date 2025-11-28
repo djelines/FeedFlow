@@ -129,7 +129,7 @@ class User extends Authenticatable
 
     // An user has many survey answers
     public function surveyAnswers(){
-        return $this->hasMany(SurveyAnswer::class, 'user_id');
+        return $this->hasMany(SurveyAnswer::class);
     }
 
     public function allActiveSurvey(){
@@ -145,7 +145,17 @@ class User extends Authenticatable
         return Survey::whereIn(
             'organization_id',
             $this->organizations()->pluck('organizations.id')
-        )->get();
+        );
+    }
+
+    public function getTotalAnswersFromOrganizations()
+    {
+        $surveysBuilder = $this->allSurveysFromOrganizations();
+
+        return SurveyAnswer::whereIn(
+            'survey_id',
+            $surveysBuilder->select('id')
+        );
     }
 
 
