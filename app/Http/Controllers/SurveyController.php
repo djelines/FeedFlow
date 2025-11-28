@@ -37,7 +37,7 @@ class SurveyController extends Controller
 
     public function view()
     {
-        $surveys = auth()->user()->allSurveysFromOrganizations();
+        $surveys = auth()->user()->allSurveysFromOrganizations()->get();
 
         return view('surveys.index', compact('surveys'));
     }

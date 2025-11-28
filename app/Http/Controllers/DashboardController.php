@@ -14,7 +14,7 @@ class DashboardController extends Controller
     public function view()
     {
         $user = auth()->user();
-        $totalAnswers = $user->surveyAnswers()->count();
+        $totalAnswers = $user->getTotalAnswersFromOrganizations()->count();
 
         $activeSurvey = $user->allActiveSurvey()->count();
 
@@ -24,7 +24,7 @@ class DashboardController extends Controller
 
         $totalAnswersMade = $user->surveyAnswers()->where('user_id', $user->id)->count();
 
-        $latestSurveys = $user->surveys()->latest()->take(3)->get();
+        $latestSurveys = $user->allSurveysFromOrganizations()->latest()->take(3)->get();
 
         $startOfWeek = Carbon::now()->startOfWeek();
         $endOfWeek = Carbon::now()->endOfWeek();
