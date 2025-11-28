@@ -23,7 +23,7 @@ final class StoreSurveyAnswerAction
         if($dto->answers){
 
             $allSurveyAnswers = [];
-            $user_id_final = Survey::find($dto->survey_id)->is_anonymous ? null : $dto->user_id;
+            $user_id_final = $dto->user_id;
 
             foreach ($dto->answers as $answer) {
                 $answerData = $answer['response'] ?? null;
