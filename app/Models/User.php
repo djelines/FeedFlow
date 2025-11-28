@@ -100,11 +100,6 @@ class User extends Authenticatable
         return $this->plan === "free";
     }
 
-
-    public function canAnswerSurveyLimit(Organization $organization){
-        return $this->hasMany(SurveyAnswer::class , "survey_id")->countMonthlyAnswers() < config('freenium.response_limit');
-    }
-
     /**
      * Return  if the user has a role in a organization by organization id
      * @param string $role
@@ -132,6 +127,10 @@ class User extends Authenticatable
         return $this->hasMany(SurveyAnswer::class);
     }
 
+    /**
+     * Return all active surveys
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function allActiveSurvey(){
         return $this->hasMany(Survey::class)->where('is_closed', false);
     }
@@ -148,6 +147,10 @@ class User extends Authenticatable
         );
     }
 
+    /**
+     * Return total of answers from all user organizations
+     * @return mixed
+     */
     public function getTotalAnswersFromOrganizations()
     {
         $surveysBuilder = $this->allSurveysFromOrganizations();
