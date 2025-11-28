@@ -129,7 +129,7 @@ class User extends Authenticatable
 
     // An user has many survey answers
     public function surveyAnswers(){
-        return $this->hasMany(SurveyAnswer::class, 'survey_id');
+        return $this->hasMany(SurveyAnswer::class, 'user_id');
     }
 
     public function allActiveSurvey(){

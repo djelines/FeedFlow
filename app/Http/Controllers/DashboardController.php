@@ -15,6 +15,7 @@ class DashboardController extends Controller
     {
         $user = auth()->user();
         $totalAnswers = $user->surveyAnswers()->count();
+
         $activeSurvey = $user->allActiveSurvey()->count();
 
         $organizations = $user->organizations()->count();
