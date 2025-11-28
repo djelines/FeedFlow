@@ -29,7 +29,7 @@ class DashboardController extends Controller
         $startOfWeek = Carbon::now()->startOfWeek();
         $endOfWeek = Carbon::now()->endOfWeek();
 
-        $rawStatsSurveyAnswers = $user->surveyAnswers()
+        $rawStatsSurveyAnswers = $user->getTotalAnswersFromOrganizations()
             ->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count')) // Get created date and count answers for the day
             ->whereBetween('created_at', [$startOfWeek, $endOfWeek]) // get only date for the week
             ->groupBy('date') // group by dates
