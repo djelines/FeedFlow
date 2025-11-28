@@ -9,5 +9,5 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 // Runs the survey report command 
-Schedule::command('app:send-survey-daily-reports')->everyFifteenMinutes();
-Schedule::command('app:check-for-survey-to-close')->everyFifteenMinutes();
+Schedule::command('app:send-survey-daily-reports')->everyMinute();
+Schedule::command('app:check-for-survey-to-close')->everyMinute();
