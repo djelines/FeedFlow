@@ -27,11 +27,24 @@ class SurveyPolicy
     {
         return $user->isUserInOrganization($survey->organization_id);
     }
+
+    /**
+     * Return if a survey can be seen
+     * @param User $user
+     * @param Survey $survey
+     * @return bool
+     */
     public function viewSurvey(User $user, Survey $survey): bool
     {
         return $user->isUserInOrganization($survey->organization_id)&& $survey->isClosed($survey);
     }
 
+    /**
+     * Return if the survey is anonymous and can be accessed
+     * @param User|null $user
+     * @param Survey $survey
+     * @return bool
+     */
     public function viewAnonymous(?User $user, Survey $survey): bool
     {
         return $survey->is_anonymous($survey) && $survey->isClosed($survey);
@@ -46,7 +59,7 @@ class SurveyPolicy
         if($isFreePlan){
             return $organization->canCreateSurveyLimit();
         }
-        
+
         return $organization->canBeCreateSurvey($user);
     }
 
@@ -57,7 +70,7 @@ class SurveyPolicy
      * @return bool
      */
     public function createSurvey(User $user, string $organization_id): bool
-    {   
+    {
         $organization = Organization::find($organization_id);
         //CALL function canBeCreateSurvey for organization.php
         return $organization->canBeCreateSurvey($user);
@@ -95,6 +108,12 @@ class SurveyPolicy
         return false;
     }
 
+    /**
+     * Return if user has reached the threshold of created active survey
+     * @param User $user
+     * @param Survey $survey
+     * @return bool
+     */
     public function limitCreateSurvey(User $user, Survey $survey): bool
     {
         $organization = Organization::find($survey->organization_id);
@@ -107,20 +126,46 @@ class SurveyPolicy
         }
     }
 
+    /**
+     * Return if user can create a question
+     * @param User $user
+     * @param Survey $survey
+     * @return bool
+     */
     public function createQuestion(User $user, Survey $survey): bool
     {
         return $survey->canBeModifiedOrDeletedBy($user, $survey);
     }
+
+    /**
+     * Return if user can delete a question
+     * @param User $user
+     * @param Survey $survey
+     * @return bool
+     */
     public function deleteQuestion(User $user, Survey $survey): bool
     {
         return $survey->canBeModifiedOrDeletedBy($user, $survey);
     }
+
+    /**
+     * Return if user can edit a question
+     * @param User $user
+     * @param Survey $survey
+     * @return bool
+     */
     public function editQuestion(User $user, Survey $survey): bool
     {
         return $survey->canBeModifiedOrDeletedBy($user, $survey);
     }
 
 
+    /**
+     * Return if user can create an answer
+     * @param User $user
+     * @param Survey $survey
+     * @return bool
+     */
     public function createAnswer(User $user, Survey $survey): bool{
         // If the survey is anonymous then return true
         $organization = Organization::find($survey->organization_id);
@@ -136,6 +181,12 @@ class SurveyPolicy
         return false;
     }
 
+    /**
+     * Return if user has reached the threshold of created answers
+     * @param User|null $user
+     * @param Survey $survey
+     * @return bool
+     */
     public function limitCreateAnswer(?User $user, Survey $survey): bool{
 
         $organization = Organization::find($survey->organization_id);
