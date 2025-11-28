@@ -43,7 +43,8 @@ class SurveyResultsController extends Controller
 
     public function listAllAnswers()
     {
-        $surveysAnswer = SurveyAnswer::with('survey', 'user')->get();
+        // fetch all survey answers with related survey for my user authenticated
+        $surveysAnswer = SurveyAnswer::with('survey', 'user')->where('user_id', auth()->id())->get();
         $groupedAnswers = $surveysAnswer->groupBy([
         'survey_id',
         function ($item) {
